@@ -1,0 +1,7 @@
+.header {
+  background-color: black;
+  color: azure;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px;
+}
