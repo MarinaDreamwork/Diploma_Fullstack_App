@@ -12,15 +12,38 @@ code {
     monospace;
 }
 
+.container-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+}
+
 .container {
   display: flex;
   flex-direction: column;
+}
+
+.header {
+  background-color: black;
+  color: azure;
+  display: flex;
+  justify-content: space-evenly;
+  padding: 15px;
+}
+
+.container__footer,
+.header {
+  flex-shrink: 0;
 }
 
 .container__main {
   flex-grow: 1;
   display: flex;
   flex-direction: row;
+}
+
+.container__footer {
+  background:rgb(94, 95, 94);
 }
 
 .container__left {
@@ -31,6 +54,11 @@ code {
   flex-grow: 1;
 }
 
+.logo {
+  width: 50px;
+  border-radius: 50%;
+}
+
 .nav-link {
   color: white;
 }
@@ -38,9 +66,7 @@ code {
 .categories {
   display: flex;
   flex-direction: column;
-  background-image: url('https://arhlib.ru/wp-content/uploads/2022/05/maj-knizhnaya-vystavka.jpg');
-  background-size: 100% 100%;
-  background-repeat: none;
+  
 }
 
 .style {
@@ -64,11 +90,11 @@ input {
   padding: 10px;
 }
 
-.card-wrapper {
+ .card-wrapper {
   background-color: rgb(218, 215, 215);
   border-radius: 10px;
   box-shadow: 2px -2px 2px rgb(186, 183, 183);
-}
+} 
 
 .card-style {
   margin: 10px;
@@ -78,6 +104,14 @@ input {
   margin: 10px;
   width: 4%;
   align-items: center;
+}
+
+/* .favorite::after { 
+  content: attr(data-title); 
+} */
+
+.favorite:hover::after {
+  content: attr(data-title);
 }
 
 .bi-caret-down,
@@ -92,6 +126,18 @@ input {
   height: 100px;
 }
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+.quote-content {
+  text-shadow: 1px -1px 1px rgb(94, 95, 94);
+}
+
+.card-path {
+  border: 1px solid rgb(94, 95, 94);
+}
+
+
+.card-image {
+  width: 300px;
+
+}
+
+

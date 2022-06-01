@@ -1,5 +1,7 @@
+import { NavLink } from "react-router-dom";
+
 const AuthButton = () => {
-  return <button className='bg-sky-500'>Вход/Регистрация</button>;
+  return <NavLink to='/login' className='auth btn btn-secondary'>Вход/Регистрация</NavLink>;
 }
  
 export default AuthButton;
