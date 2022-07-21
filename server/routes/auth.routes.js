@@ -27,7 +27,6 @@ router.post('/signUp', [
         })
       }
       const { email, password } = req.body;
-      console.log('req.body', req.body);
       const existUser = await User.findOne({ email });
       if(existUser) {
         return res.status(400).json({
@@ -38,13 +37,15 @@ router.post('/signUp', [
         });
       };
       const hashedPassword = await bcrypt.hash(password, 12);
-      const newUser = User.create({
+      const newUser = await User.create({
         password: hashedPassword,
         email: email,
         ...res.body
       });
+      console.log('newUser', newUser);
 
       const tokens = tokenService.generate({ _id: newUser._id});
+      console.log('tokens', tokens);
       await tokenService.save(newUser._id, tokens.refreshToken);
       res.status(201).send({
         ...tokens,

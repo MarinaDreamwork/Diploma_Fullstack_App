@@ -1,6 +1,5 @@
 {
   "port": 3000,
-  "mongoUri": "mongodb://ut0rvwwuamsmx2xq6axl:akiVXdNDTUwpFftY2Xuf@n1-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017,n2-c2-mongodb-clevercloud-customers.services.clever-cloud.com:27017/bbpomlo8slmnvyp?replicaSet=rs0",
   "accessSecret": "secret access from backend",
   "refreshSecret": "secret refresh from backend"
 }

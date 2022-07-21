@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const chalk = require('chalk');
 const config = require('config');
@@ -17,7 +18,7 @@ async function start() {
     mongoose.connection.once('open', () => {
       initiateDB();
     });
-    await mongoose.connect(config.get('mongoUri'));
+    mongoose.connect(process.env.MongoUri);
     app.listen(PORT, () => {
     console.log(chalk.bgCyan(`Server has been started on port: ${PORT}`));
 });

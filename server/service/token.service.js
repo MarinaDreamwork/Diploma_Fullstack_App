@@ -22,23 +22,31 @@ class TokenService {
     const token = await Token.create({ user: userId, refreshToken});
 
     return token;
-  };
+  }
 
   validateRefresh(refreshToken) {
     try {
-      jwt.verify(refreshToken, config.get('refreshSecret'));
+      return jwt.verify(refreshToken, config.get('refreshSecret'));
+    } catch (error) {
+      return null;
+    }
+  }
+
+  async findToken (refreshToken) {
+    try {
+      return await Token.findOne({ refreshToken });
+    } catch(error) {
+      return error;
+    }
+  }
+
+  validateAccess(accessToken) {
+    try {
+      return jwt.verify(accessToken, config.get('accessSecret'));
     } catch (error) {
       return null;
     }
   };
-
-  async findToken (refreshToken) {
-  try {
-    return await Token.findOne({ refreshToken });
-  } catch(error) {
-    return error;
-  }
-};
 };
 
 module.exports = new TokenService();
