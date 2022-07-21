@@ -225,3 +225,10 @@ li {
 .header-order:hover {
   color: blue;
 }
+
+/* user */
+
+.user-style {
+  font-weight: bold;
+  text-shadow: 1px 1px 2px grey;
+}

@@ -62,7 +62,7 @@ const usersSlice = createSlice({
       state.data = null;
     },
     userUpdateSuccess: (state, action) => {
-      state.data[state.data.findIndex(u=>u.userId === action.payload.userId)] = action.payload;
+      state.currentUser = action.payload;
     },
     userOrderCreatedRequestSuccess: (state, action) => {
       state.currentUser = {...state.currentUser, ...action.payload};
@@ -212,11 +212,11 @@ export const logOut = () => (dispatch) => {
 };
 
 // для изменения данных в EditUserPage
-export const updateUserData = ({ id }) => async (dispatch) => {
-  console.log('id in updateUserData', id);
+export const updateUserData = (data) => async (dispatch) => {
   dispatch(userUpdateRequested());
   try { 
-    const { content } = await usersService.update(id.id);
+    const { content } = await usersService.update(data);
+    console.log('content', content);
     dispatch(userUpdateSuccess(content));
   } catch(error) {
     dispatch(userUpdateFailed(error.message));

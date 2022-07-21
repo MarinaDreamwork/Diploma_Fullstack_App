@@ -1,5 +1,6 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import bookService from '../services/book.service';
+import { getBookContent, setBookContent, updateBookContent } from '../services/localStorage.service';
 
 const categories = [
   {id: '1', name: 'Художественная литература'},
@@ -37,8 +38,9 @@ const booksSlice = createSlice({
       state.isLoading = false;
     },
     booksFavoritesToggled: (state, action) => {
-      state.data = state.data.map(i => {
+      const newData = state.data.map(i => {
         if(i.id === action.payload) {
+          console.log(action.payload);
           if(!i.isFavorite) {
             return {...i, isFavorite: true};
           } else {
@@ -47,6 +49,9 @@ const booksSlice = createSlice({
         }
         return {...i}
       });
+      console.log('newData', newData);
+      updateBookContent(newData);
+      state.data = newData;
     },
     booksChangedItemDataRequest: (state, action) => {
       if (state.data) {
@@ -86,7 +91,13 @@ export const loadBooksList = () => async (dispatch, getState) => {
     dispatch(booksRequested());
     try {
       const { content } = await bookService.get();
-      dispatch(booksRequestedSuccess(content));
+      if(!getBookContent()) {
+        // подумать, если данные обновились
+        setBookContent(content);
+        
+      }
+      
+      dispatch(booksRequestedSuccess(getBookContent()));  
     } catch (error) {
       dispatch(booksRequestedFailed(error.message));
     }
@@ -124,6 +135,7 @@ export const createNewItem = (payload) => async (dispatch) => {
 };
 
 export const toggleFavorites = (itemId) => (dispatch) => {
+  console.log('itemId', itemId);
   dispatch(booksFavoritesToggled(itemId));
 };
 

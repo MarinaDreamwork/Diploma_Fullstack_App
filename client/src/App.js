@@ -12,7 +12,7 @@ import MyCart from './components/pages/myCart';
 import CreateOrderForm from './components/common/form/createOrderForm';
 import ProtectedRoute from './components/common/protectedRoute';
 import LogOut from './components/pages/logOut';
-import UserPage from './components/pages/userPage';
+import User from './components/pages/user';
 import BooksLoader from './components/HOC/booksLoader';
 import Admin from './components/pages/admin';
 import PaymentForm from './components/common/form/paymentForm';
@@ -30,7 +30,7 @@ const App = () => {
           <ProtectedRoute path='/my_cart' component={MyCart} />
           <ProtectedRoute path='/create_order' component={CreateOrderForm} />
           <ProtectedRoute path='/payment' component={PaymentForm} />
-          <ProtectedRoute path='/my_profile/:userId' component={UserPage} />
+          <ProtectedRoute path='/my_profile/:userId?/:edit?' component={User} />
           <ProtectedRoute path='/admin/:itemId?/:edit?' component={Admin} />
           <Route path='/genres/:category' component={Categories} />
           <Route path='/logout' component={LogOut}/>

@@ -66,7 +66,7 @@ const ProductCardGroupSection = ({ data, onDrop, onFilter }) => {
         <button className='btn btn-outline-warning m-1' onClick={onDrop}>Сбросить фильтр по категориям</button>
       </ul>
       {
-        bookCrop.map(item => <ProductCard key={item.id} item={item} />)
+        bookCrop.map(item => <ProductCard key={item.id} {...item} />)
       }
       <PaginationSection
         active={activePage}

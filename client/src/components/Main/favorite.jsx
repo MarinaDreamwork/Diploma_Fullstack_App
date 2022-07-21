@@ -8,9 +8,8 @@ const Favorite = ({ hint, isFavorite, style, id }) => {
   const dispatch = useDispatch();
 
   const handleClick = ({ target }) => {
-    console.log('target', target);
-    dispatch(toggleFavorites(id));
-    //onToggle(target);
+    const favItemId = target.dataset.id
+    dispatch(toggleFavorites(favItemId));
   };
   const getFavoriteClass = () => {
     return 'd-flex justify-content-center align-self-center m-0 bi bi-balloon-heart' + (isFavorite ? '-fill' : '');
@@ -37,9 +36,10 @@ const Favorite = ({ hint, isFavorite, style, id }) => {
   return (
     <div>
       <i
+        data-id={id}
         className={getFavoriteClass()}
         style={style}
-        onClick={(e) => handleClick(e)}>
+        onClick={(id) => handleClick(id)}>
       </i>
       <p>{hint}</p>
     </div>
@@ -49,7 +49,7 @@ Favorite.propTypes = {
   hint: PropTypes.string,
   isFavorite: PropTypes.bool,
   style: PropTypes.object.isRequired,
-  id: PropTypes.string.isRequired
+  id: PropTypes.string
 }
 
 export default Favorite;
