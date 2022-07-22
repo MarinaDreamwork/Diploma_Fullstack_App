@@ -2,11 +2,12 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { getBooks } from '../../../app/store/books';
+import { getCurrentUser } from '../../../app/store/users';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
 import EditItemPage from '../editItemPage';
 const AdminGoodsPage = () => {
-
+  const isAdmin = useSelector(getCurrentUser())?.isAdmin;
   const location = useLocation();
   const pathname = location.pathname;
   const params = useParams();
@@ -35,9 +36,9 @@ const AdminGoodsPage = () => {
         <TableBody
           cartContent={books}
           isCart={false}
-          isAdmin={true}
+          isAdmin={isAdmin}
         />
-      </table>
+      </table >
       <div className='d-flex justify-content-center'>
         <NavLink to={`/admin/${essence}/create`}>
           <button

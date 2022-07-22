@@ -16,7 +16,7 @@ const EditUserPage = () => {
     email: currentUser.email,
     name: currentUser.name,
     sex: currentUser.sex,
-    // city: '',
+    //city: '',
     street: currentUser.address.street,
     appartment: currentUser.address.appartment,
     zip: currentUser.address.zip
@@ -105,7 +105,8 @@ const EditUserPage = () => {
 
   return (
     <div className='container'>
-      <div className="border rounded m-auto pt-5 ps-5 pe-5 pb-3 mb-5 w-50 bg-light shadow-sm">
+      <div className="d-flex flex-column border rounded m-auto pt-5 ps-5 pe-5 pb-3 mt-5 mb-5 w-50 bg-light shadow-sm">
+        <h3 className='text-center'>Изменить данные в профиле:</h3>
         <form className='p-3' onSubmit={handleSubmit}>
           <TextField
             label='Email'

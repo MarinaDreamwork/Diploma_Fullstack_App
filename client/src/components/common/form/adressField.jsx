@@ -1,10 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AddressField = ({ onChange, valueZip, valueStreet, valueApp, errorStreet }) => {
-  const getInputClasses = () => {
-    return 'form-control ' + (errorStreet && 'is-invalid');
-  };
+const AddressField = ({ onChange, valueZip, valueStreet, valueApp, errorStreet, errorAppartment, errorZip }) => {
+
   return (
     <>
       <p>Заполните адрес:</p>
@@ -20,7 +18,7 @@ const AddressField = ({ onChange, valueZip, valueStreet, valueApp, errorStreet }
         {/* <label htmlFor='inputCity' className='form-label'>Город</label> */}
         <input
           type='text'
-          className={getInputClasses()}
+          className={'form-control ' + (errorStreet && 'is-invalid')}
           name='street'
           id='street'
           placeholder='Улица'
@@ -35,34 +33,32 @@ const AddressField = ({ onChange, valueZip, valueStreet, valueApp, errorStreet }
         {/* <label htmlFor='inputAddress2' className='form-label'>Улица</label> */}
         <input
           type='text'
-          className='form-control mt-3'
+          className={'form-control mt-3 ' + (errorAppartment && 'is-invalid')}
           name='appartment'
           id='appartment'
           placeholder='Введите № дома-квартиры'
           onChange={onChange}
           value={valueApp}
         />
+        {
+          errorAppartment && <div className='invalid-feedback'>{errorAppartment}</div>
+        }
       </div>
 
-      <div className='col-md-2'>
+      <div className='col-md-2 mb-3'>
         {/* <label htmlFor='inputZip' className='form-label'>Zip</label> */}
         <input
           type='text'
-          className='form-control mt-3'
+          className={'form-control mt-3 ' + (errorZip && 'is-invalid')}
           name='zip'
           id='zip'
           placeholder='индекс'
           onChange={onChange}
           value={valueZip}
         />
-      </div>
-      <div className='col-12'>
-        <div className='form-check mt-3 mb-3'>
-          <input className='form-check-input' type='checkbox' id='gridCheck' />
-          <label className='form-check-label' htmlFor='gridCheck'>
-            Принимаю условия пользовательского соглашения
-          </label>
-        </div>
+        {
+          errorZip && <div className='invalid-feedback'>{errorZip}</div>
+        }
       </div>
     </>
   );
@@ -73,7 +69,9 @@ AddressField.propTypes = {
   valueZip: PropTypes.string.isRequired,
   valueStreet: PropTypes.string.isRequired,
   valueApp: PropTypes.string.isRequired,
-  errorStreet: PropTypes.string.isRequired
+  errorStreet: PropTypes.string,
+  errorAppartment: PropTypes.string,
+  errorZip: PropTypes.string
 }
 
 export default AddressField;

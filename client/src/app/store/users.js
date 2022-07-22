@@ -7,16 +7,19 @@ import { useAuthError } from '../utils/useAuthError';
 
 const initialState = localStorageService.getAccessToken()
   ? {
+    data: null,
     isLoading: true,
     error: null,
     isLoggedIn: true,
-    auth: { userId: localStorageService.getUserId()}
+    // auth: { userId: localStorageService.getUserId()},
+    //currentUser: null
   } : {
     data: null,
     isLoading: false,
     error: null,
     isLoggedIn: false,
-    auth: null
+    // auth: null,
+    currentUser: null
   }
 const usersSlice = createSlice({
   name: 'users',
@@ -34,21 +37,15 @@ const usersSlice = createSlice({
       state.isLoading = false;
     },
     authRequested: (state) => {
-      state.error = null;
+      state.isLoading = true;
     },
     authRequestedSuccess: (state, action) => {
-      state.auth = action.payload;
-      state.isLoggedIn = true
+      state.currentUser = action.payload;
+      state.isLoggedIn = true;
+      state.isLoading = false;
     },
     authRequestedFailed: (state, action) => {
       state.error = action.payload;
-    },
-    userCreateRequestedSuccess: (state, action) => {
-      state.currentUser = action.payload;
-    },
-    userLoggedIn: (state, action) => {
-      state.currentUser = action.payload;
-      state.isLoggedIn = true;
       state.isLoading = false;
     },
     userLoggedInFailed: (state, action) => {
@@ -56,10 +53,9 @@ const usersSlice = createSlice({
       state.isLoading = false;
     },
     userLoggedOut: (state) => {
-      state.auth = null;
       state.isLoggedIn = false;
       state.isLoading = true;
-      state.data = null;
+      state.currentUser = null;
     },
     userUpdateSuccess: (state, action) => {
       state.currentUser = action.payload;
@@ -78,15 +74,13 @@ const {
   authRequested,
   authRequestedSuccess,
   authRequestedFailed,
-  userCreateRequestedSuccess,
-  userLoggedIn,
-  userLoggedInFailed,
   userLoggedOut,
   userUpdateSuccess,
   userOrderCreatedRequestSuccess
 } = actions;
 
 const userCreateRequested = createAction('users/createRequested');
+const userCreateRequestedSuccess = createAction('users/createRequestedSuccess')
 const userCreateRequestedFailed = createAction('users/createRequestedFailed');
 const userUpdateRequested = createAction('users/updateRequested');
 const userUpdateFailed = createAction('users/updateFailed');
@@ -96,7 +90,7 @@ const userOrderCreatedRequestFailed = createAction('users/orderCreatedRequestFai
 export const loadUsersList = () => async (dispatch) => {
   dispatch(usersRequested());
   try {
-    const { content } = await usersService.get()
+    const { content } = await usersService.get();
     dispatch(usersRequestedSuccess(content));
   } catch (error) {
     dispatch(usersRequestedFailed(error.message));
@@ -114,14 +108,33 @@ const createNewUser = (data) => async (dispatch) => {
   }
 };
 
-export const signUp = ({ email, password, name, sex, street, appartment, zip }) => async (dispatch) => {
+export const signUp = ({
+  email,
+  password,
+  name,
+  sex,
+  street,
+  appartment,
+  zip 
+}) => async (dispatch) => {
   dispatch(authRequested());
   try {
     const data = await authService.register({ email, password });
     setTokens(data);
-    dispatch(authRequestedSuccess({ userId: data.localId }));
-    dispatch(createNewUser({ userId: data.localId, email, password, name, sex, address: { street, appartment, zip } }));
-    dispatch(getUserData());
+    const userData = {
+      userId: data.localId,
+      email,
+      password,
+      name,
+      sex,
+      address: { 
+        street, 
+        appartment, 
+        zip 
+      } 
+    };
+    dispatch(authRequestedSuccess({ ...userData, isAdmin: email === 'marina@gmail.com'}));
+    dispatch(createNewUser(userData));
   } catch (error) {
     dispatch(authRequestedFailed(error.message));
     // const { code, message } = error.response.data.error;
@@ -138,10 +151,9 @@ export const logIn = ({ email, password }) => async (dispatch) => {
     const data = await authService.logIn({ email, password });
     console.log('data', data);
     setTokens(data);
-    dispatch(authRequestedSuccess({ userId: data.localId }));
-    dispatch(getUserData())
+    //dispatch(authRequestedSuccess({ userId: data.localId }));
+    dispatch(getUserData());
     history.push('/');
-    // dispatch(getUserData());
   } catch (error) {
     console.log('error', error);
     const { code, message } = error.response.data.error;
@@ -154,24 +166,17 @@ export const logIn = ({ email, password }) => async (dispatch) => {
   }
 };
 
-// export const addOrderDataInUser = ({ id: orders }) => async (dispatch) => {
-//   try {
-//     const { content } = await usersService.updateOrderData(orders);
-//     console.log('content', content);
-//     // тут нам нужно добавить id созданного заказа, и далее все заказы будут добавляться к уже созданному массиву
-//     dispatch(userCreatedOrder(content))
-//   } catch (error) {
-//     dispatch(userCreatedOrderFailed(error))
-//   }  
-// }
-
 export const getUserData = () => async (dispatch) => {
+  dispatch(authRequested());
   if(localStorageService.getAccessToken()) {
     try {
       const { content } = await usersService.getCurrentUser();
-      dispatch(userLoggedIn(content))
+      dispatch(authRequestedSuccess({
+        ...content, 
+        isAdmin: content.email === 'marina@gmail.com'
+      }));
     } catch (error) {
-      dispatch(userLoggedInFailed(error.message));
+      dispatch(authRequestedFailed(error.message));
     }
   } else {
     // добавить ли action, чтобы isLoading = false?

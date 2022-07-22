@@ -7,10 +7,12 @@ import AdminUsersPage from './adminUsersPage';
 import AdminSalesPage from './adminSalesPage';
 import AdminSalesGoodsPage from './adminSalesGoodsPage';
 import AdminSalesAverageRevenuePage from './adminSalesAverageRevenuePage';
+import EditUserPage from '../editUserPage';
 
 const Admin = () => {
+  // сделать прослойку, где роутинги направлять
   const params = useParams();
-  const { essence } = params;
+  const { essence, itemId } = params;
 
   if (essence === 'books_page') return <AdminGoodsPage />
   else if (essence === 'users_page') return <AdminUsersPage />
@@ -29,11 +31,11 @@ const Admin = () => {
     { id: 3, cardTitle: 'Отчет о продажах', cardText: 'Отчет по средней выручке', buttonColor: 'info', buttonPath: 'admin/report_avarage_revenue_page' }
   ];
 
-  const adminRemainsData = [
-    { id: 1, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на определенную дату', buttonColor: 'outline-primary', buttonPath: 'admin/report_remains_page' },
-    { id: 2, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на определенную дату', buttonColor: 'dark', buttonPath: 'admin/report_remains_goods_page' },
-    { id: 3, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на определенную дату', buttonColor: 'outline-success', buttonPath: 'admin/report_average_remains_goods_page' }
-  ];
+  // const adminRemainsData = [
+  //   { id: 1, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на определенную дату', buttonColor: 'outline-primary', buttonPath: 'admin/report_remains_page' },
+  //   { id: 2, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на определенную дату', buttonColor: 'dark', buttonPath: 'admin/report_remains_goods_page' },
+  //   { id: 3, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на определенную дату', buttonColor: 'outline-success', buttonPath: 'admin/report_average_remains_goods_page' }
+  // ];
 
   return (
     <div className='container'>
@@ -46,13 +48,13 @@ const Admin = () => {
           editSectionTitle='Продажи:'
           adminData={adminReportData}
         />
-        <AdminPanelSection
+        {/* <AdminPanelSection
           editSectionTitle='Остатки:'
-          adminData={adminRemainsData} />
+          adminData={adminRemainsData} /> */}
       </div>
       <Switch>
         <Route path='/books_page' component={AdminGoodsPage} />
-        <Route path='/users_page' component={AdminUsersPage} />
+        <Route path={`/admin/users_page/${itemId}/edit`} component={EditUserPage} />
         <Route path='/quotes_page' component={AdminQuotesPage} />
         <Route path='/report_sales_page' component={AdminSalesPage} />
         <Route path='/report_sales_goods_page' component={AdminSalesGoodsPage} />

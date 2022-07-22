@@ -16,8 +16,11 @@ import User from './components/pages/user';
 import BooksLoader from './components/HOC/booksLoader';
 import Admin from './components/pages/admin/admin';
 import PaymentForm from './components/common/form/paymentForm';
+import { useSelector } from 'react-redux';
+import { getCurrentUser } from './app/store/users';
 
 const App = () => {
+  const isAdmin = useSelector(getCurrentUser())?.isAdmin;
   return (
     <div className='container-wrapper'>  
       <BooksLoader> 
@@ -31,7 +34,9 @@ const App = () => {
           <ProtectedRoute path='/create_order' component={CreateOrderForm} />
           <ProtectedRoute path='/payment' component={PaymentForm} />
           <ProtectedRoute path='/my_profile/:userId?/:edit?' component={User} />
-          <ProtectedRoute path='/admin/:essence?/:itemId?/:edit?' component={Admin} />
+          {
+            isAdmin && <ProtectedRoute path='/admin/:essence?/:itemId?/:edit?' component={Admin} />
+          }
           <Route path='/genres/:category' component={Categories} />
           <Route path='/logout' component={LogOut}/>
           <Route path='/:cardId' component={Card} />

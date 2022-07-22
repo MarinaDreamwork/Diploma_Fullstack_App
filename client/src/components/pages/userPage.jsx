@@ -12,10 +12,14 @@ const UserPage = () => {
   else {
     return (
       <div className='container text-center'>
-        <div className='d-flex row justify-content-center m-5 bg-secondary bg-opacity-25 rounded shadow pb-5'>
+        <div className='d-flex row justify-content-center m-5 bg-secondary bg-opacity-25 rounded shadow'>
           <div className='d-flex justify-content-end'>
             <p className='p-2'>
-              <NavLink to={`/my_profile/${currentUser.userId}/edit`}><i className="bi bi-gear-wide-connected" style={{ fontSize: '1.5rem', color: 'blue' }}></i></NavLink></p>
+              <NavLink to={`/my_profile/${currentUser.userId}/edit`}>
+                <i className="bi bi-gear-wide-connected" style={{ fontSize: '2rem', color: 'blue' }}>
+                </i>
+              </NavLink>
+            </p>
           </div>
           <div className='d-inline-flex justify-content-center'>
             <div>
@@ -32,6 +36,13 @@ const UserPage = () => {
               <p><span className='user-style'>ул.</span> {userAddress.street}</p>
               <p><span className='user-style'>д.</span> {userAddress.appartment}</p>
             </div>
+          </div>
+          <div className='d-flex justify-content-end'>
+            <p className='p-2'>
+              <NavLink to='/logout'>
+                <i className="bi bi-box-arrow-right" style={{ fontSize: '2rem', color: 'blue', fontWeight: 'bold' }}></i>
+              </NavLink>
+            </p>
           </div>
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { getBooksLoadingStatus, loadBooksList } from '../../app/store/books';
-import { getIsLoggedIn, getUserData } from '../../app/store/users';
+import { getIsLoggedIn, getUserData, loadUsersList } from '../../app/store/users';
 import Preloader from '../common/preloader';
 import PropTypes from 'prop-types';
 
@@ -12,6 +12,7 @@ const BooksLoader = ({ children }) => {
 
   useEffect(() => {
     dispatch(loadBooksList());
+    dispatch(loadUsersList());
     if (isLoggedIn) {
       dispatch(getUserData());
     }

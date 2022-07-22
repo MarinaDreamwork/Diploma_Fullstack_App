@@ -6,6 +6,7 @@ import { validator } from '../../app/utils/validator';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthErrors, signUp } from '../../app/store/users';
 import { useHistory } from 'react-router-dom';
+import CheckBoxField from '../common/form/checkboxField';
 
 const RegisterForm = () => {
   const errorLogIn = useSelector(getAuthErrors());
@@ -21,7 +22,8 @@ const RegisterForm = () => {
     city: '',
     street: '',
     appartment: '',
-    zip: ''
+    zip: '',
+    acceptTerms: false
   });
   const [errors, setErrors] = useState({});
 
@@ -83,9 +85,14 @@ const RegisterForm = () => {
     },
     zip: {
       isRequired: {
-        message: 'Улица обязательна для заполнения'
+        message: 'Индекс обязателен для заполнения'
       }
     },
+    acceptTerms: {
+      isRequired: {
+        message: 'Для регистрации необходимо принять и согласиться с правилами предоставления сервиса'
+      }
+    }
   };
 
   const validate = () => {
@@ -142,6 +149,16 @@ const RegisterForm = () => {
         valueStreet={data.street}
         valueApp={data.appartment}
         errorStreet={errors.street}
+        errorAppartment={errors.appartment}
+        errorZip={errors.zip}
+      />
+      <CheckBoxField
+        label='Принимаю условия пользовательского соглашения'
+        type='checkbox'
+        name='acceptTerms'
+        onHandleChange={handleChange}
+        value={data.acceptTerms}
+        error={errors.acceptTerms}
       />
       <button
         className='btn btn-primary w-100'

@@ -5,14 +5,15 @@ import { getCurrentUser, getIsLoggedIn } from '../../app/store/users';
 import UserProfile from '../ui/userProfile';
 
 const ButtonLinkGroup = () => {
-  const isLoggedIn = useSelector(getIsLoggedIn());
   const currentUser = useSelector(getCurrentUser());
+  const isAdmin = currentUser?.isAdmin;
+  const isLoggedIn = useSelector(getIsLoggedIn());
+
   const buttonsLinkData = [
-    // {id: 1, to: `/my_profile/${currentUser.userId}`, hint: `${currentUser.name}`, class: 'bi-person-circle'},
+    // { id: 1, to: `/my_profile/${currentUser?.userId}`, hint: `${currentUser?.name}`, class: 'bi-person-circle' },
     { id: 2, to: '/my_cart', hint: 'Корзина', class: 'bi-cart4' },
     { id: 3, to: '/my_favorites', hint: 'Избранное', class: '', isFavorite: false },
-    { id: 4, to: '/my_orders', hint: 'Мои заказы', class: 'bi-box-seam' },
-    { id: 5, to: '/admin', hint: 'Панель администратора', class: 'bi-clipboard-data' }
+    { id: 4, to: '/my_orders', hint: 'Мои заказы', class: 'bi-box-seam' }
   ];
   if (isLoggedIn) {
     return (
@@ -27,6 +28,13 @@ const ButtonLinkGroup = () => {
             isFavorite={false}
           />)
           }
+          {isAdmin && <ButtonLink
+            key='5'
+            to='/admin'
+            hint='Панель администратора'
+            individualClass='bi-clipboard-data'
+            isFavorite={false}
+          />}
         </div>
       </>
     )

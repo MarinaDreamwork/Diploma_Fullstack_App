@@ -6,9 +6,14 @@ export const validator = (data, config) => {
     const regExpCapital = /[A-Z]+/g;
     const regExpDigit = /\d+/g;
     switch(validateMethod) {
-      case 'isRequired':
-        statusValidate = data.trim() === '';
+      case 'isRequired': {
+        if(typeof data === 'boolean') {
+          statusValidate = !data;
+        } else {
+          statusValidate = data.trim() === '';
+        }
         break;
+      }
       case 'isEmail':
         statusValidate = !regExpEmail.test(data);
         break;
