@@ -1,20 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
-import { getBooks } from '../../app/store/books';
-import TableBody from '../common/table/tableBody';
-import TableHeader from '../common/table/tableHeader';
-import EditItemPage from './editItemPage';
-const Admin = (props) => {
-  console.log('props', props);
+import { getBooks } from '../../../app/store/books';
+import TableBody from '../../common/table/tableBody';
+import TableHeader from '../../common/table/tableHeader';
+import EditItemPage from '../editItemPage';
+const AdminGoodsPage = () => {
 
   const location = useLocation();
   const pathname = location.pathname;
   const params = useParams();
+  const { essence } = params;
   const books = useSelector(getBooks());
-  console.log('params', params, 'pathname', pathname);
-  const itemId = pathname.replaceAll('/', '').replace('admin', '').replace('edit', '');
-  console.log('itemId', itemId);
+  const itemId = pathname.replaceAll('/', '').replace('admin', '').replace(`${essence}`, '').replace('edit', '');
 
   //  useEffect(() => {
   //   setItems(books);
@@ -41,7 +39,7 @@ const Admin = (props) => {
         />
       </table>
       <div className='d-flex justify-content-center'>
-        <NavLink to='admin/create'>
+        <NavLink to={`/admin/${essence}/create`}>
           <button
             className='btn btn-secondary'>
             Добавить новую позицию товара
@@ -51,5 +49,4 @@ const Admin = (props) => {
     </div>
   );
 };
-
-export default Admin;
+export default AdminGoodsPage;

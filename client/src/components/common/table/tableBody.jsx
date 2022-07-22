@@ -4,11 +4,13 @@ import { deleteCartItem } from '../../../app/store/orders';
 import CloseButton from '../../Header/modal/closeButton';
 import PropTypes from 'prop-types';
 import EditButton from '../editButton';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useParams } from 'react-router-dom';
 import { deleteItem } from '../../../app/store/books';
 
 const TableBody = ({ cartContent, isCart, isAdmin }) => {
   const dispatch = useDispatch();
+  const params = useParams();
+  const { essence } = params;
 
   return (
     <tbody>
@@ -37,7 +39,7 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
             )}
             {
               isAdmin && (
-                <NavLink to={`/admin/${cartItem.id}/edit`}>
+                <NavLink to={`/admin/${essence}/${cartItem.id}/edit`}>
                   <EditButton />
                 </NavLink>
               )

@@ -14,7 +14,7 @@ import ProtectedRoute from './components/common/protectedRoute';
 import LogOut from './components/pages/logOut';
 import User from './components/pages/user';
 import BooksLoader from './components/HOC/booksLoader';
-import Admin from './components/pages/admin';
+import Admin from './components/pages/admin/admin';
 import PaymentForm from './components/common/form/paymentForm';
 
 const App = () => {
@@ -31,7 +31,7 @@ const App = () => {
           <ProtectedRoute path='/create_order' component={CreateOrderForm} />
           <ProtectedRoute path='/payment' component={PaymentForm} />
           <ProtectedRoute path='/my_profile/:userId?/:edit?' component={User} />
-          <ProtectedRoute path='/admin/:itemId?/:edit?' component={Admin} />
+          <ProtectedRoute path='/admin/:essence?/:itemId?/:edit?' component={Admin} />
           <Route path='/genres/:category' component={Categories} />
           <Route path='/logout' component={LogOut}/>
           <Route path='/:cardId' component={Card} />
