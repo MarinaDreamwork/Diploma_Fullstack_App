@@ -2,7 +2,7 @@ const ID_TOKEN = 'jwt-token';
 const REFRESH_TOKEN = 'jwt-refresh_token';
 const EXPIRES_DATE_TOKEN = 'jwt-expires';
 const USER_ID = 'user-local-id';
-const BOOK_CONTENT = 'books-content';
+const FAVORITE_ITEMS = 'favorite-items';
 
 export const setTokens = ({ refreshToken, idToken, localId, expiresIn = 3600 }) => {
   const expiresDate = new Date().getTime() + expiresIn * 1000;
@@ -13,19 +13,20 @@ export const setTokens = ({ refreshToken, idToken, localId, expiresIn = 3600 }) 
 };
 
 export const setBookContent = (data) => {
-  const content = data.map(element => ({
-    ...element, isFavorite: false
-  }));
-  return localStorage.setItem(BOOK_CONTENT, JSON.stringify(content));
+  console.log('data from setBookContent', data);
+  const favoriteItem = data.filter(element => element.isFavorite === true);
+  console.log('favoriteItem from setBook...', favoriteItem);
+  return localStorage.setItem(FAVORITE_ITEMS, JSON.stringify(favoriteItem));
 };
 
-export const updateBookContent = (data) => {
-  
-  return localStorage.setItem(BOOK_CONTENT, JSON.stringify(data));
-};
+// export const updateBookContent = (data) => {
+//   const localFavoriteItems = JSON.parse(localStorage.getItem(FAVORITE_ITEMS));
+//   //const newFavoriteItem = ;
+//   return localStorage.setItem(FAVORITE_ITEMS, JSON.stringify(data));
+// };
 
 export const getBookContent = () => {
-  return JSON.parse(localStorage.getItem(BOOK_CONTENT));
+  return JSON.parse(localStorage.getItem(FAVORITE_ITEMS));
 };
 
 export const getAccessToken = () => {

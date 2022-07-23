@@ -2,18 +2,17 @@ import React, { useEffect, useState } from 'react';
 import ProductCardGroupSection from '../Main/productCardGroupSection';
 import Preloader from '../common/preloader';
 import { useSelector } from 'react-redux';
-import { getBooksLoadingStatus } from '../../app/store/books';
+import { getBooks, getBooksLoadingStatus } from '../../app/store/books';
 import Quotes from '../Main/quotes';
 import { PaginationProvider } from '../../app/hooks/usePagination';
 import QuotesLoader from '../HOC/quotesLoader';
-import { getBookContent } from '../../app/services/localStorage.service';
 //import { getCurrentUser } from '../../app/store/users';
 //import { getAddressById } from '../../app/store/address';
 
 const Main = () => {
   const [queryValue, setQueryValue] = useState('');
   // const data = useSelector(getBooks());
-  const data = getBookContent();
+  const data = useSelector(getBooks());
   const isLoadingBooks = useSelector(getBooksLoadingStatus())
   const [displayItems, setDisplayItems] = useState(data);
   //const currentUser = useSelector(getCurrentUser());
@@ -36,9 +35,9 @@ const Main = () => {
     }
   }, []);
 
-  // useEffect(() => {
-  //   setDisplayItems(data);
-  // }, [data]);
+  useEffect(() => {
+    setDisplayItems(data);
+  }, [data]);
 
   return (
     <>

@@ -1,6 +1,7 @@
 import { createSlice, createAction } from '@reduxjs/toolkit';
 import bookService from '../services/book.service';
-import { getBookContent, setBookContent, updateBookContent } from '../services/localStorage.service';
+import { getBookContent, setBookContent } from '../services/localStorage.service';
+import { checkFavoritesFromStorage } from '../utils/checkFavoritesFromStorage';
 
 const categories = [
   {id: '1', name: 'Художественная литература'},
@@ -50,7 +51,7 @@ const booksSlice = createSlice({
         return {...i}
       });
       console.log('newData', newData);
-      updateBookContent(newData);
+      setBookContent(newData);
       state.data = newData;
     },
     booksChangedItemDataRequest: (state, action) => {
@@ -85,19 +86,21 @@ const booksCreatedItemRequest = createAction('books/createdItemRequest');
 const booksCreatedItemRequestFailed = createAction('books/createdItemRequestFailed');
 
 export const loadBooksList = () => async (dispatch, getState) => {
- 
   const { lastFetchVisited } = getState().books;
   if(isOutdatedData(lastFetchVisited)) {
     dispatch(booksRequested());
     try {
       const { content } = await bookService.get();
-      if(!getBookContent()) {
-        // подумать, если данные обновились
-        setBookContent(content);
-        
+      const newContent = content.map(contentItem => ({
+        ...contentItem,
+        isFavorite: false
+      }));
+      console.log('getBookContent', getBookContent());
+      if(getBookContent().length > 0) {
+         dispatch(booksRequestedSuccess(checkFavoritesFromStorage(newContent, getBookContent()))); 
+      } else {
+        dispatch(booksRequestedSuccess(newContent));
       }
-      
-      dispatch(booksRequestedSuccess(getBookContent()));  
     } catch (error) {
       dispatch(booksRequestedFailed(error.message));
     }

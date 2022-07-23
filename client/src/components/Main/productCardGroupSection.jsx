@@ -10,7 +10,7 @@ import { useSelector } from 'react-redux';
 
 const ProductCardGroupSection = ({ data, onDrop, onFilter }) => {
   const { activePage, pageSize, handlePageChange } = usePagination();
-  const count = data.length;
+  const count = data?.length;
   const categories = useSelector(getAllCategories());
   const [caret, setCaret] = useState(false);
   const [sortedData, setSortedData] = useState(data);
