@@ -38,29 +38,31 @@ const Admin = () => {
   // ];
 
   return (
-    <div className='container'>
-      <div className='d-flex justify-content-around align-items-around m-3'>
-        <AdminPanelSection
-          editSectionTitle='Редактирование:'
-          adminData={adminEditData}
-        />
-        <AdminPanelSection
-          editSectionTitle='Продажи:'
-          adminData={adminReportData}
-        />
-        {/* <AdminPanelSection
+    <section>
+      <div className='container'>
+        <div className='d-flex justify-content-around align-items-around m-3'>
+          <AdminPanelSection
+            editSectionTitle='Редактирование:'
+            adminData={adminEditData}
+          />
+          <AdminPanelSection
+            editSectionTitle='Продажи:'
+            adminData={adminReportData}
+          />
+          {/* <AdminPanelSection
           editSectionTitle='Остатки:'
           adminData={adminRemainsData} /> */}
+        </div>
+        <Switch>
+          <Route path='/books_page' component={AdminGoodsPage} />
+          <Route path={`/admin/users_page/${itemId}/edit`} component={EditUserPage} />
+          <Route path='/quotes_page' component={AdminQuotesPage} />
+          <Route path='/report_sales_page' component={AdminSalesPage} />
+          <Route path='/report_sales_goods_page' component={AdminSalesGoodsPage} />
+          <Route path='/report_average_revenue_page' component={AdminSalesAverageRevenuePage} />
+        </Switch>
       </div>
-      <Switch>
-        <Route path='/books_page' component={AdminGoodsPage} />
-        <Route path={`/admin/users_page/${itemId}/edit`} component={EditUserPage} />
-        <Route path='/quotes_page' component={AdminQuotesPage} />
-        <Route path='/report_sales_page' component={AdminSalesPage} />
-        <Route path='/report_sales_goods_page' component={AdminSalesGoodsPage} />
-        <Route path='/report_average_revenue_page' component={AdminSalesAverageRevenuePage} />
-      </Switch>
-    </div>
+    </section>
   );
 }
 

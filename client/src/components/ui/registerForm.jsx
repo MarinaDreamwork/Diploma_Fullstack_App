@@ -108,67 +108,69 @@ const RegisterForm = () => {
   }, [data]);
 
   return (
-    <form className='p-3' onSubmit={handleSubmit}>
-      <TextField
-        label='Email'
-        name='email'
-        onHandleChange={handleChange}
-        value={data.email}
-        error={errors.email}
-      />
-      <TextField
-        label='Пароль'
-        type='password'
-        name='password'
-        onHandleChange={handleChange}
-        value={data.password}
-        error={errors.password}
-      />
-      <TextField
-        label='Имя'
-        type='name'
-        name='name'
-        onHandleChange={handleChange}
-        value={data.name}
-        error={errors.name}
-      />
-      <RadioField
-        options={[
-          { name: 'Female', value: 'female', id: 1 },
-          { name: 'Male', value: 'male', id: 2 },
-          { name: 'Other', value: 'other', id: 3 },
-        ]}
-        label='Выберете Ваш пол:'
-        name='sex'
-        onChange={handleChange}
-        value={data.sex}
-      />
-      <AddressField
-        onChange={handleChange}
-        valueZip={data.zip}
-        valueStreet={data.street}
-        valueApp={data.appartment}
-        errorStreet={errors.street}
-        errorAppartment={errors.appartment}
-        errorZip={errors.zip}
-      />
-      <CheckBoxField
-        label='Принимаю условия пользовательского соглашения'
-        type='checkbox'
-        name='acceptTerms'
-        onHandleChange={handleChange}
-        value={data.acceptTerms}
-        error={errors.acceptTerms}
-      />
-      <button
-        className='btn btn-primary w-100'
-        disabled={!isValid}>
-        Submit
-      </button>
-      {
-        errorLogIn ? <p>{errorLogIn}</p> : null
-      }
-    </form>
+    <section>
+      <form className='p-3' onSubmit={handleSubmit}>
+        <TextField
+          label='Email'
+          name='email'
+          onHandleChange={handleChange}
+          value={data.email}
+          error={errors.email}
+        />
+        <TextField
+          label='Пароль'
+          type='password'
+          name='password'
+          onHandleChange={handleChange}
+          value={data.password}
+          error={errors.password}
+        />
+        <TextField
+          label='Имя'
+          type='name'
+          name='name'
+          onHandleChange={handleChange}
+          value={data.name}
+          error={errors.name}
+        />
+        <RadioField
+          options={[
+            { name: 'Female', value: 'female', id: 1 },
+            { name: 'Male', value: 'male', id: 2 },
+            { name: 'Other', value: 'other', id: 3 },
+          ]}
+          label='Выберете Ваш пол:'
+          name='sex'
+          onChange={handleChange}
+          value={data.sex}
+        />
+        <AddressField
+          onChange={handleChange}
+          valueZip={data.zip}
+          valueStreet={data.street}
+          valueApp={data.appartment}
+          errorStreet={errors.street}
+          errorAppartment={errors.appartment}
+          errorZip={errors.zip}
+        />
+        <CheckBoxField
+          label='Принимаю условия пользовательского соглашения'
+          type='checkbox'
+          name='acceptTerms'
+          onHandleChange={handleChange}
+          value={data.acceptTerms}
+          error={errors.acceptTerms}
+        />
+        <button
+          className='btn btn-primary w-100'
+          disabled={!isValid}>
+          Создать профиль
+        </button>
+        {
+          errorLogIn ? <p>{errorLogIn}</p> : null
+        }
+      </form>
+    </section>
   );
 };
 

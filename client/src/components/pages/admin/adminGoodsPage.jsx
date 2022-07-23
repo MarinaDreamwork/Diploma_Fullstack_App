@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { getBooks } from '../../../app/store/books';
 import { getCurrentUser } from '../../../app/store/users';
+import Button from '../../common/styles/button';
+import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
 import EditItemPage from '../editItemPage';
@@ -28,8 +30,8 @@ const AdminGoodsPage = () => {
   }
 
   return (
-    <div className='container p-4'>
-      <table className='table table-light'>
+    <PagesSectionWrapper>
+      <table className='table table-light m-3'>
         <TableHeader
           isForAdminBoard={true}
         />
@@ -41,13 +43,13 @@ const AdminGoodsPage = () => {
       </table >
       <div className='d-flex justify-content-center'>
         <NavLink to={`/admin/${essence}/create`}>
-          <button
-            className='btn btn-secondary'>
-            Добавить новую позицию товара
-          </button>
+          <Button
+            color='secondary'
+            description='Добавить новую позицию товара'
+          />
         </NavLink>
       </div>
-    </div>
+    </PagesSectionWrapper>
   );
 };
 export default AdminGoodsPage;

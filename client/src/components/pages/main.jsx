@@ -40,8 +40,8 @@ const Main = () => {
   }, [data]);
 
   return (
-    <>
-      <div className='container d-flex flex-row input-search-field justify-content-center'>
+    <section>
+      <div className='d-flex input-search-field justify-content-center'>
         <input
           type='text'
           placeholder='Поиск товара по названию'
@@ -50,25 +50,27 @@ const Main = () => {
           value={queryValue}
         />
       </div>
-      <main className='container container__main p-0'>
-        {
-          isLoadingBooks ? <Preloader /> : (
-            <>
-              <QuotesLoader>
-                <Quotes />
-              </QuotesLoader>
-              <PaginationProvider>
-                <ProductCardGroupSection
-                  data={displayItems}
-                  onDrop={handleDropFilterByCategories}
-                  onFilter={handleFilterByCategory}
-                />
-              </PaginationProvider>
-            </>
-          )
-        }
+      <main>
+        <div className='container container__main p-0'>
+          {
+            isLoadingBooks ? <Preloader /> : (
+              <>
+                <QuotesLoader>
+                  <Quotes />
+                </QuotesLoader>
+                <PaginationProvider>
+                  <ProductCardGroupSection
+                    data={displayItems}
+                    onDrop={handleDropFilterByCategories}
+                    onFilter={handleFilterByCategory}
+                  />
+                </PaginationProvider>
+              </>
+            )
+          }
+        </div>
       </main>
-    </>
+    </section>
   );
 };
 

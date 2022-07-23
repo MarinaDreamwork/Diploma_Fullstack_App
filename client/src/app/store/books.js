@@ -142,6 +142,18 @@ export const toggleFavorites = (itemId) => (dispatch) => {
   dispatch(booksFavoritesToggled(itemId));
 };
 
+export const filterCategoryBook = (category) => (state) => {
+  return state.books.data.filter(book => book.category === category);
+};
+
+export const filterSubCategoryBook = (subCategory) => (state) => {
+  return state.books.data.filter(book => book.subCategory === subCategory);
+};
+
+export const filterSubSubCategoryBook = (subSubCategory) => (state) => {
+  return state.books.data.filter(book => book.subSubCategory === subSubCategory);
+};
+
 const isOutdatedData = (date) => {
   if(Date.now() - date > 10*60*1000) {
     return true;
@@ -157,5 +169,6 @@ export const getBooksLoadingStatus = () => (state) => state.books.isLoading;
 export const getSearchQuery = () => (state) => state.books.valueQuery; 
 export const getDataStatus = () => (state) => state.books.dataLoaded;
 export const getAllCategories = () => (state) => state.books.categories;
+
 
 export default booksReducer;

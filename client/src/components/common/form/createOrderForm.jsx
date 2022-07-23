@@ -64,43 +64,47 @@ const CreateOrderForm = () => {
   }, []);
 
   return (
-    <div className='d-flex flex-column justify-content-center m-auto'>
-      <form onSubmit={handleSubmit} className='m-3'>
-        <TextField
-          label='Ваше имя:'
-          type='text'
-          name='name'
-          value={data.name}
-          onHandleChange={handleChange}
-          error={data.error}
-        />
-        <TextField
-          label='Ваш email:'
-          type='text'
-          name='email'
-          value={data.email}
-          onHandleChange={handleChange}
-          error={data.error}
-        />
-        <AddressField
-          onChange={handleChange}
-          valueZip={data.zip}
-          valueStreet={data.street}
-          valueApp={data.appartment}
-        // errorStreet={errors.street}
-        />
-        <table className='table table-success'>
-          <TableHeader />
-          <TableBody cartContent={cartContent} isCart={false} />
-          <TableFooter isCart={false} />
-        </table>
-        <div className='d-flex justify-content-center'>
-          <button className='btn btn-secondary d-flex justify-content-center'>
-            Отправить заказ на обработку
-          </button>
+    <section>
+      <div className='container'>
+        <div className='d-flex flex-column justify-content-center m-auto'>
+          <form onSubmit={handleSubmit} className='m-3'>
+            <TextField
+              label='Ваше имя:'
+              type='text'
+              name='name'
+              value={data.name}
+              onHandleChange={handleChange}
+              error={data.error}
+            />
+            <TextField
+              label='Ваш email:'
+              type='text'
+              name='email'
+              value={data.email}
+              onHandleChange={handleChange}
+              error={data.error}
+            />
+            <AddressField
+              onChange={handleChange}
+              valueZip={data.zip}
+              valueStreet={data.street}
+              valueApp={data.appartment}
+            // errorStreet={errors.street}
+            />
+            <table className='table table-success'>
+              <TableHeader />
+              <TableBody cartContent={cartContent} isCart={false} />
+              <TableFooter isCart={false} />
+            </table>
+            <div className='d-flex justify-content-center'>
+              <button className='btn btn-secondary d-flex justify-content-center'>
+                Отправить заказ на обработку
+              </button>
+            </div>
+          </form>
         </div>
-      </form>
-    </div>
+      </div>
+    </section>
   );
 };
 

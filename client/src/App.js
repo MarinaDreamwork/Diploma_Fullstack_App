@@ -3,9 +3,9 @@ import { Switch, Route } from 'react-router-dom';
 import Header from './components/Header/header';
 import Footer from './components/Footer/footer';
 import Main from './components/pages/main';
-import Card from './components/pages/card';
+import Card from './components/pages/card/card';
 import Login from './components/pages/login';
-import Categories from './components/pages/categories';
+import Categories from './components/pages/categories/categories';
 import MyFavorites from './components/pages/myFavorites';
 import MyOrders from './components/pages/myOrders';
 import MyCart from './components/pages/myCart';
@@ -37,7 +37,7 @@ const App = () => {
           {
             isAdmin && <ProtectedRoute path='/admin/:essence?/:itemId?/:edit?' component={Admin} />
           }
-          <Route path='/genres/:category' component={Categories} />
+          <Route path='/genres/:category?/:subCategory?/:subSubCategory?' component={Categories} />
           <Route path='/logout' component={LogOut}/>
           <Route path='/:cardId' component={Card} />
         </Switch>

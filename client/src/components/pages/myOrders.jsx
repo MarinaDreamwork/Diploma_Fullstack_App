@@ -5,7 +5,7 @@ import Orders from '../Main/orders/orders';
 
 const MyOrders = () => {
   return (
-    <>
+    <section>
       <div className='d-flex justify-content-center m-3 p-2'>
         <NavLink
           to='/my_orders/orders'
@@ -44,7 +44,7 @@ const MyOrders = () => {
           />
         </Switch>
       </div>
-    </>
+    </section>
   );
 };
 

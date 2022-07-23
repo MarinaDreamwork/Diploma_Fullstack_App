@@ -63,31 +63,33 @@ const LoginForm = () => {
   }, [data]);
 
   return (
-    <form className='p-3' onSubmit={handleSubmit}>
-      <TextField
-        label='Email address'
-        name='email'
-        onHandleChange={handleChange}
-        value={data.email}
-        error={errors.email}
-      />
-      <TextField
-        label='Password'
-        type='password'
-        name='password'
-        onHandleChange={handleChange}
-        value={data.password}
-        error={errors.password}
-      />
-      {
-        loginError ? <p className='text-danger'>{loginError}</p> : null
-      }
-      <button
-        className='btn btn-primary w-100'
-        disabled={!isValid}>
-        Submit
-      </button>
-    </form>
+    <section>
+      <form className='p-3' onSubmit={handleSubmit}>
+        <TextField
+          label='Email address'
+          name='email'
+          onHandleChange={handleChange}
+          value={data.email}
+          error={errors.email}
+        />
+        <TextField
+          label='Password'
+          type='password'
+          name='password'
+          onHandleChange={handleChange}
+          value={data.password}
+          error={errors.password}
+        />
+        {
+          loginError ? <p className='text-danger'>{loginError}</p> : null
+        }
+        <button
+          className='btn btn-primary w-100'
+          disabled={!isValid}>
+          Submit
+        </button>
+      </form>
+    </section>
   );
 };
 
