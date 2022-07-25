@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createAction, createSlice } from '@reduxjs/toolkit';
 import quotesService from '../services/quotes.service';
 
 const quotesSlice = createSlice({
@@ -19,12 +19,25 @@ const quotesSlice = createSlice({
     quotesRequestedFailed: (state, action) => {
       state.error = action.payload;
       state.isLoading = false;
+    },
+    quotesChangedItemDataRequestSuccess: (state, action) => {
+      state.data[
+        state.data.findIndex((u) => u._id === action.payload._id)
+      ] = action.payload;
     }
   }
 });
 
 const { reducer: quotesReducer, actions } = quotesSlice;
-const { quotesRequested, quotesRequestedSuccess, quotesRequestedFailed } = actions;
+const {
+  quotesRequested,
+  quotesRequestedSuccess,
+  quotesRequestedFailed,
+  quotesChangedItemDataRequestSuccess
+} = actions;
+
+const quotesChangedItemDataRequest = createAction('quotes/changedItemDataRequest');
+const quotesChangedItemDataRequestFailed = createAction('quotes/changedItemDataRequestFailed');
 
 export const loadQuotesList = () => async (dispatch) => {
   dispatch(quotesRequested());
@@ -36,6 +49,17 @@ export const loadQuotesList = () => async (dispatch) => {
   }
 };
 
+export const changeQuoteData = (payload) => async (dispatch) => {
+  dispatch(quotesChangedItemDataRequest());
+  try{
+    const { content } = await quotesService.changeItem(payload);
+    dispatch(quotesChangedItemDataRequestSuccess(content));
+  } catch(error) {
+    dispatch(quotesChangedItemDataRequestFailed(error.message))
+  }
+};
+
+export const getQuoteById = (itemId) => (state) => state.quotes.data.filter(item => item._id === itemId);
 export const getQuotes = () => (state) => state.quotes.data; 
 export const getQuotesLoadingStatus = () => (state) => state.quotes.isLoading; 
 

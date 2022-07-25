@@ -4,12 +4,13 @@ import PropTypes from 'prop-types';
 import { getDate } from '../../../app/utils/getDate';
 import { calculateOrderSumm } from '../../../app/utils/calculateTotalSumm';
 
-const Order = ({ id, orderTime, address, orderDetails }) => {
+const Order = ({ _id, orderTime, address, orderDetails }) => {
   const orderDate = new Date(orderTime);
-  const newDate = orderDate.getDate() + 3;
-  console.log('orderDate > newDate', orderTime > newDate);
-  console.log('orderDate < newDate', orderTime < newDate);
-  console.log('newDate', new Date(orderDate.setDate(newDate)));
+  console.log('address', address);
+  // const newDate = orderDate.getDate() + 3;
+  // console.log('orderDate > newDate', orderTime > newDate);
+  // console.log('orderDate < newDate', orderTime < newDate);
+  // console.log('newDate', new Date(orderDate.setDate(newDate)));
   // написать ф-цию проверки - если сегодня >= дата заказа + 3 дня, то отобразить доставлено зеленым, если < , то на пути к пункту доставки, желтым 
 
   return (
@@ -20,7 +21,7 @@ const Order = ({ id, orderTime, address, orderDetails }) => {
             <p className='fw-bold fs-4'>Заказ от {getDate(orderDate)}</p>
           </div>
           <div>
-            <span>order id {id}</span>
+            <span>номер заказа: <span className='fw-bold'>{_id}</span></span>
           </div>
         </div>
         <div>
@@ -29,9 +30,8 @@ const Order = ({ id, orderTime, address, orderDetails }) => {
       </div>
       <div className='d-flex justify-content-between p-2'>
         <div>
-          {
-            address.map(i => <p key={i.id}>Доставка Почтой России по адресу: {i.zip} ул. {i.street} д. {i.appartment} </p>)
-          }
+          <p key={address.zip}>Доставка Почтой России по адресу: {address.zip} ул. {address.street} д. {address.appartment} </p>
+
         </div>
         <div>
           <p className={'badge bg-success'}>Доставлено</p>
@@ -51,7 +51,7 @@ const Order = ({ id, orderTime, address, orderDetails }) => {
 };
 
 Order.propTypes = {
-  id: PropTypes.string.isRequired,
+  _id: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   orderTime: PropTypes.string.isRequired,
   orderDetails: PropTypes.string.isRequired,

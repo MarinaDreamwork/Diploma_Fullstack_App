@@ -2,13 +2,13 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 const Quote = ({
-  id,
+  _id,
   content,
   author
 }) => {
   return (
     <div
-      key={id}
+      key={_id}
       className='p-2'>
       <q
         className='m-2 quote-content'>
@@ -21,7 +21,7 @@ const Quote = ({
   );
 };
 Quote.propTypes = {
-  id: PropTypes.number.isRequired,
+  _id: PropTypes.string.isRequired,
   content: PropTypes.string.isRequired,
   author: PropTypes.string.isRequired
 };

@@ -19,7 +19,7 @@ const CreateOrderForm = () => {
   const [data, setData] = useState({});
   const cartContent = useSelector(getCartContent());
   const [orderDetails] = useState({
-    id: Date.now().toString(),
+    // orderId: Date.now().toString(),
     orderTime: Date.now(),
     orderDetails: getCartInfo(cartContent)
   });

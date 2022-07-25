@@ -8,7 +8,7 @@ const Quotes = () => {
   return (
     <aside className='container__left Quotes style d-flex flex-column justify-content-center align-items-center p-3'>
       {
-        quotes.map(quote => (<Quote key={quote.id} {...quote} />))
+        quotes.map(quote => (<Quote key={quote._id} {...quote} />))
       }
     </aside>
   );

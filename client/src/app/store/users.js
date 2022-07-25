@@ -105,6 +105,7 @@ const createNewUser = (data) => async (dispatch) => {
   dispatch(userCreateRequested());
   try {
     const { content } = await usersService.createUser(data);
+    console.log('content', content);
     dispatch(userCreateRequestedSuccess(content));
     history.push('/');
   } catch (error) {
@@ -112,33 +113,22 @@ const createNewUser = (data) => async (dispatch) => {
   }
 };
 
-export const signUp = ({
-  email,
-  password,
-  name,
-  sex,
-  street,
-  appartment,
-  zip 
-}) => async (dispatch) => {
-  dispatch(authRequested());
-  try {
-    const data = await authService.register({ email, password });
-    setTokens(data);
-    const userData = {
-      userId: data.localId,
+export const signUp = ({ email, street, appartment, zip, ...rest }) => async (dispatch) => {
+  const userData = {
       email,
-      password,
-      name,
-      sex,
       address: { 
         street, 
         appartment, 
         zip 
-      } 
+      },
+      ...rest 
     };
+  dispatch(authRequested());
+  try {
+    const data = await authService.register(userData);
+    setTokens(data);
     dispatch(authRequestedSuccess({ ...userData, isAdmin: email === 'marina@gmail.com'}));
-    dispatch(createNewUser(userData));
+    dispatch(createNewUser({ ...userData, userId: data.userId }));
   } catch (error) {
     dispatch(authRequestedFailed(error.message));
     // const { code, message } = error.response.data.error;
@@ -189,7 +179,6 @@ export const getUserData = () => async (dispatch) => {
 
 export const createOrder = ({
     appartment,
-    id,
     orderDetails,
     orderTime,
     street,
@@ -199,13 +188,12 @@ export const createOrder = ({
   dispatch(userOrderCreatedRequest());
   try {
     {/* изменить данные на актуальные */}
-    const orderData = {
-      address: [{ street, appartment, zip }],
-      id,
+    const orderData = { orderList: {
+      address: { street, appartment, zip },
       orderDetails,
       orderTime,
       src
-    };
+    }};
     const { content } = await usersService.updateOrderData(orderData);
     console.log('orderlist content', content);
     dispatch(userOrderCreatedRequestSuccess(orderData));

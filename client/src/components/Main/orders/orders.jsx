@@ -5,15 +5,14 @@ import { getOrdersData } from '../../../app/store/users';
 
 const Orders = () => {
   const orders = useSelector(getOrdersData());
+  // const myOrders = Object.keys(orders).map(myOrder => ({
+  //   ...orders[myOrder]
+  // }));
   console.log('orders', orders);
-  const myOrders = Object.keys(orders).map(myOrder => ({
-    ...orders[myOrder]
-  }));
-  console.log('myOrders', myOrders);
   return <>
     {
-      myOrders.length > 0 ?
-        myOrders.map(order => <Order key={order.id} {...order} />) :
+      orders.length > 0 ?
+        orders.map(order => <Order key={order._id} {...order} />) :
         null
     }
   </>;

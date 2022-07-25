@@ -25,7 +25,7 @@ const usersService = {
     return data;
   },
   updateOrderData: async (payload) => {
-    const { data } = await httpService.post(usersEndPoint + localStorageService.getUserId() + '/orderList/', payload);
+    const { data } = await httpService.post(usersEndPoint + localStorageService.getUserId(), payload);
     return data;
   }
 };

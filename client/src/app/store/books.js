@@ -63,7 +63,7 @@ const booksSlice = createSlice({
       state.data = state.data.filter(b => b.id !== action.payload.id);
     },
     booksCreatedItemRequestSuccess: (state, action) => {
-      state.date.push(action.payload);
+      state.data.push(action.payload);
     }
 }});
 
@@ -93,6 +93,7 @@ export const loadBooksList = () => async (dispatch, getState) => {
       const { content } = await bookService.get();
       const newContent = content.map(contentItem => ({
         ...contentItem,
+        id: contentItem._id,
         isFavorite: false
       }));
       console.log('getBookContent', getBookContent());

@@ -22,6 +22,18 @@ const TableHeader = ({ isForAdminBoard }) => {
         </tr>
       </thead>
     )
+  } else if (essence === 'quotes_page') {
+    return (
+      <thead>
+        <tr>
+          <th scope='col'>#</th>
+          <th scope='col'>Автор</th>
+          <th scope='col'>id цитаты</th>
+          <th scope='col'>Цитата</th>
+          <th></th>
+        </tr>
+      </thead>
+    )
   } else {
     return (
       <thead>

@@ -31,7 +31,7 @@ const AdminGoodsPage = () => {
 
   return (
     <PagesSectionWrapper>
-      <table className='table table-light m-3'>
+      <table className='table table-success m-3'>
         <TableHeader
           isForAdminBoard={true}
         />

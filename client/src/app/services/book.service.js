@@ -16,7 +16,7 @@ const bookService = {
     return data;
   },
   createItem: async(payload) => {
-    const { data } = await httpService.put(bookEndPoint + payload.id, payload);
+    const { data } = await httpService.post(bookEndPoint, payload);
     return data;
   }
 };

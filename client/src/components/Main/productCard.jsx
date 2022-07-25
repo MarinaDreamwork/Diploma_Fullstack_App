@@ -16,8 +16,8 @@ const ProductCard = ({ id, author, book_title, price, isFavorite }) => {
       </div>
       <div className='product-card-info card-style col-5'>
         <h5>{author} - {book_title}</h5>
-        <p>id: {id}</p>
-        <p>{price} руб.</p>
+        <p>артикул: {id}</p>
+        <p className='fw-bold'>{price} ₽</p>
       </div>
       <Favorite
         style={{ fontSize: '2rem', color: 'red', paddingTop: '15px' }}

@@ -4,12 +4,12 @@ const EXPIRES_DATE_TOKEN = 'jwt-expires';
 const USER_ID = 'user-local-id';
 const FAVORITE_ITEMS = 'favorite-items';
 
-export const setTokens = ({ refreshToken, idToken, localId, expiresIn = 3600 }) => {
+export const setTokens = ({ refreshToken, accessToken, userId, expiresIn = 3600 }) => {
   const expiresDate = new Date().getTime() + expiresIn * 1000;
-  localStorage.setItem(ID_TOKEN, idToken);
+  localStorage.setItem(ID_TOKEN, accessToken);
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
   localStorage.setItem(EXPIRES_DATE_TOKEN, expiresDate);
-  localStorage.setItem(USER_ID, localId);
+  localStorage.setItem(USER_ID, userId);
 };
 
 export const setBookContent = (data) => {

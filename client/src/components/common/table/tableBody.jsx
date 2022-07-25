@@ -48,6 +48,22 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
         }
       </tbody>
     )
+  } else if (essence === 'quotes_page') {
+    return (
+      <tbody>
+        {
+          cartContent.map((cartItem, index) => <tr key={cartItem.id}>
+            <th scope="row">{index + 1}</th>
+            <td>{cartItem.author}</td>
+            <td>{cartItem._id}</td>
+            <td>{cartItem.content}</td>
+            <td><NavLink to={`/admin/${essence}/${cartItem._id}/edit`}>
+              <EditButton />
+            </NavLink></td>
+          </tr>)
+        }
+      </tbody>
+    )
   } else {
     return (
       <tbody>
@@ -70,13 +86,13 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
                 <CloseButton
                   style={{ fill: 'white', fontSize: '20px' }}
                   onDelete={isAdmin ?
-                    () => dispatch(deleteItem(cartItem.id)) :
-                    () => dispatch(deleteCartItem(cartItem.id))}
+                    () => dispatch(deleteItem(cartItem._id)) :
+                    () => dispatch(deleteCartItem(cartItem._id))}
                 />
               )}
               {
                 isAdmin && (
-                  <NavLink to={`/admin/${essence}/${cartItem.id}/edit`}>
+                  <NavLink to={`/admin/${essence}/${cartItem._id}/edit`}>
                     <EditButton />
                   </NavLink>
                 )

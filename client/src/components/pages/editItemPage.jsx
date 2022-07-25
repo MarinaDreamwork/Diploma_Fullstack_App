@@ -27,7 +27,7 @@ const EditItemPage = ({ itemId }) => {
       dispatch(changeItemData(data));
     }
     setData({});
-    history.push('/admin');
+    history.push('/admin/books_page');
   };
 
   useEffect(() => {

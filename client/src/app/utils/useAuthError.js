@@ -1,6 +1,6 @@
 export function useAuthError(message) {
   switch(message) {
-    case 'INVALD_PASSWORD': 
+    case 'INVALID_PASSWORD': 
       return 'Пароль введен неверно';
     case 'EMAIL_EXISTS':
       return 'Пользователь с таким Email уже существует';
