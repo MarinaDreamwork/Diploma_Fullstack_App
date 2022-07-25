@@ -47,7 +47,6 @@ http.interceptors.response.use(
 );
 
 function transformData(data) {
-  console.log('data', data);
   return data && !data.userId && !data.id
     ? Object.keys(data).map(key=> ({
       ...data[key]

@@ -8,6 +8,7 @@ import AddressField from './adressField';
 import TableHeader from '../table/tableHeader';
 import TableBody from '../table/tableBody';
 import TableFooter from '../table/tableFooter';
+import Button from '../styles/button';
 
 const CreateOrderForm = () => {
   const history = useHistory();
@@ -50,7 +51,8 @@ const CreateOrderForm = () => {
     };
     dispatch(createOrder(orderData));
     dispatch(clearCartContent());
-    history.push('/my_orders');
+
+    history.push('/my_payment');
   };
 
   useEffect(() => {
@@ -97,9 +99,9 @@ const CreateOrderForm = () => {
               <TableFooter isCart={false} />
             </table>
             <div className='d-flex justify-content-center'>
-              <button className='btn btn-secondary d-flex justify-content-center'>
-                Отправить заказ на обработку
-              </button>
+              <Button
+                color='secondary'
+                description=' Отправить заказ на обработку' />
             </div>
           </form>
         </div>

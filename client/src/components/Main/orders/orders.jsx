@@ -5,9 +5,11 @@ import { getOrdersData } from '../../../app/store/users';
 
 const Orders = () => {
   const orders = useSelector(getOrdersData());
+  console.log('orders', orders);
   const myOrders = Object.keys(orders).map(myOrder => ({
     ...orders[myOrder]
   }));
+  console.log('myOrders', myOrders);
   return <>
     {
       myOrders.length > 0 ?

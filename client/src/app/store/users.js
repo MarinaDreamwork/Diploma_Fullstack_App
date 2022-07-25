@@ -60,8 +60,12 @@ const usersSlice = createSlice({
     userUpdateSuccess: (state, action) => {
       state.currentUser = action.payload;
     },
+    // userOrderCreatedRequestSuccess: (state, action) => {
+    //   console.log('action payload', action.payload);
+    //   state.currentUser.orderList = {...state.currentUser.orderList, [action.payload.id]: {  ...action.payload}};
+    // },
     userOrderCreatedRequestSuccess: (state, action) => {
-      state.currentUser = {...state.currentUser, ...action.payload};
+      state.currentUser.orderList = {...action.payload }
     }
   }
 });
@@ -209,6 +213,16 @@ export const createOrder = ({
     dispatch(userOrderCreatedRequestFailed(error.message));
   }
 };
+
+// const getUpdatedOrderData = () => async (dispatch) => {
+//   dispatch(userUpdatedOrderRequest());
+//   try {
+//     const { content } = await usersService.getOrderData();
+//     dispatch(userUpdatedOrderRequestSuccess(content));
+//   } catch (error) {
+//     dispatch(userUpdatedOrderRequestFailed(error.message));
+//   }
+// };
 
 export const logOut = () => (dispatch) => {
   localStorageService.removeTokens();

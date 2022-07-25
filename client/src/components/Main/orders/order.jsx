@@ -6,7 +6,11 @@ import { calculateOrderSumm } from '../../../app/utils/calculateTotalSumm';
 
 const Order = ({ id, orderTime, address, orderDetails }) => {
   const orderDate = new Date(orderTime);
-  console.log('orderDetails', orderDetails);
+  const newDate = orderDate.getDate() + 3;
+  console.log('orderDate > newDate', orderTime > newDate);
+  console.log('orderDate < newDate', orderTime < newDate);
+  console.log('newDate', new Date(orderDate.setDate(newDate)));
+  // написать ф-цию проверки - если сегодня >= дата заказа + 3 дня, то отобразить доставлено зеленым, если < , то на пути к пункту доставки, желтым 
 
   return (
     <div className='border shadow rounded border-light w-50 mb-4 m-auto'>
@@ -28,6 +32,9 @@ const Order = ({ id, orderTime, address, orderDetails }) => {
           {
             address.map(i => <p key={i.id}>Доставка Почтой России по адресу: {i.zip} ул. {i.street} д. {i.appartment} </p>)
           }
+        </div>
+        <div>
+          <p className={'badge bg-success'}>Доставлено</p>
         </div>
         <div>
           {

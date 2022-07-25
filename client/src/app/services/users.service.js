@@ -12,6 +12,10 @@ const usersService = {
     const { data } = await httpService.get(usersEndPoint + getUserId());
     return data;
   },
+  getOrderData: async () => {
+    const { data } = await httpService.get(usersEndPoint + localStorageService.getUserId() + '/orderList');
+    return data;
+  },
   createUser: async (payload) => {
     const { data } = await httpService.put(usersEndPoint + payload.userId, payload);
     return data;
