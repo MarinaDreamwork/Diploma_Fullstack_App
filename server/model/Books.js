@@ -9,9 +9,6 @@ const schema = new Schema({
   category: {
     type: String, required: true
   },
-  categoryPath: {
-    type: String, required: true
-  },
   price: {
     type: Number, required: true
   },
@@ -24,6 +21,9 @@ const schema = new Schema({
   },
   subSubCategory: {
     type: String, required: true
+  },
+  description: {
+    type: String
   }
 });
 

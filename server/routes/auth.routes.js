@@ -38,11 +38,10 @@ router.post('/signUp', [
       };
       const hashedPassword = await bcrypt.hash(password, 12);
       const newUser = await User.create({
-        password: hashedPassword,
         email: email,
-        ...res.body
+        ...req.body,
+        password: hashedPassword
       });
-      console.log('newUser', newUser);
 
       const tokens = tokenService.generate({ _id: newUser._id});
       console.log('tokens', tokens);
@@ -97,33 +96,31 @@ router.post('/signInWithPassword', [
     };
 
     const tokens = tokenService.generate({ _id: existUser._id});
+    console.log('tokens', tokens);
     await tokenService.save(existUser._id, tokens.refreshToken);
-    res.status(200).send({...tokens, userId: existUser._id});
+    res.status(201).send({...tokens, userId: existUser._id});
 }]);
 
 router.post('/token', async (req, res) => {
   try {
+    console.log('req.body', req.body);
     const { refresh_token: refreshToken } = req.body;
     const data = tokenService.validateRefresh(refreshToken);
+    console.log('data look, use _id', data);
     const dbToken = await tokenService.findToken(refreshToken);
     if(isTokenInvalid(data, dbToken)) {
-      return res.status(401).json({
-        message: 'Unauthorized'
-      });
+      errorUnAuthHandler(res);
     };
     const tokens = await tokenService.generate({ _id: data._id });
     await tokenService.save(data._id, tokens.refreshToken);
+    res.status(201).send({...tokens, userId: data._id});
   } catch(error) {
-    res.status(500).json({
-      message: 'На сервере произошла ошибка. Попробуйте позднее.'
-    })
+    errorServer(res);
   }
 });
 
 function isTokenInvalid(data, dbToken) {
   return !data || !dbToken || data._id !== dbToken?.user?.toString();
 }
-
-
 
 module.exports = router;

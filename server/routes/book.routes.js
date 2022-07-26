@@ -18,12 +18,15 @@ router
     });
   }
 })
-.put(authCheck, async (req, res) => {
+.post(authCheck, async (req, res) => {
     try {
+      // if user is Admin
+      if(req.user._id === '62deb2923d3f45ab558bbe5b') {
       const newBook = await Books.create({
         ...req.body
       });
       res.status(201).send(newBook);
+    }
     } catch(error) {
       errorUnAuthHandler(res);
     }
@@ -32,12 +35,21 @@ router
 router
   .route('/:bookId')
   .patch(authCheck, async(req, res) => {
+    console.log('req.user', req.user)
     try {
       const { bookId } = req.params;
-      const updatedBook = await Books.findByIdAndUpdate(bookId, req.body, { new: true });
-      res.send(updatedBook);
+      // user is Admin
+      if(req.user._id === '62deb2923d3f45ab558bbe5b') {
+        const updatedBook = await Books.findByIdAndUpdate(bookId, req.body, { new: true });
+        console.log('updatedBook', updatedBook);
+        res.send(updatedBook);
+      } else {
+        errorUnAuthHandler(res);
+      }
     } catch (error) {
-      errorUnAuthHandler(res);
+      res.status(500).json({
+        message: 'На сервере произошла ошибка. Попробуйте позже.'
+      });
     } 
   })
   .delete(authCheck, async (req, res) => {

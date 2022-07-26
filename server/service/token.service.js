@@ -9,7 +9,7 @@ class TokenService {
     });
     const refreshToken = jwt.sign(payload, config.get('refreshSecret'));
     return { 
-      accessToken, refreshToken, expiresIn: 3600
+      accessToken, refreshToken, expiresIn: 300
     };
   }
 
@@ -20,7 +20,7 @@ class TokenService {
       return data.save();
     }
     const token = await Token.create({ user: userId, refreshToken});
-
+    console.log('token', token);
     return token;
   }
 
@@ -33,6 +33,7 @@ class TokenService {
   }
 
   async findToken (refreshToken) {
+    console.log('refreshToken find in MongoDB', refreshToken);
     try {
       return await Token.findOne({ refreshToken });
     } catch(error) {

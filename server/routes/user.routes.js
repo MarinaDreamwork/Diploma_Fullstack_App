@@ -26,7 +26,7 @@ router.get('/:userId', authCheck, async (req, res) => {
 router.patch('/:userId', authCheck, async (req, res) => {
   try {
    const { userId } = req.params;
-   if(userId === req.user._id) {
+   if(userId === req.user.id) {
       const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
       console.log('updatedUser', updatedUser);
       res.send(updatedUser);
@@ -38,8 +38,20 @@ router.patch('/:userId', authCheck, async (req, res) => {
   }
 });
 
-// router.post('/:userId/orderList', authCheck, async (req, res) => {
-  
-// });
+router.post('/:userId', authCheck, async (req, res) => {
+  try {
+   const { userId } = req.params;
+   if(userId === req.user._id) {
+    console.log('req.body', req.body);
+      const updatedUser = await User.findByIdAndUpdate(userId, { $push: req.body}, { new: true } );
+      console.log('updatedUser', updatedUser);
+      res.send(updatedUser);
+     } else {
+       errorUnAuthHandler(res);
+     }
+  } catch (error) {
+    errorServer(res);
+  }
+});
 
 module.exports = router;

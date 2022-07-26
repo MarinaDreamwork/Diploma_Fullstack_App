@@ -65,7 +65,7 @@ const usersSlice = createSlice({
     //   state.currentUser.orderList = {...state.currentUser.orderList, [action.payload.id]: {  ...action.payload}};
     // },
     userOrderCreatedRequestSuccess: (state, action) => {
-      state.currentUser.orderList = {...action.payload }
+      state.currentUser.orderList.push(action.payload);
     }
   }
 });
@@ -196,7 +196,7 @@ export const createOrder = ({
     }};
     const { content } = await usersService.updateOrderData(orderData);
     console.log('orderlist content', content);
-    dispatch(userOrderCreatedRequestSuccess(orderData));
+    dispatch(userOrderCreatedRequestSuccess(content));
   } catch (error) {
     dispatch(userOrderCreatedRequestFailed(error.message));
   }

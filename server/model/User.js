@@ -15,18 +15,18 @@ const schema = new Schema({
     type: String,
     enum: ['male', 'female', 'other']
   },
-  address: [{ 
+  address: { 
     street: String,
     appartment: String,
     zip: String
-  }],
+  },
   orderList: [{
     orderTime: Number,
-    address: [{ 
+    address: { 
       street: String,
       appartment: String,
       zip: String
-    }],
+    },
     orderDetails: [{
       goodsId: String,
       price: Number,
