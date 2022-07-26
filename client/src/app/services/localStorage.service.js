@@ -4,7 +4,7 @@ const EXPIRES_DATE_TOKEN = 'jwt-expires';
 const USER_ID = 'user-local-id';
 const FAVORITE_ITEMS = 'favorite-items';
 
-export const setTokens = ({ refreshToken, accessToken, userId, expiresIn = 300 }) => {
+export const setTokens = ({ refreshToken, accessToken, userId, expiresIn = 3600 }) => {
   const expiresDate = new Date().getTime() + expiresIn * 1000;
   localStorage.setItem(ID_TOKEN, accessToken);
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
@@ -13,9 +13,7 @@ export const setTokens = ({ refreshToken, accessToken, userId, expiresIn = 300 }
 };
 
 export const setBookContent = (data) => {
-  console.log('data from setBookContent', data);
   const favoriteItem = data.filter(element => element.isFavorite === true);
-  console.log('favoriteItem from setBook...', favoriteItem);
   return localStorage.setItem(FAVORITE_ITEMS, JSON.stringify(favoriteItem));
 };
 

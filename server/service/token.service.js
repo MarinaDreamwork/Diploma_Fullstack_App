@@ -9,7 +9,7 @@ class TokenService {
     });
     const refreshToken = jwt.sign(payload, config.get('refreshSecret'));
     return { 
-      accessToken, refreshToken, expiresIn: 300
+      accessToken, refreshToken, expiresIn: 3600
     };
   }
 
@@ -20,7 +20,6 @@ class TokenService {
       return data.save();
     }
     const token = await Token.create({ user: userId, refreshToken});
-    console.log('token', token);
     return token;
   }
 
