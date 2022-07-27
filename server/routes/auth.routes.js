@@ -3,6 +3,7 @@ const User = require('../model/User');
 const bcrypt = require('bcryptjs');
 const tokenService = require('../service/token.service');
 const { check, validationResult } = require('express-validator');
+const { errorServer, errorUnAuthHandler } = require('../utils/errors');
 const router = express.Router({
   mergeParams: true
 });
@@ -51,9 +52,7 @@ router.post('/signUp', [
         userId: newUser._id
       });
     } catch (error) {
-      res.status(500).json({
-        message: 'На сервере произошла ошибка.'
-      });
+      errorServer(res);
     };
 }]);
 // 1. validate data
@@ -103,10 +102,8 @@ router.post('/signInWithPassword', [
 
 router.post('/token', async (req, res) => {
   try {
-    console.log('req.body', req.body);
     const { refresh_token: refreshToken } = req.body;
     const data = tokenService.validateRefresh(refreshToken);
-    console.log('data look, use _id', data);
     const dbToken = await tokenService.findToken(refreshToken);
     if(isTokenInvalid(data, dbToken)) {
       errorUnAuthHandler(res);

@@ -9,10 +9,8 @@ const CloseButton = ({ style, onDelete }) => {
 };
 
 CloseButton.propTypes = {
-  onCloseBtn: PropTypes.string,
-  navStatus: PropTypes.string,
-  style: PropTypes.string.isRequired,
-  onDelete: PropTypes.string.isRequired
+  style: PropTypes.object.isRequired,
+  onDelete: PropTypes.func.isRequired
 }
 
 export default CloseButton;

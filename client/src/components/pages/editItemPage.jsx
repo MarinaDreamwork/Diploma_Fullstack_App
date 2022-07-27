@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
 import { useHistory } from 'react-router-dom';
 import { changeItemData, createNewItem, getItemById } from '../../app/store/books';
-import { generateBooksId } from '../../app/utils/generateBooksId';
 import TextField from '../common/form/textField';
+import Button from '../common/styles/button';
+import { generateBooksArticleNumber } from '../../app/utils/createNumbers';
 
 const EditItemPage = ({ itemId }) => {
   const history = useHistory();
@@ -12,6 +13,7 @@ const EditItemPage = ({ itemId }) => {
   const item = useSelector(getItemById(itemId));
   console.log('item', item);
   const [data, setData] = useState({});
+  const [number, setNumber] = useState(null);
 
   const handleChange = ({ target }) => {
     setData(prevState => ({
@@ -20,9 +22,13 @@ const EditItemPage = ({ itemId }) => {
     }));
   };
 
+  const handleClick = () => {
+    setNumber(generateBooksArticleNumber());
+  }
+
   const handleSubmit = () => {
     if (!itemId) {
-      dispatch(createNewItem({ ...data, id: generateBooksId() }))
+      dispatch(createNewItem(data));
     } else {
       dispatch(changeItemData(data));
     }
@@ -90,11 +96,22 @@ const EditItemPage = ({ itemId }) => {
               value={!data ? '' : data.description}
               onHandleChange={handleChange}
             />
+            <div className='d-flex justify-content-center m-3'>
+              <p className='fw-bold p-2 m-2' onClick={handleClick}>Нажать для создания артикула</p>
+              <p className='text-primary fw-bold p-2 m-2'>{number ? number : ''}</p>
+            </div>
             <TextField
-              label='Путь к категории:'
+              label='Номер артикула:'
               type='text'
-              name='categoryPath'
-              value={!data ? '' : data.categoryPath}
+              name='articleNumber'
+              value={!data ? '' : data.articleNumber}
+              onHandleChange={handleChange}
+            />
+            <TextField
+              label='Количество на складе:'
+              type='number'
+              name='inStock'
+              value={!data ? '' : data.inStock}
               onHandleChange={handleChange}
             />
             <TextField
@@ -105,12 +122,14 @@ const EditItemPage = ({ itemId }) => {
               onHandleChange={handleChange}
             />
             <div className='d-flex justify-content-center'>
-              <button className='btn btn-primary'>{!itemId ? 'Добавить новую позицию товара' : `Изменить данные позиции №${itemId}`}</button>
+              <Button
+                color='primary'
+                description={!itemId ? 'Добавить новую позицию товара' : `Изменить данные позиции №${itemId}`} />
             </div>
           </form>
         </div>
       </div>
-    </section>
+    </section >
   );
 };
 

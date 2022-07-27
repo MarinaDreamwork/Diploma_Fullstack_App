@@ -20,7 +20,7 @@ const MyFavorites = () => {
           style={{ textShadow: 'rgb(195, 195, 195) 3px 0 20px' }}>
           Мои<span className='text-danger fw-bold ps-3 pe-3'>избранные </span> книги:
         </h4>
-        <div className='d-flex justify-content-center'>
+        <div className='d-flex justify-content-center' style={{ width: '200px' }}>
           {favoriteItems.length > 0
             ? favoriteItems.map(item => (
               <NavLink

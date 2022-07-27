@@ -8,7 +8,7 @@ const bookService = {
     return data;
   },
   changeItem: async (payload) => {
-    const { data } = await httpService.patch(bookEndPoint + payload.id, payload);
+    const { data } = await httpService.patch(bookEndPoint + payload._id, payload);
     return data;
   },
   deleteItem: async(itemId) => {

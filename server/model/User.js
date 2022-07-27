@@ -22,6 +22,7 @@ const schema = new Schema({
   },
   orderList: [{
     orderTime: Number,
+    orderNumber: String,
     address: { 
       street: String,
       appartment: String,

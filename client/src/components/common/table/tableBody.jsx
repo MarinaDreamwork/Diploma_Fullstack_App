@@ -16,7 +16,7 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
     return (
       <tbody>
         {
-          cartContent.map((cartItem, index) => <tr key={cartItem.id}>
+          cartContent.map((cartItem, index) => <tr key={cartItem._id}>
             <th scope="row">{index + 1}</th>
             <td>{cartItem.email}</td>
             <td>
@@ -32,13 +32,13 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
                 <CloseButton
                   style={{ fill: 'white', fontSize: '20px' }}
                   onDelete={isAdmin ?
-                    () => dispatch(deleteItem(cartItem.userId)) :
-                    () => dispatch(deleteCartItem(cartItem.userId))}
+                    () => dispatch(deleteItem(cartItem._id)) :
+                    () => dispatch(deleteCartItem(cartItem._id))}
                 />
               )}
               {
                 isAdmin && (
-                  <NavLink to={`/admin/${essence}/${cartItem.userId}/edit`}>
+                  <NavLink to={`/admin/${essence}/${cartItem._id}/edit`}>
                     <EditButton />
                   </NavLink>
                 )
@@ -52,7 +52,7 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
     return (
       <tbody>
         {
-          cartContent.map((cartItem, index) => <tr key={cartItem.id}>
+          cartContent.map((cartItem, index) => <tr key={cartItem._id}>
             <th scope="row">{index + 1}</th>
             <td>{cartItem.author}</td>
             <td>{cartItem._id}</td>
@@ -64,18 +64,32 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
         }
       </tbody>
     )
+  } else if (essence === 'report_remains_page') {
+    return (
+      <tbody>
+        {
+          cartContent.map((cartItem, index) => <tr key={cartItem._id}>
+            <th scope="row">{index + 1}</th>
+            <td>{cartItem._id}</td>
+            <td>{cartItem.book_title}</td>
+            <td>шт.</td>
+            <td>будет тут количество</td>
+          </tr>)
+        }
+      </tbody>
+    )
   } else {
     return (
       <tbody>
         {
-          cartContent.map((cartItem, index) => <tr key={cartItem.id}>
+          cartContent.map((cartItem, index) => <tr key={cartItem._id}>
             <th scope="row">{index + 1}</th>
             <td>{cartItem.author}</td>
             <td>{cartItem.book_title}</td>
             <td>{cartItem.price}</td>
             {
               isAdmin ? (
-                <td>{cartItem.id}</td>
+                <td>{cartItem.articleNumber}</td>
               ) : (<>
                 <td>{cartItem.quantity}</td>
                 <td>{cartItem.price * cartItem.quantity}</td>
@@ -108,7 +122,7 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
 TableBody.propTypes = {
   cartContent: PropTypes.array.isRequired,
   isCart: PropTypes.bool.isRequired,
-  isAdmin: PropTypes.bool.isRequired
+  isAdmin: PropTypes.bool
 };
 
 export default TableBody;

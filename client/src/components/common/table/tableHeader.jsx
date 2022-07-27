@@ -34,6 +34,18 @@ const TableHeader = ({ isForAdminBoard }) => {
         </tr>
       </thead>
     )
+  } else if (essence === 'report_remains_page') {
+    return (
+      <thead>
+        <tr>
+          <th scope='col'>#</th>
+          <th scope='col'>Артикул</th>
+          <th scope='col'>Название товара</th>
+          <th scope='col'>Единицы измерения</th>
+          <th scope='col'>Остатки на указанную дату</th>
+        </tr>
+      </thead>
+    )
   } else {
     return (
       <thead>

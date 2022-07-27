@@ -4,10 +4,11 @@ import AdminPanelSection from './adminPanelSection';
 import AdminGoodsPage from './adminGoodsPage';
 import AdminQuotesPage from './adminQuotesPage';
 import AdminUsersPage from './adminUsersPage';
-import AdminSalesPage from './adminSalesPage';
-import AdminSalesGoodsPage from './adminSalesGoodsPage';
+import AdminSalesGoodsPage from './adminReportSalesPage';
 import AdminSalesAverageRevenuePage from './adminSalesAverageRevenuePage';
 import EditUserPage from '../editUserPage';
+import AdminReportRemainsPage from './adminReportRemainsPage';
+import AdminReportSalesPage from './adminReportSalesPage';
 
 const Admin = () => {
   // сделать прослойку, где роутинги направлять
@@ -17,7 +18,8 @@ const Admin = () => {
   if (essence === 'books_page') return <AdminGoodsPage />
   else if (essence === 'users_page') return <AdminUsersPage />
   else if (essence === 'quotes_page') return <AdminQuotesPage />
-  else if (essence === 'report_sales_page') return <AdminSalesPage />
+  else if (essence === 'report_remains_page') return <AdminReportRemainsPage />
+  else if (essence === 'report_sales_page') return <AdminReportSalesPage />
 
   const adminEditData = [
     { id: 1, cardTitle: 'Товары', cardText: 'Изменение, добавление или удаление товаров', buttonColor: 'success', buttonPath: 'admin/books_page' },
@@ -26,8 +28,8 @@ const Admin = () => {
   ];
 
   const adminReportData = [
-    { id: 1, cardTitle: 'Отчет о продажах', cardText: 'Общий отчет о продажах', buttonColor: 'secondary', buttonPath: 'admin/report_sales_page' },
-    { id: 2, cardTitle: 'Отчет о продажах', cardText: 'Отчет о продажах в разрезе товаров', buttonColor: 'danger', buttonPath: 'admin/report_sales_goods_page' },
+    { id: 1, cardTitle: 'Отчет о продажах', cardText: 'Общий отчет о продажах', buttonColor: 'secondary', buttonPath: 'admin/report_remains_page' },
+    { id: 2, cardTitle: 'Отчет о продажах', cardText: 'Отчет о продажах в разрезе товаров', buttonColor: 'danger', buttonPath: 'admin/report_sales_page' },
     { id: 3, cardTitle: 'Отчет о продажах', cardText: 'Отчет по средней выручке', buttonColor: 'info', buttonPath: 'admin/report_avarage_revenue_page' }
   ];
 
@@ -57,8 +59,7 @@ const Admin = () => {
           <Route path='/books_page' component={AdminGoodsPage} />
           <Route path={`/admin/users_page/${itemId}/edit`} component={EditUserPage} />
           <Route path='/quotes_page' component={AdminQuotesPage} />
-          <Route path='/report_sales_page' component={AdminSalesPage} />
-          <Route path='/report_sales_goods_page' component={AdminSalesGoodsPage} />
+          <Route path='/report_sales_page' component={AdminSalesGoodsPage} />
           <Route path='/report_average_revenue_page' component={AdminSalesAverageRevenuePage} />
         </Switch>
       </div>

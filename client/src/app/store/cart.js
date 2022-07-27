@@ -20,14 +20,14 @@ const cartSlice = createSlice({
       state.content = newResult;
     },
     cartQuantityChanged: (state, action) => {
-      state.content[state.content.findIndex(i => i.id === action.payload.id)] = action.payload;
+      state.content[state.content.findIndex(i => i._id === action.payload._id)] = action.payload;
     },
     cartContentCleared: (state) => {
       state.content = [];
     },
     // удаление позиции товара
     orderDeleteCartItem: (state, action) => {
-      state.content = state.content.filter(item => item.id === action.payload.id);
+      state.content = state.content.filter(item => item._id === action.payload._id);
     }
   }
 });

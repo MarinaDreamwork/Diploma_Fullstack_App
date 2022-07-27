@@ -1,17 +1,17 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 //import { useSelector } from 'react-redux';
-import { getDate } from '../../../app/utils/getDate';
+import { getDate } from '../../../app/utils/dates';
 import { calculateOrderSumm } from '../../../app/utils/calculateTotalSumm';
+import { expiresDate } from '../../../app/utils/dates';
+import { useSelector } from 'react-redux';
+import { getItemById } from '../../../app/store/books';
 
-const Order = ({ _id, orderTime, address, orderDetails }) => {
+const Order = ({ orderTime, address, orderDetails, orderNumber }) => {
+  console.log('orderDetails', orderDetails);
   const orderDate = new Date(orderTime);
-  console.log('address', address);
-  // const newDate = orderDate.getDate() + 3;
-  // console.log('orderDate > newDate', orderTime > newDate);
-  // console.log('orderDate < newDate', orderTime < newDate);
-  // console.log('newDate', new Date(orderDate.setDate(newDate)));
-  // написать ф-цию проверки - если сегодня >= дата заказа + 3 дня, то отобразить доставлено зеленым, если < , то на пути к пункту доставки, желтым 
+  const expiresDeliveryDate = expiresDate(259200);
+  const isDelivered = expiresDeliveryDate <= new Date().getTime();
 
   return (
     <div className='border shadow rounded border-light w-50 mb-4 m-auto'>
@@ -21,7 +21,7 @@ const Order = ({ _id, orderTime, address, orderDetails }) => {
             <p className='fw-bold fs-4'>Заказ от {getDate(orderDate)}</p>
           </div>
           <div>
-            <span>номер заказа: <span className='fw-bold'>{_id}</span></span>
+            <span>номер заказа: <span className='fw-bold'>{orderNumber}</span></span>
           </div>
         </div>
         <div>
@@ -30,16 +30,21 @@ const Order = ({ _id, orderTime, address, orderDetails }) => {
       </div>
       <div className='d-flex justify-content-between p-2'>
         <div>
-          <p key={address.zip}>Доставка Почтой России по адресу: {address.zip} ул. {address.street} д. {address.appartment} </p>
-
+          <p>Доставка Почтой России по адресу: {address.zip} ул. {address.street} д. {address.appartment} </p>
         </div>
         <div>
-          <p className={'badge bg-success'}>Доставлено</p>
+          <span className={'badge bg-' + (isDelivered ? 'success' : 'warning')}>{isDelivered ? 'Доставлено' : 'Заказ в пути'}</span>
         </div>
         <div>
-          {
+          {/* {
             orderDetails.map(detail => (<>
               <img src={detail.src} style={{ width: '60px', marginRight: '5px' }} />
+            </>
+            ))
+          } */}
+          {
+            orderDetails.map(detail => (<>
+              <img src={useSelector(getItemById(detail.goodsId))[0].src} style={{ width: '60px', marginRight: '5px' }} />
             </>
             ))
           }
@@ -51,11 +56,11 @@ const Order = ({ _id, orderTime, address, orderDetails }) => {
 };
 
 Order.propTypes = {
-  _id: PropTypes.string.isRequired,
   src: PropTypes.string.isRequired,
   orderTime: PropTypes.string.isRequired,
   orderDetails: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired
+  address: PropTypes.string.isRequired,
+  orderNumber: PropTypes.string.isRequired
 }
 
 

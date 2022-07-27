@@ -1,3 +1,5 @@
+import { expiresDate } from '../utils/dates';
+
 const ID_TOKEN = 'jwt-token';
 const REFRESH_TOKEN = 'jwt-refresh_token';
 const EXPIRES_DATE_TOKEN = 'jwt-expires';
@@ -5,10 +7,10 @@ const USER_ID = 'user-local-id';
 const FAVORITE_ITEMS = 'favorite-items';
 
 export const setTokens = ({ refreshToken, accessToken, userId, expiresIn = 3600 }) => {
-  const expiresDate = new Date().getTime() + expiresIn * 1000;
+  const expiresAuthDate = expiresDate(expiresIn);
   localStorage.setItem(ID_TOKEN, accessToken);
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
-  localStorage.setItem(EXPIRES_DATE_TOKEN, expiresDate);
+  localStorage.setItem(EXPIRES_DATE_TOKEN, expiresAuthDate);
   localStorage.setItem(USER_ID, userId);
 };
 

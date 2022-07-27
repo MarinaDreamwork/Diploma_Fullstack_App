@@ -21,7 +21,6 @@ const booksSlice = createSlice({
     valueQuery: '',
     lastFetchVisited: null,
     dataLoaded: false,
-    favorites: [],
     categories: categories
   },
   reducers: {
@@ -40,8 +39,7 @@ const booksSlice = createSlice({
     },
     booksFavoritesToggled: (state, action) => {
       const newData = state.data.map(i => {
-        if(i.id === action.payload) {
-          console.log(action.payload);
+        if(i._id === action.payload) {
           if(!i.isFavorite) {
             return {...i, isFavorite: true};
           } else {
@@ -50,17 +48,16 @@ const booksSlice = createSlice({
         }
         return {...i}
       });
-      console.log('newData', newData);
       setBookContent(newData);
       state.data = newData;
     },
-    booksChangedItemDataRequest: (state, action) => {
+    booksChangedItemDataRequestSuccess: (state, action) => {
       if (state.data) {
-        state.data[state.data.findIndex(u => u.id === action.payload.id)] = action.payload;
+        state.data[state.data.findIndex(u => u._id === action.payload._id)] = action.payload;
       }
     },
     booksDeletedItemRequestSuccess: (state, action) => {
-      state.data = state.data.filter(b => b.id !== action.payload.id);
+      state.data = state.data.filter(b => b._id !== action.payload);
     },
     booksCreatedItemRequestSuccess: (state, action) => {
       state.data.push(action.payload);
@@ -93,11 +90,10 @@ export const loadBooksList = () => async (dispatch, getState) => {
       const { content } = await bookService.get();
       const newContent = content.map(contentItem => ({
         ...contentItem,
-        id: contentItem._id,
-        isFavorite: false
+        isFavorite: false,
+        quantity: 0
       }));
-      console.log('getBookContent', getBookContent());
-      if(getBookContent().length > 0) {
+      if(getBookContent()?.length > 0) {
          dispatch(booksRequestedSuccess(checkFavoritesFromStorage(newContent, getBookContent()))); 
       } else {
         dispatch(booksRequestedSuccess(newContent));
@@ -109,9 +105,11 @@ export const loadBooksList = () => async (dispatch, getState) => {
 };
 
 export const changeItemData = (payload) => async (dispatch) => {
+  console.log('payload', payload);
   dispatch(booksChangedItemDataRequest());
   try{
     const { content } = await bookService.changeItem(payload);
+    console.log('content', content);
     dispatch(booksChangedItemDataRequestSuccess(content));
   } catch(error) {
     dispatch(booksChangedItemDataRequestFailed(error.message))
@@ -121,8 +119,8 @@ export const changeItemData = (payload) => async (dispatch) => {
 export const deleteItem = (itemId) => async (dispatch) => {
   dispatch(booksDeletedItemRequest());
   try{
-    const { content } = await bookService.deleteItem(itemId);
-    dispatch(booksDeletedItemRequestSuccess(content));
+    await bookService.deleteItem(itemId);
+    dispatch(booksDeletedItemRequestSuccess(itemId));
   } catch(error) {
     dispatch(booksDeletedItemRequestFailed(error.message));
   }
@@ -164,7 +162,7 @@ const isOutdatedData = (date) => {
 
 export const getFavoritedItems = () => (state) => state.books.data.filter(item => item.isFavorite);
 
-export const getItemById = (itemId) => (state) => state.books.data.filter(i => i.id === itemId);
+export const getItemById = (itemId) => (state) => state.books.data.filter(i => i._id === itemId);
 export const getBooks = () => (state) => state.books.data; 
 export const getBooksLoadingStatus = () => (state) => state.books.isLoading;
 export const getSearchQuery = () => (state) => state.books.valueQuery; 

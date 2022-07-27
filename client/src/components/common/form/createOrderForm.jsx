@@ -9,6 +9,10 @@ import TableHeader from '../table/tableHeader';
 import TableBody from '../table/tableBody';
 import TableFooter from '../table/tableFooter';
 import Button from '../styles/button';
+import {
+  createOrderNumber
+} from '../../../app/utils/createNumbers';
+import { changeItemData } from '../../../app/store/books';
 
 const CreateOrderForm = () => {
   const history = useHistory();
@@ -16,23 +20,25 @@ const CreateOrderForm = () => {
 
   const currentUser = useSelector(getCurrentUser());
   const addressData = currentUser.address;
+  const list = currentUser?.orderList;
+  console.log('lastOrderNumber', list);
   const [data, setData] = useState({});
   const cartContent = useSelector(getCartContent());
-  const [orderDetails] = useState({
-    // orderId: Date.now().toString(),
+  const orderDetails = {
     orderTime: Date.now(),
-    orderDetails: getCartInfo(cartContent)
-  });
+    orderDetails: getCartInfo(cartContent),
+    orderNumber: createOrderNumber(list)
+  };
 
   // orderNumber: createOrderNumber(getLastNumber(ordersData))
 
   function getCartInfo(array) {
     return array.map(item => ({
-      goodsId: item.id,
-      src: item.src,
+      goodsId: item._id,
       quantity: item.quantity,
       price: item.price,
-      totalAmount: item.price * item.quantity
+      totalAmount: item.price * item.quantity,
+      inStock: item.inStock
     }));
   }
 
@@ -49,9 +55,12 @@ const CreateOrderForm = () => {
       ...data,
       ...orderDetails
     };
-    dispatch(createOrder(orderData));
-    dispatch(clearCartContent());
+    console.log('orderData', orderData);
 
+    dispatch(createOrder(orderData));
+    // эту операцию отслеживаем, забираем только то, что относится к сущности книга + inStock
+    orderDetails.orderDetails.map(o => dispatch(changeItemData({ _id: o.goodsId, inStock: o.inStock })));
+    dispatch(clearCartContent());
     history.push('/my_payment');
   };
 

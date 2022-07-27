@@ -4,7 +4,7 @@ import { NavLink } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { toggleFavorites } from '../../app/store/books';
 
-const Favorite = ({ hint, isFavorite, style, id }) => {
+const Favorite = ({ hint, isFavorite, style, _id }) => {
   const dispatch = useDispatch();
 
   const handleClick = ({ target }) => {
@@ -36,10 +36,10 @@ const Favorite = ({ hint, isFavorite, style, id }) => {
   return (
     <div>
       <i
-        data-id={id}
+        data-id={_id}
         className={getFavoriteClass()}
         style={style}
-        onClick={(id) => handleClick(id)}>
+        onClick={(e) => handleClick(e)}>
       </i>
       <p>{hint}</p>
     </div>
@@ -49,7 +49,7 @@ Favorite.propTypes = {
   hint: PropTypes.string,
   isFavorite: PropTypes.bool,
   style: PropTypes.object.isRequired,
-  id: PropTypes.string
+  _id: PropTypes.string
 }
 
 export default Favorite;

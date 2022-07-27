@@ -12,7 +12,6 @@ const schema = new Schema({
   price: {
     type: Number, required: true
   },
-  quantity: Number,
   src: {
     type: String, required: true
   },
@@ -23,6 +22,12 @@ const schema = new Schema({
     type: String, required: true
   },
   description: {
+    type: String
+  },
+  inStock: {
+    type: Number
+  },
+  articleNumber: {
     type: String
   }
 });

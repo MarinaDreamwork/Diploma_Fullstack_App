@@ -5,14 +5,18 @@ import PaymentCompleted from './paymentCompleted';
 //import MyOrders from '../pages/myOrders';
 
 const PaymentInfo = () => {
-  const [data, setData] = useState(
-    `Производится оплата...
-     Подождите окончания обработки операции...`);
+  const [data, setData] = useState('Производится оплата...');
 
   useEffect(() => {
+
+    setTimeout(() => {
+      setData('Ваш запрос обрабатывается...')
+    }, 2000);
+
     setTimeout(() => {
       setData('Оплата произведена успешно!')
-    }, 2000);
+    }, 4000);
+
   }, [])
   return (
     <PagesSectionWrapper>

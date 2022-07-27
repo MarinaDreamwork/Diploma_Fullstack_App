@@ -1,7 +1,8 @@
 const express = require('express');
 const Books = require('../model/Books');
 const authCheck = require('../middleware/auth.middleware');
-const { errorUnAuthHandler } = require('../utils/errors');
+const  errorServer = require('../utils/errors');
+const errorUnAuthHandler  = require('../utils/errors');
 const router = express.Router({
   mergeParams: true
 });
@@ -11,11 +12,9 @@ router
 .get(async (req, res) => {
   try {
     const list = await Books.find();
-    res.status(200).send(list);
+    res.send(list);
   } catch (error) {
-    res.status(500).json({
-      message: 'Произошла ошибка. Попробуйте позже.'
-    });
+    errorServer(res);
   }
 })
 .post(authCheck, async (req, res) => {
@@ -25,6 +24,7 @@ router
       const newBook = await Books.create({
         ...req.body
       });
+      console.log('newBook', newBook);
       res.status(201).send(newBook);
     }
     } catch(error) {
@@ -38,14 +38,9 @@ router
     console.log('req.user', req.user)
     try {
       const { bookId } = req.params;
-      // user is Admin
-      if(req.user._id === '62deb2923d3f45ab558bbe5b') {
-        const updatedBook = await Books.findByIdAndUpdate(bookId, req.body, { new: true });
-        console.log('updatedBook', updatedBook);
-        res.send(updatedBook);
-      } else {
-        errorUnAuthHandler(res);
-      }
+      const updatedBook = await Books.findByIdAndUpdate(bookId, req.body, { new: true });
+      console.log('updatedBook', updatedBook);
+      res.send(updatedBook);
     } catch (error) {
       res.status(500).json({
         message: 'На сервере произошла ошибка. Попробуйте позже.'

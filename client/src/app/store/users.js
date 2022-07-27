@@ -65,7 +65,7 @@ const usersSlice = createSlice({
     //   state.currentUser.orderList = {...state.currentUser.orderList, [action.payload.id]: {  ...action.payload}};
     // },
     userOrderCreatedRequestSuccess: (state, action) => {
-      state.currentUser.orderList.push(action.payload);
+      state.currentUser.orderList.push(action.payload.orderList[action.payload.orderList.length-1]);
     }
   }
 });
@@ -181,9 +181,9 @@ export const createOrder = ({
     appartment,
     orderDetails,
     orderTime,
+    orderNumber,
     street,
-    zip,
-    src
+    zip
   }) => async (dispatch) => {
   dispatch(userOrderCreatedRequest());
   try {
@@ -192,7 +192,7 @@ export const createOrder = ({
       address: { street, appartment, zip },
       orderDetails,
       orderTime,
-      src
+      orderNumber
     }};
     const { content } = await usersService.updateOrderData(orderData);
     console.log('orderlist content', content);

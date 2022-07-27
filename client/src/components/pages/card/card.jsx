@@ -8,44 +8,45 @@ import { addItemsToCart, updatedQuantity } from '../../../app/store/cart';
 import { incrementItem } from '../../../app/utils/incrementItem';
 import { decrementItem } from '../../../app/utils/decrementItem';
 import BreadCrumps from '../../Main/breadCrumps';
+import Button from '../../common/styles/button';
 
 const Card = () => {
   const booksLoadingStatus = useSelector(getBooksLoadingStatus());
   const { cardId } = useParams();
   const dispatch = useDispatch();
   const item = useSelector(getItemById(cardId));
+  console.log('item', item);
   const [data, setData] = useState({});
-  const inCart = data?.inCart;
+  console.log('data', data);
   // const isFavorite = item?.isFavorite;
-  let disableNegative = false;
+  const [disabled, setDisabled] = useState(false);
 
   const increment = () => {
     const newItem = {
       ...data,
-      quantity: incrementItem(data.quantity)
+      quantity: incrementItem(data.quantity),
+      inStock: item[0].inStock - incrementItem(data.quantity),
     };
     setData(newItem);
     dispatch(updatedQuantity(newItem));
   };
 
   const decrement = () => {
-    if (data.quantity < 1) {
-      disableNegative = true;
-    } else {
-      const newItem = {
-        ...data,
-        quantity: decrementItem(data.quantity)
-      };
-      setData(newItem);
-      dispatch(updatedQuantity(newItem));
-    }
+    const newItem = {
+      ...data,
+      quantity: decrementItem(data.quantity),
+      inStock: item[0].inStock + decrementItem(data.quantity)
+    };
+    setData(newItem);
+    dispatch(updatedQuantity(newItem));
   };
 
   const handleAddContent = () => {
     const newData = {
       ...data,
-      inCart: true,
-      quantity: 1
+      quantity: 1,
+      inStock: item[0].inStock - 1,
+      inCart: true
     }
     setData(newData);
     dispatch(addItemsToCart(newData));
@@ -57,17 +58,14 @@ const Card = () => {
   };
 
   useEffect(() => {
-    setData(
-      ...item,
-      {
-        inCart: false,
-        quantity: 0
-      });
+    setData(...item);
   }, []);
 
-  // useEffect(() => {
-  //   dispatch(updatedQuantity(data?.quantity));
-  // }, [data?.quantity]);
+  useEffect(() => {
+    if (data.inStock === 0 || data.inStock < 0) {
+      setDisabled(true);
+    }
+  }, [data.inStock])
 
   if (booksLoadingStatus) {
     return <Preloader />
@@ -75,33 +73,33 @@ const Card = () => {
 
   return (
     item &&
-    item.map(i => <section key={i.id}>
+    <section>
       <div className='container card'>
         <BreadCrumps
-          category={i.category}
-          subCategory={i.subCategory}
-          subSubCategory={i.subSubCategory}
+          category={item[0].category}
+          subCategory={item[0].subCategory}
+          subSubCategory={item[0].subSubCategory}
         />
         <div className='card-wrapper m-2 d-flex flex-row align-items-center'>
           <div className='card-image-wrapper m-3'>
-            <img className='card-image' src={i.src} alt='book cover' />
+            <img className='card-image' src={item[0].src} alt='book cover' />
           </div>
           <div className='card-info m-4'>
-            <h3 className='card_author_title p-3 fw-bold'>{i.author} - {i.book_title}</h3>
-            <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{i.price} {' '} ₽</h4>
-            <p className='card_description'>{i.description}</p>
+            <h3 className='card_author_title p-3 fw-bold'>{item[0].author} - {item[0].book_title}</h3>
+            <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{item[0].price} {' '} ₽</h4>
+            <p className='card_description'>{item[0].description}</p>
           </div>
           <div className='col-3 m-2 d-flex flex-column'>
             <div className='d-flex align-self-center'>
-              {(!inCart)
+              {(!data.inCart)
                 ?
                 <>
-                  <button
-                    className='btn btn-primary m-3'
-                    onClick={() => handleAddContent(i.id)}
-                  >
-                    Добавить в корзину
-                  </button>
+                  <Button
+                    disabled={disabled}
+                    color='primary'
+                    description='Добавить в корзину'
+                    onClick={() => handleAddContent(item[0]._id)}
+                  />
                   <Favorite
                     style={{
                       fontSize: '2rem',
@@ -109,41 +107,52 @@ const Card = () => {
                       paddingTop: '20px',
                       paddingLeft: '15px'
                     }}
-                    isFavorite={item.isFavorite}
-                    id={item.id}
+                    isFavorite={item[0].isFavorite}
+                    id={item[0]._id}
                   />
                 </>
                 :
-                <div className='d-flex align-items-center'>
-                  <NavLink
-                    to='/my_cart'
-                    className='btn btn-success m-3'
-                    onClick={handleCart}>
-                    Товар в корзине!
-                    <p className='m-0'>Перейти</p>
-                  </NavLink>
-                  <div className='d-flex'>
-                    <p
-                      role='button'
-                      className='border p-3'
-                      onClick={decrement}
-                      disabled={disableNegative}>
-                      -
-                    </p>
-                    <p
-                      className='border p-3'>
-                      {data.quantity}
-                    </p>
-                    <p role='button' className='border p-3' onClick={increment}>+</p>
+                <>
+                  <div className='d-flex align-items-center'>
+                    <NavLink
+                      to='/my_cart'
+                      className='btn btn-success m-3'
+                      onClick={handleCart}>
+                      Товар в корзине!<span style={{ fontSize: '0.8rem', fontStyle: 'italic' }}>Перейти</span>
+                    </NavLink>
+                    <div className='d-flex'>
+                      <Button
+                        color='transparent'
+                        description='-'
+                        style='border p-3'
+                        onClick={decrement} />
+                      <p
+                        className='border p-3 mb-0'>
+                        {data.quantity}
+                      </p>
+                      <Button
+                        color='transparent'
+                        description='+'
+                        style='border p-3'
+                        onClick={increment}
+                        disabled={disabled}
+                      />
+                    </div>
                   </div>
-                </div>
+                </>
               }
             </div>
-            {/* <p className=''>id товара - {cardId}</p> */}
+            {
+              disabled
+              && <div className='d-flex justify-content-center'><p className='fw-bold text-danger p-3'>Товар на складе закончился!</p></div>
+            }
+            <div className='d-flex justify-content-center'>
+              <p className=''>артикул -<span className='fw-bold ps-2'>{item[0].articleNumber}</span></p>
+            </div>
           </div>
         </div>
       </div>
-    </section>)
+    </section>
   );
 }
 
