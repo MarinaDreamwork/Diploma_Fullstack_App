@@ -3,9 +3,14 @@ import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
 import { getItemsInCart } from '../../app/store/cart';
 import PropTypes from 'prop-types';
+import { getOrdersData } from '../../app/store/users';
+import Alert from './alert';
+import { getFavoritedItems } from '../../app/store/books';
 
 const ButtonLink = ({ individualClass, hint, to, isFavorite }) => {
   const cartItemsQuantity = useSelector(getItemsInCart());
+  const orderQuantity = useSelector(getOrdersData())?.length;
+  const favoriteQuantity = useSelector(getFavoritedItems())?.length;
   const [countCartItems, setCountCartItems] = useState(cartItemsQuantity);
   useEffect(() => {
     setCountCartItems(cartItemsQuantity);
@@ -31,10 +36,19 @@ const ButtonLink = ({ individualClass, hint, to, isFavorite }) => {
         >
         </i>
         {countCartItems !== 0 && hint === 'Корзина' && (
-          <span className='position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger'>
-            {countCartItems}
-            <span className="visually-hidden">unread messages</span>
-          </span>
+          <Alert
+            color='bg-danger'
+            quantity={cartItemsQuantity} />
+        )}
+        {orderQuantity !== 0 && hint === 'Мои заказы' && (
+          <Alert
+            color='bg-success'
+            quantity={orderQuantity} />
+        )}
+        {favoriteQuantity !== 0 && hint === 'Избранное' && (
+          <Alert
+            color='bg-primary'
+            quantity={favoriteQuantity} />
         )}
         <p className='align-self-center m-0'>{hint}</p>
       </NavLink>

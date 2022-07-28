@@ -1,15 +1,20 @@
 import React, { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthErrors, getCurrentUser, updateUserData } from '../../app/store/users';
 import AddressField from '../common/form/adressField';
 import RadioField from '../common/form/radioField';
 import TextField from '../common/form/textField';
-import { validator } from '../../app/utils/validator';
+import { validator, validatorConfig } from '../../app/utils/validator';
 import { useHistory } from 'react-router-dom';
 
 const EditUserPage = () => {
   const errorLogIn = useSelector(getAuthErrors());
+  //const isAdmin = useSelector(getCurrentUser())?.isAdmin;
+  //const { userId } = useParams();
+  //const user = useSelector(getUserById(userId));
   const history = useHistory();
+
   const dispatch = useDispatch();
   const currentUser = useSelector(getCurrentUser());
   const [data, setData] = useState({
@@ -39,56 +44,9 @@ const EditUserPage = () => {
     dispatch(updateUserData({
       ...data,
       address: { street: data.street, appartment: data.appartment, zip: data.zip },
-      userId: currentUser.userId
+      _id: currentUser._id
     }));
-    // dispatch(createNewAddress(data)); - адрес отдельно не будем делать
     history.goBack();
-  };
-
-  const validatorConfig = {
-    email: {
-      isRequired: {
-        message: 'Электронная почта обязательна для заполнения'
-      },
-      isEmail: {
-        message: 'Email введен некорректно'
-      }
-    },
-    password: {
-      isRequired: {
-        message: 'Пароль обязателен для заполнения'
-      },
-      isCapital: {
-        message: 'Пароль должен содержать по крайней мере одну заглавную букву'
-      },
-      isDigit: {
-        message: 'Пароль должен содержать по крайней мере одну цифру'
-      },
-      minSymbols: {
-        message: 'Необходимо ввести минимум 8 символов',
-        value: 8
-      }
-    },
-    name: {
-      isRequired: {
-        message: 'Имя обязательно для заполнения'
-      }
-    },
-    street: {
-      isRequired: {
-        message: 'Улица обязательна для заполнения'
-      }
-    },
-    appartment: {
-      isRequired: {
-        message: '№ дома/квартиры обязательны для заполнения'
-      }
-    },
-    zip: {
-      isRequired: {
-        message: 'Улица обязательна для заполнения'
-      }
-    },
   };
 
   const validate = () => {
@@ -133,13 +91,20 @@ const EditUserPage = () => {
             name='sex'
             onChange={handleChange}
             value={data.sex}
+            type='radio'
           />
           <AddressField
+            label='Введите адрес:'
             onChange={handleChange}
             valueZip={data.zip}
             valueStreet={data.street}
             valueApp={data.appartment}
-            errorStreet={errors.street}
+            nameZip='zip'
+            nameStreet='street'
+            nameApp='appartment'
+            errorstreet={errors.street}
+            errorzip={errors.zip}
+            errorapp={errors.appartment}
           />
           <button
             className='btn btn-primary w-100'
@@ -154,5 +119,9 @@ const EditUserPage = () => {
     </div>
   );
 };
+
+EditUserPage.propTypes = {
+  userId: PropTypes.string
+}
 
 export default EditUserPage;

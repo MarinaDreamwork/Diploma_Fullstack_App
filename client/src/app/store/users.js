@@ -66,7 +66,10 @@ const usersSlice = createSlice({
     // },
     userOrderCreatedRequestSuccess: (state, action) => {
       state.currentUser.orderList.push(action.payload.orderList[action.payload.orderList.length-1]);
-    }
+    },
+    userRemoveRequestSuccess: (state, action) => {
+      state.data = state.data.filter(item => item._id !== action.payload);
+    } 
   }
 });
 
@@ -80,7 +83,8 @@ const {
   authRequestedFailed,
   userLoggedOut,
   userUpdateSuccess,
-  userOrderCreatedRequestSuccess
+  userOrderCreatedRequestSuccess,
+  userRemoveRequestSuccess
 } = actions;
 
 const userCreateRequested = createAction('users/createRequested');
@@ -90,6 +94,8 @@ const userUpdateRequested = createAction('users/updateRequested');
 const userUpdateFailed = createAction('users/updateFailed');
 const userOrderCreatedRequest = createAction('users/orderCreatedRequest');
 const userOrderCreatedRequestFailed = createAction('users/orderCreatedRequestFailed');
+const userRemoveRequest = createAction('user/removeRequest');
+const userRemoveRequestFailed = createAction('user/removeRequestFailed');
 
 export const loadUsersList = () => async (dispatch) => {
   dispatch(usersRequested());
@@ -218,15 +224,23 @@ export const logOut = () => (dispatch) => {
   history.push('/');
 };
 
-// для изменения данных в EditUserPage
 export const updateUserData = (data) => async (dispatch) => {
   dispatch(userUpdateRequested());
   try { 
     const { content } = await usersService.update(data);
-    console.log('content', content);
     dispatch(userUpdateSuccess(content));
   } catch(error) {
     dispatch(userUpdateFailed(error.message));
+  }
+};
+
+export const removeUser = (id) => async (dispatch) => {
+  dispatch(userRemoveRequest());
+  try{
+    await usersService.removeUser(id);
+    dispatch(userRemoveRequestSuccess(id));
+  } catch(error) {
+    dispatch(userRemoveRequestFailed(error.message));
   }
 };
 
@@ -236,6 +250,7 @@ export const getAuthErrors = () => (state) => state.users.error;
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
 export const getCurrentUser = () => (state) => state.users.currentUser;
 export const getOrdersData = () => (state) => state.users.currentUser?.orderList;
+export const getOrderItems = () => (state) => state.users.currentUser?.orderList?.length;
 export const getCurrentUserOrdersData = () => (state) => state.users.currentUser.orderNumbers?.orderAddress;
 // потом это будем массив из строк id
 export const getAddressId = () => (state) => state.users.currentUser.addressIds;

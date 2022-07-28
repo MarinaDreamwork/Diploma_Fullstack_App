@@ -3,8 +3,12 @@ import PropTypes from 'prop-types';
 import { NavLink } from 'react-router-dom';
 import BooksImage from '../../app/images/books.png';
 import Favorite from './favorite';
+import { formateNumberToPrice } from '../../app/utils/formateNumbers';
+import { useSelector } from 'react-redux';
+import { getIsLoggedIn } from '../../app/store/users';
 
 const ProductCard = ({ _id, author, book_title, price, articleNumber, isFavorite }) => {
+  const isLoggedIn = useSelector(getIsLoggedIn());
   return (
     <div className='card-wrapper d-flex m-2 mb-3 w-100'>
       <div className='col-2 d-flex justify-content-center me-2'>
@@ -17,13 +21,15 @@ const ProductCard = ({ _id, author, book_title, price, articleNumber, isFavorite
       <div className='product-card-info card-style col-5'>
         <h5>{author} - {book_title}</h5>
         <p>артикул: <span className='fw-bold ps-2'>{articleNumber}</span></p>
-        <p className='fw-bold'>{price} ₽</p>
+        <p className='fw-bold'>{formateNumberToPrice(price)} ₽</p>
       </div>
-      <Favorite
-        style={{ fontSize: '2rem', color: 'red', paddingTop: '15px' }}
-        isFavorite={isFavorite}
-        _id={_id}
-      />
+      {isLoggedIn &&
+        <Favorite
+          style={{ fontSize: '2rem', color: 'red', paddingTop: '15px' }}
+          isFavorite={isFavorite}
+          _id={_id}
+        />
+      }
       <div
         className='col-4 d-flex justify-content-center align-items-center'>
         <NavLink

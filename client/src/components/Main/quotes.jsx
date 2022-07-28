@@ -1,6 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getQuotes } from '../../app/store/quotes';
+
 import Quote from './quote';
 const Quotes = () => {
   const quotes = useSelector(getQuotes());

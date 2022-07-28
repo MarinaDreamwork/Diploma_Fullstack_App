@@ -9,9 +9,12 @@ import { incrementItem } from '../../../app/utils/incrementItem';
 import { decrementItem } from '../../../app/utils/decrementItem';
 import BreadCrumps from '../../Main/breadCrumps';
 import Button from '../../common/styles/button';
+import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
+import { getIsLoggedIn } from '../../../app/store/users';
 
 const Card = () => {
   const booksLoadingStatus = useSelector(getBooksLoadingStatus());
+  const isLoggedIn = useSelector(getIsLoggedIn());
   const { cardId } = useParams();
   const dispatch = useDispatch();
   const item = useSelector(getItemById(cardId));
@@ -68,7 +71,7 @@ const Card = () => {
   }, [data.inStock])
 
   if (booksLoadingStatus) {
-    return <Preloader />
+    return <Preloader color='danger' />
   }
 
   return (
@@ -86,30 +89,33 @@ const Card = () => {
           </div>
           <div className='card-info m-4'>
             <h3 className='card_author_title p-3 fw-bold'>{item[0].author} - {item[0].book_title}</h3>
-            <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{item[0].price} {' '} ₽</h4>
+            <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{formateNumberToPrice(item[0].price)} {' '} ₽</h4>
             <p className='card_description'>{item[0].description}</p>
           </div>
           <div className='col-3 m-2 d-flex flex-column'>
-            <div className='d-flex align-self-center'>
+            <div className='d-flex align-items-center justify-content-around m-3'>
               {(!data.inCart)
                 ?
                 <>
                   <Button
+                    style={{ height: '40px' }}
                     disabled={disabled}
                     color='primary'
                     description='Добавить в корзину'
                     onClick={() => handleAddContent(item[0]._id)}
                   />
-                  <Favorite
-                    style={{
-                      fontSize: '2rem',
-                      color: 'red',
-                      paddingTop: '20px',
-                      paddingLeft: '15px'
-                    }}
-                    isFavorite={item[0].isFavorite}
-                    id={item[0]._id}
-                  />
+                  {isLoggedIn &&
+                    <Favorite
+                      style={{
+                        fontSize: '2rem',
+                        color: 'red',
+                        paddingTop: '20px',
+                        paddingLeft: '15px'
+                      }}
+                      isFavorite={item[0].isFavorite}
+                      id={item[0]._id}
+                    />
+                  }
                 </>
                 :
                 <>
@@ -124,7 +130,7 @@ const Card = () => {
                       <Button
                         color='transparent'
                         description='-'
-                        style='border p-3'
+                        style={{ padding: '15px', border: '1px solid #dee2e6' }}
                         onClick={decrement} />
                       <p
                         className='border p-3 mb-0'>
@@ -133,7 +139,7 @@ const Card = () => {
                       <Button
                         color='transparent'
                         description='+'
-                        style='border p-3'
+                        style={{ padding: '15px', border: '1px solid #dee2e6' }}
                         onClick={increment}
                         disabled={disabled}
                       />

@@ -27,6 +27,10 @@ const usersService = {
   updateOrderData: async (payload) => {
     const { data } = await httpService.post(usersEndPoint + localStorageService.getUserId(), payload);
     return data;
+  },
+  removeUser: async (payload) => {
+    const { data } = await httpService.delete(usersEndPoint + payload);
+    return data;
   }
 };
 

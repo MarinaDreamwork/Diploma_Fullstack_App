@@ -6,6 +6,7 @@ import { calculateOrderSumm } from '../../../app/utils/calculateTotalSumm';
 import { expiresDate } from '../../../app/utils/dates';
 import { useSelector } from 'react-redux';
 import { getItemById } from '../../../app/store/books';
+import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
 
 const Order = ({ orderTime, address, orderDetails, orderNumber }) => {
   console.log('orderDetails', orderDetails);
@@ -25,7 +26,7 @@ const Order = ({ orderTime, address, orderDetails, orderNumber }) => {
           </div>
         </div>
         <div>
-          <span className='fw-bold'>сумма заказа: {calculateOrderSumm(orderDetails)} ₽</span>
+          <span className='fw-bold'>сумма заказа: {formateNumberToPrice(calculateOrderSumm(orderDetails))} ₽</span>
         </div>
       </div>
       <div className='d-flex justify-content-between p-2'>

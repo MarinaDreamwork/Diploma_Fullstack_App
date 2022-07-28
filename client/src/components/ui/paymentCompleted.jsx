@@ -6,7 +6,10 @@ const PaymentCompleted = () => {
   return (
     <div className='text-center m-5'>
       <NavLink to='/my_orders'>
-        <Button color='warning' description='Перейти в мои заказы' />
+        <Button
+          color='warning'
+          description='Перейти в мои заказы'
+        />
       </NavLink>
     </div>
   );

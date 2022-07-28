@@ -4,7 +4,8 @@ import PropTypes from 'prop-types';
 const Button = ({ color, description, onClick, disabled, style }) => {
   return (
     <button
-      className={color ? 'btn btn-' + color + ' ' + style : '' + style}
+      style={style}
+      className={'btn btn-' + color}
       onClick={onClick}
       disabled={disabled}>
       {description}
@@ -13,8 +14,8 @@ const Button = ({ color, description, onClick, disabled, style }) => {
 };
 Button.propTypes = {
   color: PropTypes.string.isRequired,
-  style: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
+  style: PropTypes.object,
   onClick: PropTypes.func,
   disabled: PropTypes.bool
 };

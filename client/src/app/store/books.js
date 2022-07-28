@@ -61,6 +61,12 @@ const booksSlice = createSlice({
     },
     booksCreatedItemRequestSuccess: (state, action) => {
       state.data.push(action.payload);
+    },
+    booksRemoveFavorites: (state) => {
+      state.data = state.data.map(item => ({
+        ...item,
+        isFavorite: false
+      }));
     }
 }});
 
@@ -72,7 +78,8 @@ const {
   booksFavoritesToggled,
   booksChangedItemDataRequestSuccess,
   booksDeletedItemRequestSuccess,
-  booksCreatedItemRequestSuccess
+  booksCreatedItemRequestSuccess,
+  booksRemoveFavorites
 } = actions;
 
 const booksChangedItemDataRequest = createAction('books/changedItemDataRequest');
@@ -94,8 +101,8 @@ export const loadBooksList = () => async (dispatch, getState) => {
         quantity: 0
       }));
       if(getBookContent()?.length > 0) {
-         dispatch(booksRequestedSuccess(checkFavoritesFromStorage(newContent, getBookContent()))); 
-      } else {
+        dispatch(booksRequestedSuccess(checkFavoritesFromStorage(newContent, getBookContent())));  
+      } else  {
         dispatch(booksRequestedSuccess(newContent));
       }
     } catch (error) {
@@ -103,6 +110,14 @@ export const loadBooksList = () => async (dispatch, getState) => {
     }
   }
 };
+
+export const removeFavorites = () => (dispatch) => {
+
+  if(!getBookContent()) {
+    dispatch(booksRemoveFavorites());  
+  }  
+}
+
 
 export const changeItemData = (payload) => async (dispatch) => {
   console.log('payload', payload);

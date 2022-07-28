@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import AddressField from '../common/form/adressField';
 import RadioField from '../common/form/radioField';
 import TextField from '../common/form/textField';
-import { validator } from '../../app/utils/validator';
+import { validator, validatorConfig } from '../../app/utils/validator';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthErrors, signUp } from '../../app/store/users';
 import { useHistory } from 'react-router-dom';
@@ -18,7 +18,6 @@ const RegisterForm = () => {
     password: '',
     name: '',
     sex: 'male',
-    // id: nanoid(),
     city: '',
     street: '',
     appartment: '',
@@ -38,61 +37,8 @@ const RegisterForm = () => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    // данные по созданию user и address передаются на сервер и локальный стейт очищается
     dispatch(signUp(data));
-    // dispatch(createNewAddress(data)); - адрес отдельно не будем делать
     history.push('/');
-  };
-
-  const validatorConfig = {
-    email: {
-      isRequired: {
-        message: 'Электронная почта обязательна для заполнения'
-      },
-      isEmail: {
-        message: 'Email введен некорректно'
-      }
-    },
-    password: {
-      isRequired: {
-        message: 'Пароль обязателен для заполнения'
-      },
-      isCapital: {
-        message: 'Пароль должен содержать по крайней мере одну заглавную букву'
-      },
-      isDigit: {
-        message: 'Пароль должен содержать по крайней мере одну цифру'
-      },
-      minSymbols: {
-        message: 'Необходимо ввести минимум 8 символов',
-        value: 8
-      }
-    },
-    name: {
-      isRequired: {
-        message: 'Имя обязательно для заполнения'
-      }
-    },
-    street: {
-      isRequired: {
-        message: 'Улица обязательна для заполнения'
-      }
-    },
-    appartment: {
-      isRequired: {
-        message: '№ дома/квартиры обязательны для заполнения'
-      }
-    },
-    zip: {
-      isRequired: {
-        message: 'Индекс обязателен для заполнения'
-      }
-    },
-    acceptTerms: {
-      isRequired: {
-        message: 'Для регистрации необходимо принять и согласиться с правилами предоставления сервиса'
-      }
-    }
   };
 
   const validate = () => {
@@ -127,7 +73,6 @@ const RegisterForm = () => {
         />
         <TextField
           label='Имя'
-          type='name'
           name='name'
           onHandleChange={handleChange}
           value={data.name}
@@ -139,19 +84,24 @@ const RegisterForm = () => {
             { name: 'Male', value: 'male', id: 2 },
             { name: 'Other', value: 'other', id: 3 },
           ]}
+          type='radio'
           label='Выберете Ваш пол:'
           name='sex'
           onChange={handleChange}
           value={data.sex}
         />
         <AddressField
+          label='Заполните адрес:'
           onChange={handleChange}
           valueZip={data.zip}
           valueStreet={data.street}
           valueApp={data.appartment}
-          errorStreet={errors.street}
-          errorAppartment={errors.appartment}
-          errorZip={errors.zip}
+          nameZip='zip'
+          nameStreet='street'
+          nameApp='appartment'
+          errorstreet={errors.street}
+          errorapp={errors.appartment}
+          errorzip={errors.zip}
         />
         <CheckBoxField
           label='Принимаю условия пользовательского соглашения'

@@ -7,6 +7,15 @@ const router = express.Router({
   mergeParams: true
 });
 
+router.get('/', authCheck, async (req, res) => {
+  try{
+    const list = await User.find();
+    res.send(list);
+  } catch(error) {
+    errorServer(res);
+  }
+});
+
 router.get('/:userId', authCheck, async (req, res) => {
   try {
     const { userId } = req.params;
@@ -17,16 +26,14 @@ router.get('/:userId', authCheck, async (req, res) => {
         errorUnAuthHandler();
       }
   } catch(error) {
-    res.status(500).json({
-      message: 'На сервере произошла ошибка.'
-    });
+    errorServer(res);
   }
 });
 
 router.patch('/:userId', authCheck, async (req, res) => {
   try {
    const { userId } = req.params;
-   if(userId === req.user.id) {
+   if(userId === req.user._id) {
       const updatedUser = await User.findByIdAndUpdate(userId, req.body, { new: true });
       console.log('updatedUser', updatedUser);
       res.send(updatedUser);
@@ -53,5 +60,19 @@ router.post('/:userId', authCheck, async (req, res) => {
     errorServer(res);
   }
 });
+
+router.delete('/:userId', authCheck, async (req, res) => {
+  try{
+    const { userId } = req.params;
+     if(req.user._id === '62deb2923d3f45ab558bbe5b') {
+      await User.findByIdAndDelete(userId);
+      return res.send(null);
+     } else {
+      errorUnAuthHandler(res);
+     }
+  } catch (error) {
+    errorServer(res);
+  }
+})
 
 module.exports = router;

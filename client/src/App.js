@@ -22,6 +22,7 @@ import PaymentInfo from './components/ui/paymentInfo';
 
 const App = () => {
   const isAdmin = useSelector(getCurrentUser())?.isAdmin;
+
   return (
     <div className='container-wrapper'>  
       <BooksLoader> 

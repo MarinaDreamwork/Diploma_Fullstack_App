@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Route, Switch, useParams } from 'react-router-dom';
 import AdminPanelSection from './adminPanelSection';
 import AdminGoodsPage from './adminGoodsPage';
@@ -9,11 +9,14 @@ import AdminSalesAverageRevenuePage from './adminSalesAverageRevenuePage';
 import EditUserPage from '../editUserPage';
 import AdminReportRemainsPage from './adminReportRemainsPage';
 import AdminReportSalesPage from './adminReportSalesPage';
+import { useDispatch } from 'react-redux';
+import { loadUsersList } from '../../../app/store/users';
 
 const Admin = () => {
   // сделать прослойку, где роутинги направлять
   const params = useParams();
   const { essence, itemId } = params;
+  const dispatch = useDispatch();
 
   if (essence === 'books_page') return <AdminGoodsPage />
   else if (essence === 'users_page') return <AdminUsersPage />
@@ -39,6 +42,10 @@ const Admin = () => {
   //   { id: 3, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на определенную дату', buttonColor: 'outline-success', buttonPath: 'admin/report_average_remains_goods_page' }
   // ];
 
+  useEffect(() => {
+    dispatch(loadUsersList());
+  }, []);
+
   return (
     <section>
       <div className='container'>
@@ -57,7 +64,7 @@ const Admin = () => {
         </div>
         <Switch>
           <Route path='/books_page' component={AdminGoodsPage} />
-          <Route path={`/admin/users_page/${itemId}/edit`} component={EditUserPage} />
+          <Route path={`/admin/:users_page?/:${itemId}?/:edit?`} component={EditUserPage} />
           <Route path='/quotes_page' component={AdminQuotesPage} />
           <Route path='/report_sales_page' component={AdminSalesGoodsPage} />
           <Route path='/report_average_revenue_page' component={AdminSalesAverageRevenuePage} />

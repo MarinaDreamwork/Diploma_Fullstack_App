@@ -1,11 +1,23 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const AddressField = ({ onChange, valueZip, valueStreet, valueApp, errorStreet, errorAppartment, errorZip }) => {
+const AddressField = ({
+  onChange,
+  label,
+  valueZip,
+  valueStreet,
+  valueApp,
+  nameZip,
+  nameStreet,
+  nameApp,
+  errorstreet,
+  errorapp,
+  errorzip
+}) => {
 
   return (
-    <>
-      <p>Заполните адрес:</p>
+    <div className='mt-3 mb-3'>
+      <p>{label}</p>
       {/* <div className='col-md-4'>
         <select id='inputState' className='form-select'>
           <option selected>Выберете город...</option>
@@ -15,63 +27,65 @@ const AddressField = ({ onChange, valueZip, valueStreet, valueApp, errorStreet, 
         </select>
       </div> */}
       <div className='col-md-6'>
-        {/* <label htmlFor='inputCity' className='form-label'>Город</label> */}
         <input
-          type='text'
-          className={'form-control ' + (errorStreet && 'is-invalid')}
-          name='street'
-          id='street'
+          className={'shadow ms-0 form-control ' + (errorstreet && 'is-invalid')}
+          name={nameStreet}
           placeholder='Улица'
           onChange={onChange}
           value={valueStreet}
+          errorstreet={errorstreet}
         />
         {
-          errorStreet && <div className='invalid-feedback'>{errorStreet}</div>
+          errorstreet && <div className='invalid-feedback'>{errorstreet}</div>
         }
       </div>
       <div className='col-md-6'>
-        {/* <label htmlFor='inputAddress2' className='form-label'>Улица</label> */}
         <input
-          type='text'
-          className={'form-control mt-3 ' + (errorAppartment && 'is-invalid')}
-          name='appartment'
-          id='appartment'
+          className={'shadow ms-0 form-control mt-3 ' + (errorapp && 'is-invalid')}
+          name={nameApp}
           placeholder='Введите № дома-квартиры'
           onChange={onChange}
           value={valueApp}
+          errorapp={errorapp}
         />
         {
-          errorAppartment && <div className='invalid-feedback'>{errorAppartment}</div>
+          errorapp && <div className='invalid-feedback'>{errorapp}</div>
         }
       </div>
 
       <div className='col-md-2 mb-3'>
-        {/* <label htmlFor='inputZip' className='form-label'>Zip</label> */}
         <input
-          type='text'
-          className={'form-control mt-3 ' + (errorZip && 'is-invalid')}
-          name='zip'
-          id='zip'
+          className={'shadow ms-0 form-control mt-3 ' + (errorzip && 'is-invalid')}
+          name={nameZip}
           placeholder='индекс'
           onChange={onChange}
           value={valueZip}
+          errorzip={errorzip}
         />
         {
-          errorZip && <div className='invalid-feedback'>{errorZip}</div>
+          errorzip && <div className='invalid-feedback'>{errorzip}</div>
         }
       </div>
-    </>
+    </div>
   );
+};
+
+AddressField.defaultProps = {
+  type: 'text'
 };
 
 AddressField.propTypes = {
   onChange: PropTypes.func.isRequired,
+  label: PropTypes.string.isRequired,
   valueZip: PropTypes.string.isRequired,
   valueStreet: PropTypes.string.isRequired,
   valueApp: PropTypes.string.isRequired,
-  errorStreet: PropTypes.string,
-  errorAppartment: PropTypes.string,
-  errorZip: PropTypes.string
+  nameZip: PropTypes.string.isRequired,
+  nameStreet: PropTypes.string.isRequired,
+  nameApp: PropTypes.string.isRequired,
+  errorstreet: PropTypes.string,
+  errorapp: PropTypes.string,
+  errorzip: PropTypes.string
 }
 
 export default AddressField;

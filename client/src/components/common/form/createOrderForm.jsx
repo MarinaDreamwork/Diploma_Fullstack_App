@@ -13,16 +13,14 @@ import {
   createOrderNumber
 } from '../../../app/utils/createNumbers';
 import { changeItemData } from '../../../app/store/books';
+import { validator, validatorConfig } from '../../../app/utils/validator';
 
 const CreateOrderForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
-
   const currentUser = useSelector(getCurrentUser());
-  const addressData = currentUser.address;
+  const addressData = currentUser?.address;
   const list = currentUser?.orderList;
-  console.log('lastOrderNumber', list);
-  const [data, setData] = useState({});
   const cartContent = useSelector(getCartContent());
   const orderDetails = {
     orderTime: Date.now(),
@@ -30,7 +28,8 @@ const CreateOrderForm = () => {
     orderNumber: createOrderNumber(list)
   };
 
-  // orderNumber: createOrderNumber(getLastNumber(ordersData))
+  const [data, setData] = useState({});
+  const [errors, setErrors] = useState({});
 
   function getCartInfo(array) {
     return array.map(item => ({
@@ -50,7 +49,9 @@ const CreateOrderForm = () => {
   };
   const handleSubmit = (e) => {
     e.preventDefault();
-    // здесь данные будут переданы в БД
+    const isValid = validate();
+    if (!isValid) return;
+
     const orderData = {
       ...data,
       ...orderDetails
@@ -74,6 +75,18 @@ const CreateOrderForm = () => {
     });
   }, []);
 
+  const validate = () => {
+    const errors = validator(data, validatorConfig);
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const isValid = Object.keys(errors).length === 0;
+
+  useEffect(() => {
+    validate();
+  }, [data]);
+
   return (
     <section>
       <div className='container'>
@@ -81,7 +94,6 @@ const CreateOrderForm = () => {
           <form onSubmit={handleSubmit} className='m-3'>
             <TextField
               label='Ваше имя:'
-              type='text'
               name='name'
               value={data.name}
               onHandleChange={handleChange}
@@ -89,18 +101,23 @@ const CreateOrderForm = () => {
             />
             <TextField
               label='Ваш email:'
-              type='text'
               name='email'
               value={data.email}
               onHandleChange={handleChange}
               error={data.error}
             />
             <AddressField
+              label='Введите адрес доставки:'
               onChange={handleChange}
               valueZip={data.zip}
               valueStreet={data.street}
               valueApp={data.appartment}
-            // errorStreet={errors.street}
+              nameZip='zip'
+              nameStreet='street'
+              nameApp='appartment'
+              errorzip={errors.zip}
+              errorstreet={errors.street}
+              errorapp={errors.appartment}
             />
             <table className='table table-success'>
               <TableHeader />
@@ -109,8 +126,10 @@ const CreateOrderForm = () => {
             </table>
             <div className='d-flex justify-content-center'>
               <Button
+                disabled={!isValid}
                 color='secondary'
-                description=' Отправить заказ на обработку' />
+                description='Отправить заказ на обработку'
+              />
             </div>
           </form>
         </div>

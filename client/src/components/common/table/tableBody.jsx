@@ -6,39 +6,36 @@ import PropTypes from 'prop-types';
 import EditButton from '../editButton';
 import { NavLink, useParams } from 'react-router-dom';
 import { deleteItem } from '../../../app/store/books';
+import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
+import { removeUser } from '../../../app/store/users';
 
 const TableBody = ({ cartContent, isCart, isAdmin }) => {
   const dispatch = useDispatch();
   const params = useParams();
   const { essence } = params;
-  console.log('params', params);
+
   if (essence === 'users_page') {
     return (
       <tbody>
         {
-          cartContent.map((cartItem, index) => <tr key={cartItem._id}>
+          cartContent.map((user, index) => <tr key={user._id}>
             <th scope="row">{index + 1}</th>
-            <td>{cartItem.email}</td>
+            <td>{user.email}</td>
+            <td>{user.name}</td>
+            <td>{user.sex}</td>
+            <td>{user.address.zip}</td>
+            <td>{user.address.street}</td>
+            <td>{user.address.appartment}</td>
             <td>
-              <input className='' type='password' value={cartItem.password} />
-            </td>
-            <td>{cartItem.name}</td>
-            <td>{cartItem.sex}</td>
-            <td>{cartItem.address.zip}</td>
-            <td>{cartItem.address.street}</td>
-            <td>{cartItem.address.appartment}</td>
-            <td>
-              {(isCart || isAdmin) && (
+              {isAdmin &&
                 <CloseButton
                   style={{ fill: 'white', fontSize: '20px' }}
-                  onDelete={isAdmin ?
-                    () => dispatch(deleteItem(cartItem._id)) :
-                    () => dispatch(deleteCartItem(cartItem._id))}
+                  onDelete={() => dispatch(removeUser(user._id))}
                 />
-              )}
+              }
               {
                 isAdmin && (
-                  <NavLink to={`/admin/${essence}/${cartItem._id}/edit`}>
+                  <NavLink to={`/admin/${essence}/${user._id}/edit`}>
                     <EditButton />
                   </NavLink>
                 )
@@ -73,7 +70,7 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
             <td>{cartItem._id}</td>
             <td>{cartItem.book_title}</td>
             <td>шт.</td>
-            <td>будет тут количество</td>
+            <td>{cartItem.inStock}</td>
           </tr>)
         }
       </tbody>
@@ -86,13 +83,13 @@ const TableBody = ({ cartContent, isCart, isAdmin }) => {
             <th scope="row">{index + 1}</th>
             <td>{cartItem.author}</td>
             <td>{cartItem.book_title}</td>
-            <td>{cartItem.price}</td>
+            <td>{formateNumberToPrice(cartItem.price)}</td>
             {
               isAdmin ? (
                 <td>{cartItem.articleNumber}</td>
               ) : (<>
                 <td>{cartItem.quantity}</td>
-                <td>{cartItem.price * cartItem.quantity}</td>
+                <td>{formateNumberToPrice(cartItem.price * cartItem.quantity)}</td>
               </>)
             }
             <td>

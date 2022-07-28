@@ -16,7 +16,7 @@ const UserPage = () => {
           <div className='d-flex row justify-content-center m-5 bg-secondary bg-opacity-25 rounded shadow'>
             <div className='d-flex justify-content-end'>
               <p className='p-2'>
-                <NavLink to={`/my_profile/${currentUser.userId}/edit`}>
+                <NavLink to={`/my_profile/${currentUser._id}/edit`}>
                   <i className="bi bi-gear-wide-connected" style={{ fontSize: '2rem', color: 'blue' }}>
                   </i>
                 </NavLink>
@@ -26,6 +26,7 @@ const UserPage = () => {
               <div>
                 <div className='col-10 border shadow rounded align-self-center p-2 m-3'>
                   <h5 className='user-style'>{currentUser.name}</h5>
+                  <p>{currentUser.sex}</p>
                 </div>
                 <div className='col-10 border shadow rounded align-self-center p-2 m-3'>
                   <p><span className='user-style'>Email:</span> {currentUser.email}</p>

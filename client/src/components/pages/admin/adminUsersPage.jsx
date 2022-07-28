@@ -1,28 +1,40 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { NavLink, useParams } from 'react-router-dom';
-import { getCurrentUser, getIsLoading, getUsers, loadUsersList } from '../../../app/store/users';
+import { useParams } from 'react-router-dom';
+import { getCurrentUser, getUsers, loadUsersList } from '../../../app/store/users';
 import Preloader from '../../common/preloader';
-import Button from '../../common/styles/button';
 import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
 import RegisterForm from '../../ui/registerForm';
+import EditUserPage from '../editUserPage';
+
 
 const AdminUsersPage = () => {
   const dispatch = useDispatch();
-  const isLoadingUsers = useSelector(getIsLoading());
+  //const isLoadingUsers = useSelector(getIsLoading());
   const users = useSelector(getUsers());
   const isAdmin = useSelector(getCurrentUser())?.isAdmin;
-  const { essence, itemId } = useParams();
+  const { essence, itemId, edit } = useParams();
 
   useEffect(() => {
     dispatch(loadUsersList())
   }, []);
 
-  if (isLoadingUsers) return <Preloader />
-  else if (itemId === 'create') return <RegisterForm />
-  else {
+  if (itemId === 'create') {
+    return (
+      <div className='container'>
+        <div className='d-flex justify-content-center'>
+          <div className='d-flex flex-column m-5 w-50'>
+            <h4 className='text-center'>Создать профиль пользователя:</h4>
+            <RegisterForm />
+          </div>
+        </div>
+      </div>
+    );
+  } else if (essence === 'users_page' && edit === 'edit') {
+    return <EditUserPage />
+  } else if (users) {
     return (
       <PagesSectionWrapper>
         <div className='container p-4'>
@@ -36,17 +48,10 @@ const AdminUsersPage = () => {
               isAdmin={isAdmin}
             />
           </table >
-          <div className='d-flex justify-content-center'>
-            <NavLink to={`/admin/${essence}/create`}>
-              <Button
-                color='secondary'
-                description='Добавить нового пользователя' />
-            </NavLink>
-          </div>
         </div>
-      </PagesSectionWrapper>
+      </PagesSectionWrapper >
     );
-  }
+  } else return <Preloader color='warning' />
 };
 
 export default AdminUsersPage;

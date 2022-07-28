@@ -12,7 +12,6 @@ const TableHeader = ({ isForAdminBoard }) => {
         <tr>
           <th scope='col'>#</th>
           <th scope='col'>Email</th>
-          <th scope='col'>Пароль</th>
           <th scope='col'>Имя</th>
           <th scope='col'>Пол</th>
           <th scope='col'>Адрес: индекс</th>

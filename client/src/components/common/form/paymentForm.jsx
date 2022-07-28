@@ -1,5 +1,7 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
+import { formatCardInterface, formatExpDateInterface } from '../../../app/utils/formateNumbers';
+import { validatorConfig, validator } from '../../../app/utils/validator';
 // import { NavLink } from 'react-router-dom';
 //import PaymentInfo from '../../ui/paymentInfo';
 import Button from '../styles/button';
@@ -8,11 +10,12 @@ import TextField from './textField';
 
 const PaymentForm = () => {
   const [data, setData] = useState({
-    cardholders_name: '',
+    name: '',
     card_number: '',
     exp_date: '',
     sec_code: ''
   });
+  const [errors, setErrors] = useState({});
 
   const handleChange = ({ target }) => {
     setData(prevState => ({
@@ -23,8 +26,19 @@ const PaymentForm = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    console.log('data', data);
   };
+
+  const validate = () => {
+    const errors = validator(data, validatorConfig);
+    setErrors(errors);
+    return Object.keys(errors).length === 0;
+  };
+
+  const isValid = Object.keys(errors).length === 0;
+
+  useEffect(() => {
+    validate();
+  }, [data]);
 
   return (
     <PagesSectionWrapper>
@@ -49,31 +63,33 @@ const PaymentForm = () => {
               </div>
               <p className='m-0 ps-1' style={{ color: 'white' }}>{data.exp_date || '12/28'}</p>
             </div>
-            <p className='m-0 fw-bold ps-2' style={{ color: 'white', textTransform: 'uppercase', letterSpacing: '0.2rem' }}>{data.cardholders_name || 'cardholder name'}</p>
+            <p className='m-0 fw-bold ps-2' style={{ color: 'white', textTransform: 'uppercase', letterSpacing: '0.2rem' }}>{data.name || 'cardholder name'}</p>
           </div>
-          <div className='payment_card_fields ps-4'>
+          <div className='ps-4' style={{ width: '370px' }}>
             <form onSubmit={handleSubmit}>
               <TextField
                 label={`Cardholder's name:`}
-                type='text'
-                name='cardholders_name'
-                value={data.cardholders_name}
+                name='name'
+                value={data.name.toUpperCase()}
                 onHandleChange={handleChange}
+                error={errors.name}
               />
               <TextField
                 label='Card number:'
-                type='text'
                 name='card_number'
-                value={data.card_number}
+                placeholder='Введите номер карты в формате **** **** **** ****'
+                value={formatCardInterface(data.card_number)}
                 onHandleChange={handleChange}
+                error={errors.card_number}
               />
               <div className='d-flex'>
                 <TextField
                   label='Expiration (mm/yy)'
-                  type='text'
                   name='exp_date'
-                  value={data.exp_date}
+                  placeholder='Введите mm/yy'
+                  value={formatExpDateInterface(data.exp_date)}
                   onHandleChange={handleChange}
+                  error={errors.exp_date}
                 />
                 <TextField
                   label='Security code'
@@ -81,20 +97,23 @@ const PaymentForm = () => {
                   name='sec_code'
                   value={data.sec_code}
                   onHandleChange={handleChange}
+                  error={errors.sec_code}
                 />
               </div>
               <div className='d-flex justify-content-center'>
                 <NavLink to='/payment_proccessing'>
                   <Button
                     color='outline-primary'
-                    description='Оплатить покупку' />
+                    description='Оплатить покупку'
+                    disabled={!isValid}
+                  />
                 </NavLink>
               </div>
             </form>
           </div>
         </div>
       </div>
-    </PagesSectionWrapper>
+    </PagesSectionWrapper >
   );
 };
 

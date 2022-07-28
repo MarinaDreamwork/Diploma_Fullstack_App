@@ -3,6 +3,8 @@ import PropTypes from 'prop-types';
 import { NavLink, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getCalculateCartSumm, clearCartContent } from '../../../app/store/cart';
+import Button from '../styles/button';
+import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
 
 const TableFooter = ({ isCart }) => {
   const dispatch = useDispatch();
@@ -31,7 +33,7 @@ const TableFooter = ({ isCart }) => {
         <tr>
           <th scope='row'></th>
           <td colSpan='4'>Итоговая стоимость:</td>
-          <td>{totalCartAmount}</td>
+          <td>{formateNumberToPrice(totalCartAmount)}</td>
           <td></td>
         </tr>
         {isCart && (
@@ -39,16 +41,18 @@ const TableFooter = ({ isCart }) => {
             <th scope='row'></th>
             <td colSpan='6'>
               <div className='d-flex justify-content-around'>
-                <button
-                  className='p-2 m-1 btn btn-outline-danger'
-                  onClick={handleDeleteClick}>
-                  Отменить оформление заказа
-                </button>
+                <Button
+                  style={{ padding: '0.5rem', margin: '0.25rem' }}
+                  color='outline-danger'
+                  onClick={handleDeleteClick}
+                  description='Отменить оформление заказа'
+                />
                 <NavLink to='/create_order'>
-                  <button
-                    className='p-2 m-1 btn btn-outline-success'>
-                    Продолжить оформление заказа
-                  </button>
+                  <Button
+                    color='outline-success'
+                    style={{ padding: '0.5rem', margin: '0.25rem' }}
+                    description='Продолжить оформление заказа'
+                  />
                 </NavLink>
               </div>
             </td>

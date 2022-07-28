@@ -3,6 +3,7 @@ import TextField from '../common/form/textField';
 import { validator } from '../../app/utils/validator';
 import { useDispatch, useSelector } from 'react-redux';
 import { getAuthErrors, logIn } from '../../app/store/users';
+import Button from '../common/styles/button';
 
 const LoginForm = () => {
   const [data, setData] = useState({ email: '', password: '' });
@@ -83,11 +84,12 @@ const LoginForm = () => {
         {
           loginError ? <p className='text-danger'>{loginError}</p> : null
         }
-        <button
-          className='btn btn-primary w-100'
-          disabled={!isValid}>
-          Submit
-        </button>
+        <Button
+          style={{ width: '100%' }}
+          color='primary'
+          disabled={!isValid}
+          description='Submit'
+        />
       </form>
     </section>
   );

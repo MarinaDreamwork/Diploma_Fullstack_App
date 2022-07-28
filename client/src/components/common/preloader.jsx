@@ -1,10 +1,11 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 
-const Preloader = () => {
+const Preloader = ({ color }) => {
   return (
     <div className='m-auto p-5'>
       <div
-        className='spinner-border text-success'
+        className={'spinner-border text-' + color}
         role='status'
       >
         <span
@@ -14,6 +15,10 @@ const Preloader = () => {
       </div>
     </div>
   );
+};
+
+Preloader.propTypes = {
+  color: PropTypes.string
 };
 
 export default Preloader;
