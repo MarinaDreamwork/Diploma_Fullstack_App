@@ -7,11 +7,12 @@ const TextField = ({ label, type, name, value, onHandleChange, error, placeholde
 
   const toggleShowPassword = () => {
     setShowPassword(prevState => !prevState);
-  }
+  };
 
   const getInputClasses = () => {
     return 'shadow ms-0 form-control ' + (error && 'is-invalid');
-  }
+  };
+
   return (
     <FieldStyleWrapper>
       <label

@@ -7,8 +7,11 @@ export const validator = (data, config) => {
     const regExpDigit = /\d+/g;
     switch(validateMethod) {
       case 'isRequired': {
+        console.log('data', typeof data);
         if(typeof data === 'boolean') {
           statusValidate = !data;
+        } else if(typeof data === 'number') {
+          statusValidate = data === '';
         } else {
           statusValidate = data.trim() === '';
         }
@@ -123,7 +126,7 @@ export const validatorConfig = {
     },
     author: {
       isRequired: {
-        message: 'Заполните автора книги'
+        message: 'Заполните автора'
       }
     },
     book_title: {
@@ -169,6 +172,11 @@ export const validatorConfig = {
     src: {
       isRequired: {
         message: 'Заполните путь к изображению товара'
+      }
+    },
+    content: {
+       isRequired: {
+        message: 'Заполните цитату'
       }
     }
 

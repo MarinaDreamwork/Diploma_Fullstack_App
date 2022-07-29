@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { getBooks } from '../../../app/store/books';
 import { getCurrentUser } from '../../../app/store/users';
 import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
+import TableStyleWrapper from '../../common/styles/tableStyleWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableFooter from '../../common/table/tableFooter';
 import TableHeader from '../../common/table/tableHeader';
@@ -18,15 +19,15 @@ const AdminReportRemainsPage = () => {
       <div className='m-2'>
         <p className='text-left fw-bold fs-5'>Отчет об остатках товара</p>
         <ReportDate />
-        <table className='table table-info'>
+        <TableStyleWrapper color='secondary'>
           <TableHeader />
           <TableBody
-            cartContent={books}
+            content={books}
             isCart={false}
             isAdmin={isAdmin}
           />
-          <TableFooter />
-        </table>
+          <TableFooter page='report_remains' />
+        </TableStyleWrapper>
         <p>* отчет формируется на последнее число месяца</p>
       </div>
     </PagesSectionWrapper>

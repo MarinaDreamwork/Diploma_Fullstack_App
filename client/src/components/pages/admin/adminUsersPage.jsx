@@ -1,57 +1,49 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { useParams } from 'react-router-dom';
-import { getCurrentUser, getUsers, loadUsersList } from '../../../app/store/users';
+import { useLocation, useParams } from 'react-router-dom';
+import { getCurrentUser, getIsLoading, getUsers, loadUsersList } from '../../../app/store/users';
 import Preloader from '../../common/preloader';
 import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
+import TableStyleWrapper from '../../common/styles/tableStyleWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
-import RegisterForm from '../../ui/registerForm';
 import EditUserPage from '../editUserPage';
 
 
 const AdminUsersPage = () => {
+
   const dispatch = useDispatch();
-  //const isLoadingUsers = useSelector(getIsLoading());
+  const { pathname } = useLocation();
+  const { itemId } = useParams();
+  const isLoadingUsers = useSelector(getIsLoading());
   const users = useSelector(getUsers());
   const isAdmin = useSelector(getCurrentUser())?.isAdmin;
-  const { essence, itemId, edit } = useParams();
+
 
   useEffect(() => {
     dispatch(loadUsersList())
   }, []);
 
-  if (itemId === 'create') {
-    return (
-      <div className='container'>
-        <div className='d-flex justify-content-center'>
-          <div className='d-flex flex-column m-5 w-50'>
-            <h4 className='text-center'>Создать профиль пользователя:</h4>
-            <RegisterForm />
-          </div>
-        </div>
+  if (pathname.includes('users_page') && pathname.includes('edit')) {
+    return <EditUserPage itemId={itemId} />
+  }
+  if (isLoadingUsers) return <Preloader color='warning' />
+  else return (
+    <PagesSectionWrapper>
+      <div className='container p-4'>
+        <TableStyleWrapper color='primary'>
+          <TableHeader
+            isForAdminBoard={true}
+          />
+          <TableBody
+            content={users}
+            isCart={false}
+            isAdmin={isAdmin}
+          />
+        </TableStyleWrapper>
       </div>
-    );
-  } else if (essence === 'users_page' && edit === 'edit') {
-    return <EditUserPage />
-  } else if (users) {
-    return (
-      <PagesSectionWrapper>
-        <div className='container p-4'>
-          <table className='table table-success'>
-            <TableHeader
-              isForAdminBoard={true}
-            />
-            <TableBody
-              cartContent={users}
-              isCart={false}
-              isAdmin={isAdmin}
-            />
-          </table >
-        </div>
-      </PagesSectionWrapper >
-    );
-  } else return <Preloader color='warning' />
+    </PagesSectionWrapper >
+  );
 };
 
 export default AdminUsersPage;

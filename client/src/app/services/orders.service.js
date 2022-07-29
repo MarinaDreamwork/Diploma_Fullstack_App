@@ -10,7 +10,7 @@ const ordersService = {
   },
   create: async (payload) => {
     console.log('payload in create order', payload);
-    const { data } = await httpService.put(ordersEndPoint + payload.id, payload);
+    const { data } = await httpService.post(ordersEndPoint, payload);
     return data;
   }
 };

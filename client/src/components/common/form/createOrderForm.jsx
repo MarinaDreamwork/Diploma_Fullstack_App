@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import { createOrder, getCurrentUser } from '../../../app/store/users';
+import { createOrderInUser, getCurrentUser } from '../../../app/store/users';
 import { getCartContent, clearCartContent } from '../../../app/store/cart';
 import TextField from './textField';
 import AddressField from './adressField';
@@ -14,6 +14,9 @@ import {
 } from '../../../app/utils/createNumbers';
 import { changeItemData } from '../../../app/store/books';
 import { validator, validatorConfig } from '../../../app/utils/validator';
+import TableStyleWrapper from '../styles/tableStyleWrapper';
+import FlexStyleWrapper from '../styles/flexStyleWrapper';
+import { createOrder } from '../../../app/store/orders';
 
 const CreateOrderForm = () => {
   const history = useHistory();
@@ -21,10 +24,10 @@ const CreateOrderForm = () => {
   const currentUser = useSelector(getCurrentUser());
   const addressData = currentUser?.address;
   const list = currentUser?.orderList;
-  const cartContent = useSelector(getCartContent());
+  const content = useSelector(getCartContent());
   const orderDetails = {
     orderTime: Date.now(),
-    orderDetails: getCartInfo(cartContent),
+    orderDetails: getCartInfo(content),
     orderNumber: createOrderNumber(list)
   };
 
@@ -57,8 +60,8 @@ const CreateOrderForm = () => {
       ...orderDetails
     };
     console.log('orderData', orderData);
-
-    dispatch(createOrder(orderData));
+    dispatch(createOrder({ ...orderDetails, userId: currentUser._id }));
+    dispatch(createOrderInUser(orderData));
     // эту операцию отслеживаем, забираем только то, что относится к сущности книга + inStock
     orderDetails.orderDetails.map(o => dispatch(changeItemData({ _id: o.goodsId, inStock: o.inStock })));
     dispatch(clearCartContent());
@@ -90,7 +93,7 @@ const CreateOrderForm = () => {
   return (
     <section>
       <div className='container'>
-        <div className='d-flex flex-column justify-content-center m-auto'>
+        <FlexStyleWrapper position='center' style='flex-column m-auto'>
           <form onSubmit={handleSubmit} className='m-3'>
             <TextField
               label='Ваше имя:'
@@ -119,20 +122,20 @@ const CreateOrderForm = () => {
               errorstreet={errors.street}
               errorapp={errors.appartment}
             />
-            <table className='table table-success'>
+            <TableStyleWrapper color='success'>
               <TableHeader />
-              <TableBody cartContent={cartContent} isCart={false} />
+              <TableBody content={content} isCart={false} />
               <TableFooter isCart={false} />
-            </table>
-            <div className='d-flex justify-content-center'>
+            </TableStyleWrapper>
+            <FlexStyleWrapper>
               <Button
                 disabled={!isValid}
                 color='secondary'
                 description='Отправить заказ на обработку'
               />
-            </div>
+            </FlexStyleWrapper>
           </form>
-        </div>
+        </FlexStyleWrapper>
       </div>
     </section>
   );

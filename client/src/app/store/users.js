@@ -183,7 +183,7 @@ export const getUserData = () => async (dispatch) => {
   }
 };
 
-export const createOrder = ({
+export const createOrderInUser = ({
     appartment,
     orderDetails,
     orderTime,
@@ -227,8 +227,13 @@ export const logOut = () => (dispatch) => {
 export const updateUserData = (data) => async (dispatch) => {
   dispatch(userUpdateRequested());
   try { 
-    const { content } = await usersService.update(data);
-    dispatch(userUpdateSuccess(content));
+    if(data._id === localStorageService.getUserId()) {
+      const { content } = await usersService.updateCurrentUser(data);
+      dispatch(userUpdateSuccess(content));
+    } else {
+      const { content } = await usersService.updateUser(data);
+      dispatch(userUpdateSuccess(content));
+    }
   } catch(error) {
     dispatch(userUpdateFailed(error.message));
   }
@@ -250,6 +255,7 @@ export const getAuthErrors = () => (state) => state.users.error;
 export const getIsLoggedIn = () => (state) => state.users.isLoggedIn;
 export const getCurrentUser = () => (state) => state.users.currentUser;
 export const getOrdersData = () => (state) => state.users.currentUser?.orderList;
+export const getUserById = (itemId) => (state) => state.users.data.filter(i => i._id === itemId);
 export const getOrderItems = () => (state) => state.users.currentUser?.orderList?.length;
 export const getCurrentUserOrdersData = () => (state) => state.users.currentUser.orderNumbers?.orderAddress;
 // потом это будем массив из строк id

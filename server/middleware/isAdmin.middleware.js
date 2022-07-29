@@ -11,9 +11,7 @@ module.exports = (req, res, next) => {
     if(!token) {
       return errorUnAuthHandler(res);
     };
-    console.log('token', token);
     const data = tokenService.validateAccess(token);
-    console.log('data', data);
     if(!data) {
       return errorUnAuthHandler(res);
     }

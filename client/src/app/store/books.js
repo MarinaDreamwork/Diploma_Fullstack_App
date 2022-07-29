@@ -168,6 +168,10 @@ export const filterSubSubCategoryBook = (subSubCategory) => (state) => {
   return state.books.data.filter(book => book.subSubCategory === subSubCategory);
 };
 
+export const summInStockQuantity = () => (state) => {
+  return state?.books?.data?.reduce((sum, item) => sum + item.inStock, 0);
+};
+
 const isOutdatedData = (date) => {
   if(Date.now() - date > 10*60*1000) {
     return true;

@@ -1,30 +1,33 @@
 import React, { useEffect, useState } from 'react';
 import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-import { getAuthErrors, getCurrentUser, updateUserData } from '../../app/store/users';
+import { getAuthErrors, getUserById, updateUserData } from '../../app/store/users';
 import AddressField from '../common/form/adressField';
 import RadioField from '../common/form/radioField';
 import TextField from '../common/form/textField';
 import { validator, validatorConfig } from '../../app/utils/validator';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import Button from '../common/styles/button';
 
 const EditUserPage = () => {
   const errorLogIn = useSelector(getAuthErrors());
-  //const isAdmin = useSelector(getCurrentUser())?.isAdmin;
-  //const { userId } = useParams();
-  //const user = useSelector(getUserById(userId));
+  // подумать, делать ли проверку админ может изменить всех или удалить
+  const { itemId } = useParams();
+
+  const user = useSelector(getUserById(itemId));
   const history = useHistory();
+  console.log('user', user);
 
   const dispatch = useDispatch();
-  const currentUser = useSelector(getCurrentUser());
+
   const [data, setData] = useState({
-    email: currentUser.email,
-    name: currentUser.name,
-    sex: currentUser.sex,
+    email: user[0].email,
+    name: user[0].name,
+    sex: user[0].sex,
     //city: '',
-    street: currentUser.address.street,
-    appartment: currentUser.address.appartment,
-    zip: currentUser.address.zip
+    street: user[0].address.street,
+    appartment: user[0].address.appartment,
+    zip: user[0].address.zip
   });
 
   const [errors, setErrors] = useState({});
@@ -40,11 +43,10 @@ const EditUserPage = () => {
     e.preventDefault();
     const isValid = validate();
     if (!isValid) return;
-    // данные по созданию user и address передаются на сервер и локальный стейт очищается
     dispatch(updateUserData({
       ...data,
       address: { street: data.street, appartment: data.appartment, zip: data.zip },
-      _id: currentUser._id
+      _id: user[0]._id
     }));
     history.goBack();
   };
@@ -106,11 +108,11 @@ const EditUserPage = () => {
             errorzip={errors.zip}
             errorapp={errors.appartment}
           />
-          <button
-            className='btn btn-primary w-100'
-            disabled={!isValid}>
-            Submit
-          </button>
+          <Button
+            style={{ width: '100%' }}
+            color='primary'
+            disabled={!isValid}
+            description='Изменить данные профиля' />
           {
             errorLogIn ? <p>{errorLogIn}</p> : null
           }

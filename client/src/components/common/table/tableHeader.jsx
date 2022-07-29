@@ -27,7 +27,6 @@ const TableHeader = ({ isForAdminBoard }) => {
         <tr>
           <th scope='col'>#</th>
           <th scope='col'>Автор</th>
-          <th scope='col'>id цитаты</th>
           <th scope='col'>Цитата</th>
           <th></th>
         </tr>
@@ -45,6 +44,18 @@ const TableHeader = ({ isForAdminBoard }) => {
         </tr>
       </thead>
     )
+  } else if (essence === 'report_sales_page') {
+    return (
+      <thead>
+        <tr>
+          <th scope='col'>#</th>
+          <th scope='col'>Артикул</th>
+          <th scope='col'>Название товара</th>
+          <th scope='col'>Количество</th>
+          <th scope='col'>Продажи</th>
+        </tr>
+      </thead>
+    )
   } else {
     return (
       <thead>
@@ -56,6 +67,7 @@ const TableHeader = ({ isForAdminBoard }) => {
           {
             isForAdminBoard ? (
               <>
+                <th scope='col'>Остаток товара</th>
                 <th scope='col'>Артикул</th>
                 <th scope='col'></th>
               </>
@@ -74,7 +86,7 @@ const TableHeader = ({ isForAdminBoard }) => {
 }
 
 TableHeader.propTypes = {
-  isForAdminBoard: PropTypes.bool.isRequired
+  isForAdminBoard: PropTypes.bool
 };
 
 export default TableHeader;

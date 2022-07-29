@@ -6,6 +6,8 @@ import { getCurrentUser } from '../../../app/store/users';
 import Preloader from '../../common/preloader';
 import Button from '../../common/styles/button';
 import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
+import TableStyleWrapper from '../../common/styles/tableStyleWrapper';
+import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
 import EditItemPage from '../editItemPage';
@@ -15,14 +17,9 @@ const AdminGoodsPage = () => {
   const location = useLocation();
   const pathname = location.pathname;
   const params = useParams();
-  const { essence } = params;
+  const { essence, itemId } = params;
   const books = useSelector(getBooks());
-  const itemId = pathname.replaceAll('/', '').replace('admin', '').replace(`${essence}`, '').replace('edit', '');
   const dispatch = useDispatch();
-
-  //  useEffect(() => {
-  //   setItems(books);
-  // }, [books])
 
   if (pathname.endsWith('edit')) {
     return <EditItemPage itemId={itemId} />
@@ -40,17 +37,17 @@ const AdminGoodsPage = () => {
 
   return (
     <PagesSectionWrapper>
-      <table className='table table-success m-3'>
+      <TableStyleWrapper color='success' style='m-3'>
         <TableHeader
           isForAdminBoard={true}
         />
         <TableBody
-          cartContent={books}
+          content={books}
           isCart={false}
           isAdmin={isAdmin}
         />
-      </table >
-      <div className='d-flex justify-content-center'>
+      </TableStyleWrapper>
+      <FlexStyleWrapper position='center'>
         <NavLink to={`/admin/${essence}/create`}>
           <Button
             style={{ marginBottom: '15px' }}
@@ -58,8 +55,8 @@ const AdminGoodsPage = () => {
             description='Добавить новую позицию товара'
           />
         </NavLink>
-      </div>
-    </PagesSectionWrapper>
+      </FlexStyleWrapper>
+    </PagesSectionWrapper >
   );
 };
 export default AdminGoodsPage;

@@ -68,33 +68,33 @@ const Card = () => {
     if (data.inStock === 0 || data.inStock < 0) {
       setDisabled(true);
     }
-  }, [data.inStock])
+  }, [data?.inStock])
 
   if (booksLoadingStatus) {
     return <Preloader color='danger' />
   }
 
   return (
-    item &&
+    item.length > 0 &&
     <section>
       <div className='container card'>
         <BreadCrumps
-          category={item[0].category}
-          subCategory={item[0].subCategory}
-          subSubCategory={item[0].subSubCategory}
+          category={item[0]?.category}
+          subCategory={item[0]?.subCategory}
+          subSubCategory={item[0]?.subSubCategory}
         />
         <div className='card-wrapper m-2 d-flex flex-row align-items-center'>
           <div className='card-image-wrapper m-3'>
-            <img className='card-image' src={item[0].src} alt='book cover' />
+            <img className='card-image' src={item[0]?.src} alt='book cover' />
           </div>
           <div className='card-info m-4'>
-            <h3 className='card_author_title p-3 fw-bold'>{item[0].author} - {item[0].book_title}</h3>
-            <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{formateNumberToPrice(item[0].price)} {' '} ₽</h4>
-            <p className='card_description'>{item[0].description}</p>
+            <h3 className='card_author_title p-3 fw-bold'>{item[0]?.author} - {item[0]?.book_title}</h3>
+            <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{formateNumberToPrice(item[0]?.price)} {' '} ₽</h4>
+            <p className='card_description'>{item[0]?.description}</p>
           </div>
           <div className='col-3 m-2 d-flex flex-column'>
             <div className='d-flex align-items-center justify-content-around m-3'>
-              {(!data.inCart)
+              {(!data?.inCart)
                 ?
                 <>
                   <Button
@@ -102,7 +102,7 @@ const Card = () => {
                     disabled={disabled}
                     color='primary'
                     description='Добавить в корзину'
-                    onClick={() => handleAddContent(item[0]._id)}
+                    onClick={() => handleAddContent(item[0]?._id)}
                   />
                   {isLoggedIn &&
                     <Favorite
@@ -112,8 +112,8 @@ const Card = () => {
                         paddingTop: '20px',
                         paddingLeft: '15px'
                       }}
-                      isFavorite={item[0].isFavorite}
-                      id={item[0]._id}
+                      isFavorite={item[0]?.isFavorite}
+                      id={item[0]?._id}
                     />
                   }
                 </>
@@ -153,7 +153,7 @@ const Card = () => {
               && <div className='d-flex justify-content-center'><p className='fw-bold text-danger p-3'>Товар на складе закончился!</p></div>
             }
             <div className='d-flex justify-content-center'>
-              <p className=''>артикул -<span className='fw-bold ps-2'>{item[0].articleNumber}</span></p>
+              <p className=''>артикул -<span className='fw-bold ps-2'>{item[0]?.articleNumber}</span></p>
             </div>
           </div>
         </div>

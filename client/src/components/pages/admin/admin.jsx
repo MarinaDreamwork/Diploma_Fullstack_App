@@ -5,17 +5,16 @@ import AdminGoodsPage from './adminGoodsPage';
 import AdminQuotesPage from './adminQuotesPage';
 import AdminUsersPage from './adminUsersPage';
 import AdminSalesGoodsPage from './adminReportSalesPage';
-import AdminSalesAverageRevenuePage from './adminSalesAverageRevenuePage';
-import EditUserPage from '../editUserPage';
 import AdminReportRemainsPage from './adminReportRemainsPage';
 import AdminReportSalesPage from './adminReportSalesPage';
 import { useDispatch } from 'react-redux';
 import { loadUsersList } from '../../../app/store/users';
+import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
 
 const Admin = () => {
   // сделать прослойку, где роутинги направлять
   const params = useParams();
-  const { essence, itemId } = params;
+  const { essence } = params;
   const dispatch = useDispatch();
 
   if (essence === 'books_page') return <AdminGoodsPage />
@@ -31,9 +30,9 @@ const Admin = () => {
   ];
 
   const adminReportData = [
-    { id: 1, cardTitle: 'Отчет о продажах', cardText: 'Общий отчет о продажах', buttonColor: 'secondary', buttonPath: 'admin/report_remains_page' },
-    { id: 2, cardTitle: 'Отчет о продажах', cardText: 'Отчет о продажах в разрезе товаров', buttonColor: 'danger', buttonPath: 'admin/report_sales_page' },
-    { id: 3, cardTitle: 'Отчет о продажах', cardText: 'Отчет по средней выручке', buttonColor: 'info', buttonPath: 'admin/report_avarage_revenue_page' }
+    { id: 1, cardTitle: 'Отчет об остатках', cardText: 'Общий отчет об остатках товаров на текущую дату', buttonColor: 'secondary', buttonPath: 'admin/report_remains_page' },
+    { id: 2, cardTitle: 'Отчет о продажах', cardText: 'Отчет о продажах в разрезе товаров на текущую дату', buttonColor: 'danger', buttonPath: 'admin/report_sales_page' },
+    // { id: 3, cardTitle: 'Отчет о продажах', cardText: 'Отчет по средней выручке', buttonColor: 'info', buttonPath: 'admin/report_avarage_revenue_page' }
   ];
 
   // const adminRemainsData = [
@@ -49,7 +48,7 @@ const Admin = () => {
   return (
     <section>
       <div className='container'>
-        <div className='d-flex justify-content-around align-items-around m-3'>
+        <FlexStyleWrapper position='around' style='align-items-around m-3'>
           <AdminPanelSection
             editSectionTitle='Редактирование:'
             adminData={adminEditData}
@@ -61,13 +60,11 @@ const Admin = () => {
           {/* <AdminPanelSection
           editSectionTitle='Остатки:'
           adminData={adminRemainsData} /> */}
-        </div>
+        </FlexStyleWrapper>
         <Switch>
           <Route path='/books_page' component={AdminGoodsPage} />
-          <Route path={`/admin/:users_page?/:${itemId}?/:edit?`} component={EditUserPage} />
           <Route path='/quotes_page' component={AdminQuotesPage} />
           <Route path='/report_sales_page' component={AdminSalesGoodsPage} />
-          <Route path='/report_average_revenue_page' component={AdminSalesAverageRevenuePage} />
         </Switch>
       </div>
     </section>

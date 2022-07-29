@@ -3,7 +3,8 @@ const User = require('../model/User');
 const bcrypt = require('bcryptjs');
 const tokenService = require('../service/token.service');
 const { check, validationResult } = require('express-validator');
-const { errorServer, errorUnAuthHandler } = require('../utils/errors');
+const errorServer = require('../utils/errors');
+const errorUnAuthHandler = require('../utils/errors');
 const router = express.Router({
   mergeParams: true
 });
