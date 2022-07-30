@@ -10,9 +10,9 @@
   "scripts": {
     "start": "cross-env NODE_ENV=production node app.js",
     "serve": "cross-env NODE_ENV=development nodemon app.js",
-    "client": "cd client && npm install && npm start",
+    "client": "cd client && npm start",
     "dev": "concurrently \"npm run serve\" \"npm run client\"",
-    "install-client": "cd client && npm run build",
+    "install-client": "cd client && npm install && npm run build",
     "heroku-postbuild": "npm install && npm run install-client && npm run build"
   },
   "keywords": [
