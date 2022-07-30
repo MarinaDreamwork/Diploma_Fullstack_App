@@ -3,13 +3,17 @@
   "version": "1.0.0",
   "description": "server for diploma",
   "main": "app.js",
+  "engines": {
+    "node": "16.2.0",
+    "npm": "8.3.2"
+  },
   "scripts": {
     "start": "NODE_ENV=production node app.js",
     "serve": "cross-env NODE_ENV=development nodemon app.js",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run serve\" \"npm run client\"",
     "install-client": "cd client && npm install && npm run build",
-    "heroku-postbuild": "npm install && npm run install-client && npm run build"
+    "heroku-postbuild": "npm install && npm run install-client"
   },
   "keywords": [
     "node",
