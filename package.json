@@ -8,8 +8,8 @@
     "node" : "16.2.0"
   },
   "scripts": {
-    "start": "cross-env NODE_ENV=production node app.js",
-    "serve": "cross-env NODE_ENV=development nodemon app.js",
+    "start": "node app.js",
+    "serve": "nodemon app.js",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run serve\" \"npm run client\"",
     "install-client": "cd client && npm install && npm run build",
