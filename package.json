@@ -8,7 +8,7 @@
     "npm": "8.3.2"
   },
   "scripts": {
-    "start": "NODE_ENV=production node app.js",
+    "start": "node app.js",
     "serve": "cross-env NODE_ENV=development nodemon app.js",
     "client": "cd client && npm start",
     "dev": "concurrently \"npm run serve\" \"npm run client\"",
@@ -38,3 +38,5 @@
     "nodemon": "^2.0.19"
   }
 }
+
+
