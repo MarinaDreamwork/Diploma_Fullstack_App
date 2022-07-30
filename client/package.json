@@ -2,7 +2,7 @@
   "name": "diploma",
   "version": "1.0.0",
   "private": true,
-  "proxy": "http://localhost:8080",
+  "proxy": "https://localhost:8080",
   "dependencies": {
     "@headlessui/react": "^1.6.1",
     "@heroicons/react": "^1.0.6",
