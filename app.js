@@ -6,7 +6,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const path = require('path');
 //const initiateDB = require('./startUp/initiateDB');
-const PORT = config.get('port');
+const PORT = config.get('port') || 8080;
 const routes = require('./routes');
 
 const app = express();
