@@ -4,6 +4,7 @@ const chalk = require('chalk');
 const config = require('config');
 const mongoose = require('mongoose');
 const cors = require('cors');
+const path = require('path');
 const initiateDB = require('./startUp/initiateDB');
 const PORT = config.get('port');
 const routes = require('./routes');
@@ -14,6 +15,13 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use('/api', routes);
+
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.resolve(__dirname, 'client', 'build')));
+  app.get('*', (req, res) => {
+    res.sendFile(path.resolve(__dirname, 'client', 'build', 'index.html'));
+  });
+}
 
 async function start() {
   try {
