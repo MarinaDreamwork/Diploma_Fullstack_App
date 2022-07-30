@@ -3,10 +3,6 @@
   "version": "1.0.0",
   "description": "server for diploma",
   "main": "app.js",
-   "engines" : {
-    "npm" : "8.3.2",
-    "node" : "16.2.0"
-  },
   "scripts": {
     "start": "NODE_ENV=production node app.js",
     "serve": "cross-env NODE_ENV=development nodemon app.js",
