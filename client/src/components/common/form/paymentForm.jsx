@@ -2,10 +2,9 @@ import React, { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { formatCardInterface, formatExpDateInterface } from '../../../app/utils/formateNumbers';
 import { validatorConfig, validator } from '../../../app/utils/validator';
-// import { NavLink } from 'react-router-dom';
-//import PaymentInfo from '../../ui/paymentInfo';
 import Button from '../styles/button';
-import PagesSectionWrapper from '../styles/pagesSectionWrapper';
+import FlexStyleWrapper from '../styles/flexStyleWrapper';
+import SectionWrapper from '../styles/sectionWrapper';
 import TextField from './textField';
 
 const PaymentForm = () => {
@@ -34,14 +33,12 @@ const PaymentForm = () => {
     return Object.keys(errors).length === 0;
   };
 
-  const isValid = Object.keys(errors).length === 0;
-
   useEffect(() => {
     validate();
   }, [data]);
 
   return (
-    <PagesSectionWrapper>
+    <SectionWrapper>
       <div className='payment_card_wrapper'>
         <div className="payment_card_title">
           <h3 className='text-center p-3'>Your Payment Information</h3>
@@ -54,16 +51,16 @@ const PaymentForm = () => {
             </div>
             <i className='bi bi-credit-card-2-front' style={{ fontSize: '2rem' }}></i>
             <div className='d-flex justify-content-center'>
-              <p className='m-0 fs-4' style={{ letterSpacing: '0.2rem' }}>{data.card_number || '1111 2222 3333 4444'}</p>
+              <p className='m-0 fs-4' style={{ letterSpacing: '0.2rem' }}>{data.card_number}</p>
             </div>
             <div className='d-flex justify-content-center'>
               <div className='d-flex flex-column'>
                 <p className='m-0 text-center fw-bold' style={{ fontSize: '10px' }}>VALID</p>
                 <p className='m-0 text-center fw-bold' style={{ fontSize: '10px' }}>THRU</p>
               </div>
-              <p className='m-0 ps-1' style={{ color: 'white' }}>{data.exp_date || '12/28'}</p>
+              <p className='m-0 ps-1' style={{ color: 'white' }}>{data.exp_date}</p>
             </div>
-            <p className='m-0 fw-bold ps-2' style={{ color: 'white', textTransform: 'uppercase', letterSpacing: '0.2rem' }}>{data.name || 'cardholder name'}</p>
+            <p className='m-0 fw-bold ps-2' style={{ color: 'white', textTransform: 'uppercase', letterSpacing: '0.2rem' }}>{data.name}</p>
           </div>
           <div className='ps-4' style={{ width: '370px' }}>
             <form onSubmit={handleSubmit}>
@@ -100,20 +97,19 @@ const PaymentForm = () => {
                   error={errors.sec_code}
                 />
               </div>
-              <div className='d-flex justify-content-center'>
+              <FlexStyleWrapper position='center' style='mt-2 mb-2'>
                 <NavLink to='/payment_proccessing'>
                   <Button
                     color='outline-primary'
                     description='Оплатить покупку'
-                    disabled={!isValid}
                   />
                 </NavLink>
-              </div>
+              </FlexStyleWrapper>
             </form>
           </div>
         </div>
       </div>
-    </PagesSectionWrapper >
+    </SectionWrapper >
   );
 };
 

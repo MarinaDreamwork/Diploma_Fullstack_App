@@ -8,6 +8,7 @@ import TextField from '../common/form/textField';
 import { validator, validatorConfig } from '../../app/utils/validator';
 import { useHistory, useParams } from 'react-router-dom';
 import Button from '../common/styles/button';
+import FormStyleTitle from '../common/styles/formStyleTitle';
 
 const EditUserPage = () => {
   const errorLogIn = useSelector(getAuthErrors());
@@ -66,7 +67,7 @@ const EditUserPage = () => {
   return (
     <div className='container'>
       <div className="d-flex flex-column border rounded m-auto pt-5 ps-5 pe-5 pb-3 mt-5 mb-5 w-50 bg-light shadow-sm">
-        <h3 className='text-center'>Изменить данные в профиле:</h3>
+        <FormStyleTitle description='Изменить данные в профиле:' style={{ textShadow: '1px 1px 2px black' }} />
         <form className='p-3' onSubmit={handleSubmit}>
           <TextField
             label='Email'

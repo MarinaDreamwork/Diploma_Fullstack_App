@@ -36,7 +36,7 @@ const App = () => {
           <ProtectedRoute path='/create_order' component={CreateOrderForm} />
           <ProtectedRoute path='/my_payment' component={PaymentForm} />
           <ProtectedRoute path='/payment_proccessing' component={PaymentInfo}/>
-          <ProtectedRoute path='/my_profile/:userId?/:edit?' component={User} />
+          <ProtectedRoute path='/my_profile/:itemId?/:edit?' component={User} />
           {
             isAdmin && <ProtectedRoute path='/admin/:essence?/:itemId?/:edit?' component={Admin} />
           }

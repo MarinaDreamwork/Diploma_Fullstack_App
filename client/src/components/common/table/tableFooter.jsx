@@ -7,21 +7,15 @@ import Button from '../styles/button';
 import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
 import FlexStyleWrapper from '../styles/flexStyleWrapper';
 import { summInStockQuantity } from '../../../app/store/books';
-import { getOrders } from '../../../app/store/orders';
+import { getTotalSalesAmount, getTotalSoldQuantity } from '../../../app/store/orders';
 
 const TableFooter = ({ isCart }) => {
   const dispatch = useDispatch();
   const totalCartAmount = useSelector(getCalculateCartSumm());
-  const totalQuantity = useSelector(summInStockQuantity());
-  const orders = useSelector(getOrders());
+  const totalRemainsQuantity = useSelector(summInStockQuantity());
 
-  const totalSales = (data) => {
-    return data.reduce((sum, item) => sum + item.totalAmount, 0)
-  };
-
-  const totalSoldQuantity = (data) => {
-    return data.reduce((sum, item) => sum + item.quantity, 0)
-  };
+  const totalSalesAmount = useSelector(getTotalSalesAmount());
+  const totalSoldQuantity = useSelector(getTotalSoldQuantity());
 
   const { essence } = useParams();
 
@@ -39,8 +33,9 @@ const TableFooter = ({ isCart }) => {
           {
             essence === 'report_sales_page' &&
             <>
-              <th scope='row'>{totalSoldQuantity(orders)}</th>
-              <th scope='row'>{totalSales(orders)}</th>
+              <th scope='row' className='text-center'>{totalSoldQuantity}</th>
+              <th scope='row' className='text-center'>{totalSalesAmount}</th>
+              <th scope='row' className='text-center'></th>
             </>
 
           }
@@ -48,10 +43,9 @@ const TableFooter = ({ isCart }) => {
             essence === 'report_remains_page' &&
             <>
               <th scope='row'></th>
-              <th scope='row'>{totalQuantity}</th>
+              <th scope='row' className='text-center'>{totalRemainsQuantity}</th>
             </>
           }
-
         </tr>
       </tfoot>
     )
@@ -61,7 +55,7 @@ const TableFooter = ({ isCart }) => {
         <tr>
           <th scope='row'></th>
           <td colSpan='4'>Итоговая стоимость:</td>
-          <td>{formateNumberToPrice(totalCartAmount)}</td>
+          <td className='text-center'>{formateNumberToPrice(totalCartAmount)}</td>
           <td></td>
         </tr>
         {isCart && (

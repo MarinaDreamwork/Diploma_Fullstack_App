@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Preloader from '../common/preloader';
-import PagesSectionWrapper from '../common/styles/pagesSectionWrapper';
+import SectionWrapper from '../common/styles/sectionWrapper';
 import PaymentCompleted from './paymentCompleted';
 //import MyOrders from '../pages/myOrders';
 
@@ -19,7 +19,7 @@ const PaymentInfo = () => {
 
   }, [])
   return (
-    <PagesSectionWrapper>
+    <SectionWrapper>
       <div className='container'>
         <div className='d-flex justify-content-center row'>
           {
@@ -34,7 +34,7 @@ const PaymentInfo = () => {
           </div>
         </div>
       </div>
-    </PagesSectionWrapper>
+    </SectionWrapper>
   );
 };
 

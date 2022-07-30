@@ -86,6 +86,10 @@ export const createOrder = (payload) => async (dispatch) => {
 //   }
 // }
 
+export const getTotalSalesAmount = () => (state) => state.orders.data.reduce((sum, item) => sum + item.totalAmount, 0);
+
+export const getTotalSoldQuantity = () => (state) => state.orders.data.reduce((sum, item) => sum + item.quantity, 0);
+
 export const getOrders = () => (state) => state.orders.data; 
 export const getIsLoading = () => (state) => state.orders.isLoading; 
 

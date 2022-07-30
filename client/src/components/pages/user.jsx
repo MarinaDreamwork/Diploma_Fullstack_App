@@ -3,17 +3,16 @@ import { useParams } from 'react-router-dom';
 import UserPage from './userPage';
 import Main from './main';
 import EditUserPage from './editUserPage';
+import SectionWrapper from '../common/styles/sectionWrapper';
 
 const User = () => {
   const params = useParams();
-  const { userId, edit } = params;
-  console.log('edit', edit);
-  console.log('userId', userId);
+  const { itemId, edit } = params;
 
   return (
-    <section>
+    <SectionWrapper>
       {
-        userId ? (
+        itemId ? (
           edit ? (
             <EditUserPage />
           ) : (
@@ -23,7 +22,7 @@ const User = () => {
           <Main />
         )
       }
-    </section>
+    </SectionWrapper>
   );
 }
 

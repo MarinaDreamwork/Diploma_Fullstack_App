@@ -11,6 +11,7 @@ import BreadCrumps from '../../Main/breadCrumps';
 import Button from '../../common/styles/button';
 import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
 import { getIsLoggedIn } from '../../../app/store/users';
+import SectionWrapper from '../../common/styles/sectionWrapper';
 
 const Card = () => {
   const booksLoadingStatus = useSelector(getBooksLoadingStatus());
@@ -76,89 +77,87 @@ const Card = () => {
 
   return (
     item.length > 0 &&
-    <section>
-      <div className='container card'>
-        <BreadCrumps
-          category={item[0]?.category}
-          subCategory={item[0]?.subCategory}
-          subSubCategory={item[0]?.subSubCategory}
-        />
-        <div className='card-wrapper m-2 d-flex flex-row align-items-center'>
-          <div className='card-image-wrapper m-3'>
-            <img className='card-image' src={item[0]?.src} alt='book cover' />
-          </div>
-          <div className='card-info m-4'>
-            <h3 className='card_author_title p-3 fw-bold'>{item[0]?.author} - {item[0]?.book_title}</h3>
-            <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{formateNumberToPrice(item[0]?.price)} {' '} ₽</h4>
-            <p className='card_description'>{item[0]?.description}</p>
-          </div>
-          <div className='col-3 m-2 d-flex flex-column'>
-            <div className='d-flex align-items-center justify-content-around m-3'>
-              {(!data?.inCart)
-                ?
-                <>
-                  <Button
-                    style={{ height: '40px' }}
-                    disabled={disabled}
-                    color='primary'
-                    description='Добавить в корзину'
-                    onClick={() => handleAddContent(item[0]?._id)}
+    <SectionWrapper style='card'>
+      <BreadCrumps
+        category={item[0]?.category}
+        subCategory={item[0]?.subCategory}
+        subSubCategory={item[0]?.subSubCategory}
+      />
+      <div className='card-wrapper m-2 d-flex flex-row align-items-center'>
+        <div className='card-image-wrapper m-3'>
+          <img className='card-image' src={item[0]?.src} alt='book cover' />
+        </div>
+        <div className='card-info m-4'>
+          <h3 className='card_author_title p-3 fw-bold'>{item[0]?.author} - {item[0]?.book_title}</h3>
+          <h4 className='d-flex justify-content-center m-2 fw-bold p-4' style={{ color: 'blue', textShadow: '1px 1px 1px' }}>{formateNumberToPrice(item[0]?.price)} {' '} ₽</h4>
+          <p className='card_description'>{item[0]?.description}</p>
+        </div>
+        <div className='col-3 m-2 d-flex flex-column'>
+          <div className='d-flex align-items-center justify-content-around m-3'>
+            {(!data?.inCart)
+              ?
+              <>
+                <Button
+                  style={{ height: '40px' }}
+                  disabled={disabled}
+                  color='primary'
+                  description='Добавить в корзину'
+                  onClick={() => handleAddContent(item[0]?._id)}
+                />
+                {isLoggedIn &&
+                  <Favorite
+                    style={{
+                      fontSize: '2rem',
+                      color: 'red',
+                      paddingTop: '20px',
+                      paddingLeft: '15px'
+                    }}
+                    isFavorite={item[0]?.isFavorite}
+                    _id={item[0]?._id}
                   />
-                  {isLoggedIn &&
-                    <Favorite
-                      style={{
-                        fontSize: '2rem',
-                        color: 'red',
-                        paddingTop: '20px',
-                        paddingLeft: '15px'
-                      }}
-                      isFavorite={item[0]?.isFavorite}
-                      id={item[0]?._id}
+                }
+              </>
+              :
+              <>
+                <div className='d-flex align-items-center'>
+                  <NavLink
+                    to='/my_cart'
+                    className='btn btn-success m-3'
+                    onClick={handleCart}>
+                    Товар в корзине!<span style={{ fontSize: '0.8rem', fontStyle: 'italic' }}>Перейти</span>
+                  </NavLink>
+                  <div className='d-flex'>
+                    <Button
+                      color='transparent'
+                      description='-'
+                      style={{ padding: '15px', border: '1px solid #dee2e6' }}
+                      onClick={decrement} />
+                    <p
+                      className='border p-3 mb-0'>
+                      {data.quantity}
+                    </p>
+                    <Button
+                      color='transparent'
+                      description='+'
+                      style={{ padding: '15px', border: '1px solid #dee2e6' }}
+                      onClick={increment}
+                      disabled={disabled}
                     />
-                  }
-                </>
-                :
-                <>
-                  <div className='d-flex align-items-center'>
-                    <NavLink
-                      to='/my_cart'
-                      className='btn btn-success m-3'
-                      onClick={handleCart}>
-                      Товар в корзине!<span style={{ fontSize: '0.8rem', fontStyle: 'italic' }}>Перейти</span>
-                    </NavLink>
-                    <div className='d-flex'>
-                      <Button
-                        color='transparent'
-                        description='-'
-                        style={{ padding: '15px', border: '1px solid #dee2e6' }}
-                        onClick={decrement} />
-                      <p
-                        className='border p-3 mb-0'>
-                        {data.quantity}
-                      </p>
-                      <Button
-                        color='transparent'
-                        description='+'
-                        style={{ padding: '15px', border: '1px solid #dee2e6' }}
-                        onClick={increment}
-                        disabled={disabled}
-                      />
-                    </div>
                   </div>
-                </>
-              }
-            </div>
-            {
-              disabled
-              && <div className='d-flex justify-content-center'><p className='fw-bold text-danger p-3'>Товар на складе закончился!</p></div>
+                </div>
+              </>
             }
-            <div className='d-flex justify-content-center'>
-              <p className=''>артикул -<span className='fw-bold ps-2'>{item[0]?.articleNumber}</span></p>
-            </div>
+          </div>
+          {
+            disabled
+            && <div className='d-flex justify-content-center'><p className='fw-bold text-danger p-3'>Товар на складе закончился!</p></div>
+          }
+          <div className='d-flex justify-content-center'>
+            <p className=''>артикул -<span className='fw-bold ps-2'>{item[0]?.articleNumber}</span></p>
           </div>
         </div>
       </div>
-    </section>
+    </SectionWrapper>
   );
 }
 

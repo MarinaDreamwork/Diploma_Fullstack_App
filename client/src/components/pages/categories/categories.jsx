@@ -2,7 +2,7 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import { filterCategoryBook, filterSubCategoryBook, filterSubSubCategoryBook } from '../../../app/store/books';
-import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
+import SectionWrapper from '../../common/styles/sectionWrapper';
 import BreadCrumps from '../../Main/breadCrumps';
 import CategoriesPage from './categoriesPage';
 
@@ -15,7 +15,7 @@ const Categories = () => {
   console.log('params', category, subCategory, subSubCategory);
   console.log('selector', categories, subCategories, subSubCategories);
   return (
-    <PagesSectionWrapper>
+    <SectionWrapper>
       <BreadCrumps
         category={category}
         subCategory={subCategory}
@@ -26,16 +26,16 @@ const Categories = () => {
         <div className="row row-cols-1 row-cols-md-3 m-2">
           {
             subSubCategory ? (
-              subSubCategories.map(item => <CategoriesPage key={item.id} {...item} />))
+              subSubCategories.map(item => <CategoriesPage key={item._id} {...item} />))
               : (subCategory
-                ? subCategories.map(item => <CategoriesPage key={item.id} {...item} />)
-                : category ? categories.map(item => <CategoriesPage key={item.id} {...item} />) : null)
+                ? subCategories.map(item => <CategoriesPage key={item._id} {...item} />)
+                : category ? categories.map(item => <CategoriesPage key={item._id} {...item} />) : null)
 
           }
         </div>
         {/* {(subSubCategory && subSubCategories || subCategory && subCategories || category && categories).map(item => <CategoriesPage key={item.id} {...item} />)} */}
       </div>
-    </PagesSectionWrapper>
+    </SectionWrapper>
   );
 };
 

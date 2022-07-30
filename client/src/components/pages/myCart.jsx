@@ -15,7 +15,7 @@ const MyCart = () => {
   return (
     <section>
       <div className='container'>
-        <FlexStyleWrapper style='m-4'>
+        <FlexStyleWrapper position='center' style='m-4'>
           <Button
             color='success'
             onClick={handleBackToMainPage}

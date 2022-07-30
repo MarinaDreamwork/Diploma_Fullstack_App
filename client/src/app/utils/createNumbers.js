@@ -1,9 +1,10 @@
 import { random } from 'lodash';
 
 export function createOrderNumber(list) {
-  if(list.length === 0) return '00-001';
+  console.log('list', list);
+  if(list?.length === 0) return '00-001';
   else {
-    const lastOrder = list[list.length-1]?.orderNumber; 
+    const lastOrder = list[list?.length-1]?.orderNumber; 
 
     console.log('lastOrder', lastOrder);
     return '00-00' + (Number(lastOrder.replace('-', '')) + 1).toString();

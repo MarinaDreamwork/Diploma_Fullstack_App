@@ -12,7 +12,7 @@ const initialState = localStorageService.getAccessToken()
     error: null,
     isLoggedIn: true,
     // auth: { userId: localStorageService.getUserId()},
-    //currentUser: null
+    // currentUser: 
   } : {
     data: null,
     isLoading: false,
@@ -58,7 +58,11 @@ const usersSlice = createSlice({
       state.currentUser = null;
     },
     userUpdateSuccess: (state, action) => {
-      state.currentUser = action.payload;
+      if(action.payload._id === localStorageService.getUserId()) {
+        state.currentUser = action.payload;
+      } else {
+        state.data[state.data.findIndex(item => item._id === action.payload._id)] = action.payload;
+      } 
     },
     // userOrderCreatedRequestSuccess: (state, action) => {
     //   console.log('action payload', action.payload);

@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useLocation, useParams } from 'react-router-dom';
 import { getCurrentUser, getIsLoading, getUsers, loadUsersList } from '../../../app/store/users';
 import Preloader from '../../common/preloader';
-import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
+import SectionWrapper from '../../common/styles/sectionWrapper';
 import TableStyleWrapper from '../../common/styles/tableStyleWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
@@ -19,7 +19,6 @@ const AdminUsersPage = () => {
   const users = useSelector(getUsers());
   const isAdmin = useSelector(getCurrentUser())?.isAdmin;
 
-
   useEffect(() => {
     dispatch(loadUsersList())
   }, []);
@@ -27,9 +26,9 @@ const AdminUsersPage = () => {
   if (pathname.includes('users_page') && pathname.includes('edit')) {
     return <EditUserPage itemId={itemId} />
   }
-  if (isLoadingUsers) return <Preloader color='warning' />
+  if (isLoadingUsers) return <Preloader color='primary' />
   else return (
-    <PagesSectionWrapper>
+    <SectionWrapper>
       <div className='container p-4'>
         <TableStyleWrapper color='primary'>
           <TableHeader
@@ -42,7 +41,7 @@ const AdminUsersPage = () => {
           />
         </TableStyleWrapper>
       </div>
-    </PagesSectionWrapper >
+    </SectionWrapper >
   );
 };
 

@@ -5,12 +5,14 @@ import { getBooks, getBooksLoadingStatus, loadBooksList } from '../../../app/sto
 import { getCurrentUser } from '../../../app/store/users';
 import Preloader from '../../common/preloader';
 import Button from '../../common/styles/button';
-import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
+import SectionWrapper from '../../common/styles/sectionWrapper';
 import TableStyleWrapper from '../../common/styles/tableStyleWrapper';
 import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
 import EditItemPage from '../editItemPage';
+import FormStyleTitle from '../../common/styles/formStyleTitle';
+
 const AdminGoodsPage = () => {
   const isAdmin = useSelector(getCurrentUser())?.isAdmin;
   const isLoading = useSelector(getBooksLoadingStatus());
@@ -22,11 +24,41 @@ const AdminGoodsPage = () => {
   const dispatch = useDispatch();
 
   if (pathname.endsWith('edit')) {
-    return <EditItemPage itemId={itemId} />
+    return (
+      <FlexStyleWrapper
+        position='center'
+        style='flex-column'
+      >
+        <FormStyleTitle
+          style={{
+            textShadow: '1px 1px 2px black',
+            margin: '1rem',
+            textAlign: 'center'
+          }}
+          description='Изменение товара:'
+        />
+        <EditItemPage itemId={itemId} />
+      </FlexStyleWrapper>
+    );
   }
 
   if (pathname.includes('create')) {
-    return <EditItemPage />
+    return (
+      <FlexStyleWrapper
+        position='center'
+        style='flex-column'
+      >
+        <FormStyleTitle
+          style={{
+            textShadow: '1px 1px 2px black',
+            margin: '1rem',
+            textAlign: 'center'
+          }}
+          description='Создание товара:'
+        />
+        <EditItemPage />
+      </FlexStyleWrapper>
+    );
   }
 
   if (!isLoading) {
@@ -36,7 +68,7 @@ const AdminGoodsPage = () => {
   }
 
   return (
-    <PagesSectionWrapper>
+    <SectionWrapper>
       <TableStyleWrapper color='success' style='m-3'>
         <TableHeader
           isForAdminBoard={true}
@@ -51,12 +83,12 @@ const AdminGoodsPage = () => {
         <NavLink to={`/admin/${essence}/create`}>
           <Button
             style={{ marginBottom: '15px' }}
-            color='secondary'
+            color='success'
             description='Добавить новую позицию товара'
           />
         </NavLink>
       </FlexStyleWrapper>
-    </PagesSectionWrapper >
+    </SectionWrapper >
   );
 };
 export default AdminGoodsPage;

@@ -8,7 +8,7 @@ const UserPage = () => {
   const currentUser = useSelector(getCurrentUser());
   const userAddress = currentUser.address;
   const isUserLoading = useSelector(getIsLoggedIn());
-  if (!isUserLoading) return <Preloader />
+  if (!isUserLoading) return <Preloader color='info' />
   else {
     return (
       <section>

@@ -4,6 +4,7 @@ import Order from './order';
 import { getOrdersData } from '../../../app/store/users';
 import Button from '../../common/styles/button';
 import { useHistory } from 'react-router-dom';
+import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
 
 const Orders = () => {
   const orders = useSelector(getOrdersData());
@@ -14,7 +15,7 @@ const Orders = () => {
   console.log('orders', orders);
   return <>
     {
-      orders.length > 0 ?
+      orders?.length > 0 ?
         orders.map(order => <Order key={order._id} {...order} />) :
         <div
           className='container'
@@ -25,12 +26,12 @@ const Orders = () => {
           <div className='row justify-content-center m-5'>
             <div className='col-md-4'>
               <p className='text-center text-white text-opacity-50 fw-bold p-3 m-3'>К сожалению, заказов пока нет...</p>
-              <div className='d-flex flex-column justify-content-center'>
+              <FlexStyleWrapper position='center' style='flex-column'>
                 <Button
                   description='Срочно исправить ситуацию!' color='secondary'
                   onClick={handleClick}
                 />
-              </div>
+              </FlexStyleWrapper>
             </div>
           </div>
         </div>

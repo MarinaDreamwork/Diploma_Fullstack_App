@@ -4,7 +4,7 @@ import { useLocation } from 'react-router-dom';
 import { getQuotes } from '../../../app/store/quotes';
 import { getCurrentUser } from '../../../app/store/users';
 import Preloader from '../../common/preloader';
-import PagesSectionWrapper from '../../common/styles/pagesSectionWrapper';
+import SectionWrapper from '../../common/styles/sectionWrapper';
 import TableStyleWrapper from '../../common/styles/tableStyleWrapper';
 import TableBody from '../../common/table/tableBody';
 import TableHeader from '../../common/table/tableHeader';
@@ -23,7 +23,7 @@ const AdminQuotesPage = () => {
 
   if (!quotes) return <Preloader color='warning' />
   return (
-    <PagesSectionWrapper>
+    <SectionWrapper>
       <TableStyleWrapper color='warning' style='m-3'>
         <TableHeader
           isForAdminBoard={true}
@@ -34,7 +34,7 @@ const AdminQuotesPage = () => {
           isAdmin={isAdmin}
         />
       </TableStyleWrapper>
-    </PagesSectionWrapper>
+    </SectionWrapper>
   );
 };
 

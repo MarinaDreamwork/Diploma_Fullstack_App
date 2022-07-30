@@ -1,22 +1,27 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-//import { useSelector } from 'react-redux';
-import { getDate } from '../../../app/utils/dates';
-import { calculateOrderSumm } from '../../../app/utils/calculateTotalSumm';
-import { expiresDate } from '../../../app/utils/dates';
 import { useSelector } from 'react-redux';
+import { getDate } from '../../../app/utils/dates';
+import { calculateOrderSumm } from '../../../app/utils/calculate';
+import { expiresDate } from '../../../app/utils/dates';
 import { getItemById } from '../../../app/store/books';
 import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
+import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
 
-const Order = ({ orderTime, address, orderDetails, orderNumber }) => {
-  console.log('orderDetails', orderDetails);
+const Order = ({
+  orderTime,
+  address,
+  orderDetails,
+  orderNumber
+}) => {
+
   const orderDate = new Date(orderTime);
   const expiresDeliveryDate = expiresDate(259200);
   const isDelivered = expiresDeliveryDate <= new Date().getTime();
 
   return (
     <div className='border shadow rounded border-light w-50 mb-4 m-auto'>
-      <div className='d-flex bg-light justify-content-between p-3'>
+      <FlexStyleWrapper position='between' style='bg-light p-3'>
         <div>
           <div>
             <p className='fw-bold fs-4'>Заказ от {getDate(orderDate)}</p>
@@ -28,39 +33,31 @@ const Order = ({ orderTime, address, orderDetails, orderNumber }) => {
         <div>
           <span className='fw-bold'>сумма заказа: {formateNumberToPrice(calculateOrderSumm(orderDetails))} ₽</span>
         </div>
-      </div>
-      <div className='d-flex justify-content-between p-2'>
+      </FlexStyleWrapper>
+      <FlexStyleWrapper position='between' style='m-3'>
         <div>
           <p>Доставка Почтой России по адресу: {address.zip} ул. {address.street} д. {address.appartment} </p>
         </div>
         <div>
           <span className={'badge bg-' + (isDelivered ? 'success' : 'warning')}>{isDelivered ? 'Доставлено' : 'Заказ в пути'}</span>
         </div>
-        <div>
-          {/* {
-            orderDetails.map(detail => (<>
-              <img src={detail.src} style={{ width: '60px', marginRight: '5px' }} />
-            </>
-            ))
-          } */}
+        <FlexStyleWrapper position='center'>
           {
-            orderDetails.map(detail => (<>
+            orderDetails.map(detail => (<div key={detail._id}>
               <img src={useSelector(getItemById(detail.goodsId))[0].src} style={{ width: '60px', marginRight: '5px' }} />
-            </>
+            </div>
             ))
           }
-        </div>
-
-      </div>
-    </div>
+        </FlexStyleWrapper >
+      </FlexStyleWrapper >
+    </div >
   );
 };
 
 Order.propTypes = {
-  src: PropTypes.string.isRequired,
-  orderTime: PropTypes.string.isRequired,
-  orderDetails: PropTypes.string.isRequired,
-  address: PropTypes.string.isRequired,
+  orderTime: PropTypes.number.isRequired,
+  orderDetails: PropTypes.array.isRequired,
+  address: PropTypes.object.isRequired,
   orderNumber: PropTypes.string.isRequired
 }
 

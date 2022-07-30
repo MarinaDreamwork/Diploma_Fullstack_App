@@ -17,6 +17,8 @@ import { validator, validatorConfig } from '../../../app/utils/validator';
 import TableStyleWrapper from '../styles/tableStyleWrapper';
 import FlexStyleWrapper from '../styles/flexStyleWrapper';
 import { createOrder } from '../../../app/store/orders';
+import SectionWrapper from '../styles/sectionWrapper';
+import FormStyleTitle from '../styles/formStyleTitle';
 
 const CreateOrderForm = () => {
   const history = useHistory();
@@ -28,10 +30,16 @@ const CreateOrderForm = () => {
   const orderDetails = {
     orderTime: Date.now(),
     orderDetails: getCartInfo(content),
-    orderNumber: createOrderNumber(list)
+    orderNumber: list && createOrderNumber(list)
   };
 
-  const [data, setData] = useState({});
+  const [data, setData] = useState({
+    name: '',
+    email: '',
+    zip: '',
+    street: '',
+    appartment: ''
+  });
   const [errors, setErrors] = useState({});
 
   function getCartInfo(array) {
@@ -68,13 +76,17 @@ const CreateOrderForm = () => {
     history.push('/my_payment');
   };
 
+  // useEffect(() => {
+  //   dispatch(getUserData());
+  // }, [])
+
   useEffect(() => {
     setData({
-      name: currentUser.name,
-      email: currentUser.email,
-      zip: addressData.zip,
-      street: addressData.street,
-      appartment: addressData.appartment,
+      name: currentUser?.name,
+      email: currentUser?.email,
+      zip: addressData?.zip,
+      street: addressData?.street,
+      appartment: addressData?.appartment,
     });
   }, []);
 
@@ -91,10 +103,11 @@ const CreateOrderForm = () => {
   }, [data]);
 
   return (
-    <section>
-      <div className='container'>
-        <FlexStyleWrapper position='center' style='flex-column m-auto'>
-          <form onSubmit={handleSubmit} className='m-3'>
+    <SectionWrapper>
+      <FlexStyleWrapper position='center' style='flex-column m-auto'>
+        <FormStyleTitle description='Оформить заказ:' />
+        <form onSubmit={handleSubmit} className='m-3'>
+          <div className='m-auto'>
             <TextField
               label='Ваше имя:'
               name='name'
@@ -122,22 +135,22 @@ const CreateOrderForm = () => {
               errorstreet={errors.street}
               errorapp={errors.appartment}
             />
-            <TableStyleWrapper color='success'>
-              <TableHeader />
-              <TableBody content={content} isCart={false} />
-              <TableFooter isCart={false} />
-            </TableStyleWrapper>
-            <FlexStyleWrapper>
-              <Button
-                disabled={!isValid}
-                color='secondary'
-                description='Отправить заказ на обработку'
-              />
-            </FlexStyleWrapper>
-          </form>
-        </FlexStyleWrapper>
-      </div>
-    </section>
+          </div>
+          <TableStyleWrapper color='success'>
+            <TableHeader />
+            <TableBody content={content} isCart={false} />
+            <TableFooter isCart={false} />
+          </TableStyleWrapper>
+          <FlexStyleWrapper position='center'>
+            <Button
+              disabled={!isValid}
+              color='secondary'
+              description='Отправить заказ на обработку'
+            />
+          </FlexStyleWrapper>
+        </form>
+      </FlexStyleWrapper>
+    </SectionWrapper>
   );
 };
 

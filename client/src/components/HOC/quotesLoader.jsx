@@ -12,7 +12,7 @@ const QuotesLoader = ({ children }) => {
     dispatch(loadQuotesList());
   }, []);
 
-  if (QuotesStatusLoading) return <Preloader />
+  if (QuotesStatusLoading) return <Preloader color='warning' />
   return children;
 };
 

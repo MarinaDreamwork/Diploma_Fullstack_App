@@ -1,13 +1,20 @@
 import React from 'react';
+import FlexStyleWrapper from '../common/styles/flexStyleWrapper';
+import UserLoader from '../HOC/userLoader';
 import Orders from '../Main/orders/orders';
 
 const MyOrders = () => {
   return (
-    <section>
-      <div className='d-flex flex-column justify-content-center m-3 p-2'>
-        <Orders />
-      </div>
-    </section>
+    <UserLoader>
+      <section>
+        <FlexStyleWrapper
+          position='center'
+          style='flex-column m-3 p-2'
+        >
+          <Orders />
+        </FlexStyleWrapper>
+      </section>
+    </UserLoader>
   );
 };
 
