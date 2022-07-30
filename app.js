@@ -29,6 +29,7 @@ async function start() {
     //   initiateDB();
     // });
     mongoose.connect(process.env.MongoUri);
+    console.log('process.env', procces.env);
     app.listen(PORT, () => {
     console.log(chalk.bgCyan(`Server has been started on port: ${PORT}`));
 });
