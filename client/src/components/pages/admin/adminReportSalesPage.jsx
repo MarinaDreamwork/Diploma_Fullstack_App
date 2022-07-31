@@ -10,6 +10,8 @@ import TableBody from '../../common/table/tableBody';
 import TableFooter from '../../common/table/tableFooter';
 import TableHeader from '../../common/table/tableHeader';
 import ReportDate from './reportDate';
+3
+import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 
 const AdminReportSalesPage = () => {
   //const [data, setData] = useState('');
@@ -29,13 +31,25 @@ const AdminReportSalesPage = () => {
       <div className='m-2'>
         <p className='text-left fw-bold ms-5 fs-5'>Отчет о продажах</p>
         <ReportDate style='ms-5' />
-        <TableStyleWrapper color='danger' style='m-5'>
+        <TableStyleWrapper
+          color='danger'
+          style='m-5'
+          id='table-sales'
+        >
           <TableHeader />
           <TableBody
             content={books} />
           <TableFooter
             isCart={false} />
         </TableStyleWrapper>
+        <ReactHTMLTableToExcel
+          id='table-sales-button'
+          className='download-table-button btn btn-success'
+          table='table-sales'
+          filename='book sales'
+          sheet='sales'
+          buttonText='Выгрузить данные в Excel'
+        />
       </div>
       {/* добавить возможность выбирать конкретный месяц 
         <div className='d-flex flex-column'>

@@ -1,9 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 
-const TableStyleWrapper = ({ children, color, style }) => {
+const TableStyleWrapper = ({ children, color, style, id }) => {
   return (
-    <table className={'table table-' + color + ' ' + style}>
+    <table className={'table table-' + color + ' ' + style} id={id}>
       {children}
     </table>
   );
@@ -15,7 +15,8 @@ TableStyleWrapper.propTypes = {
     PropTypes.arrayOf(PropTypes.node)
   ]),
   color: PropTypes.string.isRequired,
-  style: PropTypes.string
+  style: PropTypes.string,
+  id: PropTypes.string
 };
 
 export default TableStyleWrapper;
