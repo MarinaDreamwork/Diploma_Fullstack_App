@@ -16,9 +16,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cors());
 app.use('/api', routes);
 
-console.log('dirname', __dirname);
-
 if (process.env.NODE_ENV === 'production') {
+  console.log('isInProd?');
+  console.log('process.env.NODE_ENV', process.env.NODE_ENV);
+  console.log('process.env.NODE_ENV.length', process.env.NODE_ENV.length);
   app.use('/', express.static(path.join(__dirname, 'client', 'build')));
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
@@ -31,7 +32,7 @@ async function start() {
     //   initiateDB();
     // });
     await mongoose.connect(process.env.MONGO_URI);
-    app.listen(PORT, '0.0.0.0', () => {
+    app.listen(PORT, () => {
     console.log(chalk.bgCyan(`Server has been started on port: ${PORT}`));
 });
   } catch(error) {
