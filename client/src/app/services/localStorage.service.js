@@ -8,6 +8,7 @@ const FAVORITE_ITEMS = 'favorite-items';
 
 export const setTokens = ({ refreshToken, accessToken, userId, expiresIn = 3600 }) => {
   const expiresAuthDate = expiresDate(expiresIn);
+  console.log();
   localStorage.setItem(ID_TOKEN, accessToken);
   localStorage.setItem(REFRESH_TOKEN, refreshToken);
   localStorage.setItem(EXPIRES_DATE_TOKEN, expiresAuthDate);

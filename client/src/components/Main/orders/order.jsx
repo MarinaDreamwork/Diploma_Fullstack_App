@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { useSelector } from 'react-redux';
 import { getDate } from '../../../app/utils/dates';
 import { calculateOrderSumm } from '../../../app/utils/calculate';
-import { expiresDate } from '../../../app/utils/dates';
 import { getItemById } from '../../../app/store/books';
 import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
 import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
@@ -16,7 +15,7 @@ const Order = ({
 }) => {
 
   const orderDate = new Date(orderTime);
-  const expiresDeliveryDate = expiresDate(259200);
+  const expiresDeliveryDate = new Date(orderTime).getTime() + (3600 * 24 * 3) * 1000;
   const isDelivered = expiresDeliveryDate <= new Date().getTime();
 
   return (

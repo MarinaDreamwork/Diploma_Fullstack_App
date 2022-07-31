@@ -1,8 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { getBooks } from '../../../app/store/books';
-//import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
-//import { useSelector } from 'react-redux';
 //import { getUsers } from '../../../app/store/users';
 import SectionWrapper from '../../common/styles/sectionWrapper';
 import TableStyleWrapper from '../../common/styles/tableStyleWrapper';
@@ -10,7 +8,6 @@ import TableBody from '../../common/table/tableBody';
 import TableFooter from '../../common/table/tableFooter';
 import TableHeader from '../../common/table/tableHeader';
 import ReportDate from './reportDate';
-3
 import ReactHTMLTableToExcel from 'react-html-table-to-excel';
 import FlexStyleWrapper from '../../common/styles/flexStyleWrapper';
 
