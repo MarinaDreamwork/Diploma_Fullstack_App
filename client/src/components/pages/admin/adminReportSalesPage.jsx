@@ -43,7 +43,10 @@ const AdminReportSalesPage = () => {
           <TableFooter
             isCart={false} />
         </TableStyleWrapper>
-        <FlexStyleWrapper>
+        <FlexStyleWrapper
+          position='center'
+          style='m-5'
+        >
           <ReactHTMLTableToExcel
             id='table-sales-button'
             className='download-table-button btn btn-success'
