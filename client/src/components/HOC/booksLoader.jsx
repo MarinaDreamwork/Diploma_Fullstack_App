@@ -15,6 +15,9 @@ const BooksLoader = ({ children }) => {
 
   useEffect(() => {
     dispatch(loadBooksList());
+  }, []);
+
+  useEffect(() => {
     if (isLoggedIn) {
       dispatch(getUserData());
       dispatch(loadUsersList());
