@@ -36,6 +36,7 @@ async function start() {
     //   initiateDB();
     // });
     await mongoose.connect(process.env.MONGO_URI);
+    console.log('process.env.MONGO_URI', process.env.MONGO_URI);
     console.log('PORT', PORT);
     app.listen(PORT, () => {
     console.log(chalk.bgCyan(`Server has been started on port: ${PORT}`));
