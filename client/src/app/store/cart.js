@@ -27,7 +27,7 @@ const cartSlice = createSlice({
     },
     // удаление позиции товара
     orderDeleteCartItem: (state, action) => {
-      state.content = state.content.filter(item => item._id === action.payload._id);
+      state.content = state.content.filter(item => item._id !== action.payload);
     }
   }
 });
@@ -36,12 +36,18 @@ const { reducer: cartReducer, actions } = cartSlice;
 const {
   cartAddedItem,
   cartQuantityChanged,
-  cartContentCleared
+  cartContentCleared,
+  orderDeleteCartItem
 } = actions;
 
 export const addItemsToCart = (data) => (dispatch) => {
   dispatch(updatedQuantity(data));
   dispatch(cartAddedItem(data));
+};
+
+export const removeItemFromCart = (id) => (dispatch) => {
+  console.log('id', id);
+  dispatch(orderDeleteCartItem(id));
 };
 
 export const updatedQuantity = (changedItem) => (dispatch) => {

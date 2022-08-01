@@ -25,7 +25,7 @@ const App = () => {
 
   return (
     <div className='container-wrapper'>  
-      <BooksLoader> 
+    <BooksLoader> 
         <Header />
         <Switch>
           <Route path='/' exact component={Main}/>

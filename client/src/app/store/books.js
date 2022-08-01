@@ -179,7 +179,7 @@ const isOutdatedData = (date) => {
   return false;
 };
 
-export const getFavoritedItems = () => (state) => state.books.data.filter(item => item.isFavorite);
+export const getFavoritedItems = () => (state) => state.books.data?.filter(item => item.isFavorite);
 
 export const getItemById = (itemId) => (state) => state.books.data.filter(i => i._id === itemId);
 export const getBooks = () => (state) => state.books.data; 

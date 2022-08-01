@@ -4,11 +4,11 @@ import CloseButton from '../../Header/modal/closeButton';
 import PropTypes from 'prop-types';
 import EditButton from '../editButton';
 import { NavLink, useParams } from 'react-router-dom';
-import { deleteItem } from '../../../app/store/books';
 //import { formateNumberToPrice } from '../../../app/utils/formateNumbers';
 import { removeUser } from '../../../app/store/users';
 import { getOrders, getTotalSalesAmount } from '../../../app/store/orders';
 import { calculatePercentage, getQuantityDataById, getSalesDataById } from '../../../app/utils/calculate';
+import { removeItemFromCart } from '../../../app/store/cart';
 
 const TableBody = ({ content, isCart, isAdmin }) => {
 
@@ -119,7 +119,7 @@ const TableBody = ({ content, isCart, isAdmin }) => {
               {(isCart || isAdmin) && (
                 <CloseButton
                   style={{ fill: 'white', fontSize: '20px' }}
-                  onDelete={() => dispatch(deleteItem(cartItem._id))}
+                  onDelete={() => dispatch(removeItemFromCart(cartItem._id))}
                 />
               )}
               {

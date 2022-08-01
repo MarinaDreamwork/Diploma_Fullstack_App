@@ -17,6 +17,7 @@ const Order = ({
   const orderDate = new Date(orderTime);
   const expiresDeliveryDate = new Date(orderTime).getTime() + (3600 * 24 * 3) * 1000;
   const isDelivered = expiresDeliveryDate <= new Date().getTime();
+  console.log('orderDetails', orderDetails);
 
   return (
     <div className='border shadow rounded border-light w-50 mb-4 m-auto'>
@@ -43,7 +44,7 @@ const Order = ({
         <FlexStyleWrapper position='center'>
           {
             orderDetails.map(detail => (<div key={detail._id}>
-              <img src={useSelector(getItemById(detail.goodsId))[0].src} style={{ width: '60px', marginRight: '5px' }} />
+              <img src={useSelector(getItemById(detail.goodsId))[0]?.src} style={{ width: '60px', marginRight: '5px' }} />
             </div>
             ))
           }

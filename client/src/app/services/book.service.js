@@ -5,6 +5,7 @@ const bookEndPoint = 'book/';
 const bookService = {
   get: async () => {
     const { data } = await httpService.get(bookEndPoint);
+    console.log('data', data);
     return data;
   },
   changeItem: async (payload) => {
